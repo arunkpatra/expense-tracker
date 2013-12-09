@@ -94,7 +94,7 @@
 	<!-- Map all /spring requests to the Dispatcher Servlet for handling -->
 	<servlet-mapping>
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
-		<url-pattern>/spring/*</url-pattern>
+		<url-pattern>/et/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- Just here so the JSF implementation can initialize, *not* used at runtime -->

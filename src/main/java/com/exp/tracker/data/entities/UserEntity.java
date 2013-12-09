@@ -1,0 +1,181 @@
+package com.exp.tracker.data.entities;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="users")
+@NamedQueries({
+@NamedQuery(name="getAllUsers", query="SELECT u FROM UserEntity u"),
+@NamedQuery(name="deleteUser", query="DELETE FROM UserEntity u WHERE u.id = :id"),
+@NamedQuery(name="getAllUserNames", query="SELECT u.username FROM UserEntity u"),
+@NamedQuery(name="getUser", query="SELECT u FROM UserEntity u WHERE u.username = :username"),
+@NamedQuery(name="findUserMatch", query="SELECT u FROM UserEntity u WHERE (u.username = :username)")})
+public class UserEntity implements Serializable{
+
+	private static final long serialVersionUID = -6352029652777390448L;
+	public static final int USER_ENABLED = 1;
+	public static final int USER_DISABLED = 0;
+	public static final String ALL_USERS = "All";
+	public static final int PASSWORD_CHANGE_NEEDED = 1;
+	public static final int PASSWORD_CHANGE_NOT_NEEDED = 0;
+	
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name="username")
+	private String username;
+	
+	@Column(name="password")
+	private String password;
+	
+	@Column(name="enabled")
+	private int enabled;
+	
+	@Column(name="pwdchangeneeded")
+	private int passwordChangeNeeded;
+	
+	@Column(name="emailid")
+	private String emailId;
+	
+	@Column(name="firstname")
+	private String firstName;
+	
+	@Column(name="lastname")
+	private String lastName;
+	
+	@Column(name="middleinit")
+	private String middleInit;
+	
+	@Column(name="createddate")
+	private Date createdDate;
+	
+	@Column(name="lastupdateddate")
+	private Date lastUpdatedDate;
+	
+	@OneToMany(targetEntity=AuthEntity.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
+	private List<AuthEntity> authSet;
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+//	public UserBean getUserBean() {
+//		UserBean ub = new UserBean();
+//		ub.setUsername(this.username);
+//		ub.setPassword(this.getPassword());
+//		UISelectBoolean usb = new UISelectBoolean();
+//		ub.setEnabled(usb);
+//		if (this.getEnabled() == UserEntity.USER_ENABLED) {
+//			usb.setSelected(true);
+//		} else {
+//			usb.setSelected(false);
+//		}
+//		return ub;
+//	}
+
+	public List<AuthEntity> getAuthSet() {
+		return authSet;
+	}
+
+	public void setAuthSet(List<AuthEntity> authSet) {
+		this.authSet = authSet;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleInit() {
+		return middleInit;
+	}
+
+	public void setMiddleInit(String middleInit) {
+		this.middleInit = middleInit;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public int getPasswordChangeNeeded() {
+		return passwordChangeNeeded;
+	}
+
+	public void setPasswordChangeNeeded(int passwordChangeNeeded) {
+		this.passwordChangeNeeded = passwordChangeNeeded;
+	}
+}
