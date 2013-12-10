@@ -1,0 +1,254 @@
+package com.exp.tracker.services.impl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.exp.tracker.data.entities.AuthEntity;
+import com.exp.tracker.data.entities.ExpenseEntity;
+import com.exp.tracker.data.entities.RoleEntity;
+import com.exp.tracker.data.entities.SettlementEntity;
+import com.exp.tracker.data.entities.UserEntity;
+import com.exp.tracker.data.entities.UserExpenseEntity;
+import com.exp.tracker.data.model.ExpenseDetail;
+import com.exp.tracker.data.model.ExpenseSearchCriteria;
+import com.exp.tracker.data.model.UserShare;
+import com.exp.tracker.services.api.ExpenseService;
+import com.exp.tracker.data.model.SettlementBean;
+
+@Service("expenseService")
+@Repository
+public class JpaExpenseService implements ExpenseService {
+
+	private EntityManager em;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
+
+	@Transactional
+	public int saveExpense(ExpenseDetail ed) {
+		int result = 0;
+		ExpenseEntity ex;
+		if (null == ed.getSettlementId()) {
+			// calculate shares if not calculated yet.
+			if (!ed.isOverrideSharesFlag()) {
+				ed.calculateShareAmounts();
+			}
+			// we need to merge if the user is editing this record
+			if (ed.isEditMode()) {
+				ex = em.find(ExpenseEntity.class, ed.getId());
+				// now put back field by field
+				ex.setAmount(ed.getAmount());
+				ex.setCategory(ed.getCategory());
+				ex.setCreatedBy(ed.getCreatedBy());
+				ex.setDate(ed.getDate());
+				ex.setDescription(ed.getDescription());
+				ex.setPaidBy(ed.getPaidBy());
+				ex.setSettlementId(ed.getSettlementId());
+				// you can not do any of these below. JPA does not support
+				// ex.setUserExpenseSet(null);
+				// ex.setUserExpenseSet(new ArrayList<UserExpenseEntity>());
+				// first delete all children
+				Query deleteUserExpenseEntitiesForExpense = em
+						.createNamedQuery("deleteUserExpenseEntitiesForExpense");
+				deleteUserExpenseEntitiesForExpense.setParameter("expense_id",
+						ex.getId());
+				deleteUserExpenseEntitiesForExpense.executeUpdate();
+				// children deleted
+				ex.setUserExpenseSet(null);
+				em.merge(ex);
+			} else {
+				ex = new ExpenseEntity(ed);
+				em.persist(ex);
+				// em.flush();
+			}
+			// now merge children
+			Long id = ex.getId();
+			Set<UserExpenseEntity> userExpenseSet = new HashSet<UserExpenseEntity>();
+			for (UserShare us : ed.getUserShares()) {
+				if (us.isParticipationFlag()) {
+					UserExpenseEntity uee = new UserExpenseEntity();
+					uee.setUsername(us.getName());
+					uee.setExpense_id(id);
+					uee.setShareAmount(us.getShareAmount());
+					uee.setDiscountPercent(us.getDiscountPercent());
+					userExpenseSet.add(uee);
+				}
+			}
+			ex.setUserExpenseSet(userExpenseSet);
+			em.merge(ex);
+			em.flush();
+
+		} else {
+			// you cant edit a settled record
+			result = 1;
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ExpenseEntity> getExpenses(ExpenseSearchCriteria esc) {
+
+		Query queryGetExpenses = null;
+		queryGetExpenses = em.createNamedQuery("getExpenses");
+		queryGetExpenses.setParameter("startDate", esc.getStartDate());
+		queryGetExpenses.setParameter("endDate", esc.getEndDate());
+		Collection expenses = queryGetExpenses.getResultList();
+		List<ExpenseEntity> expensesList = new ArrayList<ExpenseEntity>(
+				expenses);
+		return expensesList;
+
+	}
+
+	public ExpenseDetail getExpenseById(Long id) {
+		ExpenseEntity returnExpenseEntity = null;
+		Query queryGetExpenseById = em.createNamedQuery("getExpenseById");
+		queryGetExpenseById.setParameter("id", id);
+		ExpenseEntity ee = (ExpenseEntity) queryGetExpenseById
+				.getSingleResult();
+		if (null != ee.getSettlementId()) {
+			// this means record has been settled.
+			Query queryGetSettlementForId = em.createNamedQuery("getSettlementForId");
+			queryGetSettlementForId.setParameter("id", ee.getSettlementId());
+			SettlementEntity se = (SettlementEntity) queryGetSettlementForId.getSingleResult();
+			for (ExpenseEntity ee1 : se.getExpenseSet()) {
+				if (id.longValue() == ee1.getId().longValue()) {
+					returnExpenseEntity = ee1;
+					break;
+				}
+			}
+		} else {
+			returnExpenseEntity = ee;
+		}
+		return new ExpenseDetail(returnExpenseEntity);
+	}
+
+	@Transactional
+	public int deleteExpenseById(Long expenseId) {
+		int result = 0;
+		ExpenseEntity ee = em.find(ExpenseEntity.class, expenseId);
+		if (null == ee.getSettlementId()) {
+			em.remove(ee);
+		} else {
+			// expense settled already. cant delete
+			result = 1;
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ExpenseDetail getExpenseDetailBeanById(Long id) {
+		ExpenseDetail ed;
+		boolean newExpense = false;
+		if (null == id) {
+			ed = new ExpenseDetail();
+			SecurityContext ctx = SecurityContextHolder.getContext();
+			String userName = ctx.getAuthentication().getName();
+			boolean thisIsAUser = false;
+			for (GrantedAuthority ga : ctx.getAuthentication().getAuthorities()) {
+				if (ga.getAuthority().equalsIgnoreCase(RoleEntity.ROLE_USER)) {
+					thisIsAUser = true;
+				}
+			}
+			if (thisIsAUser) {
+				ed.setPaidBy(userName);
+			}			
+			newExpense = true;
+
+		} else {
+//			System.out.println("Pulling record to edt : " + id);
+			ExpenseEntity ee = em.find(ExpenseEntity.class, id);
+			ed = new ExpenseDetail(ee);
+			// now add those non participating users as well.
+		}
+		// now set some users here...
+		// now form a map of participating users
+		Map currentUserMap = new HashMap();
+		for (UserShare us : ed.getUserShares()) {
+			currentUserMap.put(us.getName(), us);
+		}
+		// get all allowed users
+		Query queryGetAllUsers = em.createNamedQuery("getAllUsers");
+		Collection users = queryGetAllUsers.getResultList();
+		List<UserEntity> userEntitySet = new ArrayList<UserEntity>(users);
+		// iterate thru all users in the system
+		for (UserEntity ue : userEntitySet) {
+			// only consider enabled users
+			if ((ue.getEnabled() != UserEntity.USER_DISABLED) && isUserRole(ue)) {
+				// make a new entry only if the share does not exist
+				if (currentUserMap.containsKey(ue.getUsername())) {
+					//
+				} else {
+					UserShare us = new UserShare(ue.getUsername(), 0.00f, 0.00f, true);
+					if (!newExpense) {
+						us.setParticipationFlag(false);
+					} 
+					currentUserMap.put(us.getName(), us);
+					// userSharesList.add(us);
+				}
+			}
+		}
+		// now set the shares
+		List<UserShare> userSharesList = new ArrayList<UserShare>();
+		Set keySet = currentUserMap.keySet();
+		Iterator it = keySet.iterator();
+		while (it.hasNext()) {
+			String key = (String)it.next();
+			userSharesList.add((UserShare) currentUserMap.get(key));
+		}
+		// set users here
+		ed.setUserShares(userSharesList);
+		// return object
+		return ed;
+	}
+	
+	private boolean isUserRole(UserEntity ue) {
+		boolean result = false;		
+		for (AuthEntity ae : ue.getAuthSet()) {
+			if (ae.getAuthority().equalsIgnoreCase(RoleEntity.ROLE_USER)) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ExpenseDetail> getUnsettledExpenses(SettlementBean sb) {
+		Query queryGetUnsettledExpenses = null;
+		queryGetUnsettledExpenses = em.createNamedQuery("getUnsettledExpenses");
+		queryGetUnsettledExpenses.setParameter("startDate", sb.getStartDate());
+		queryGetUnsettledExpenses.setParameter("endDate", sb.getEndDate());
+		Collection expenses = queryGetUnsettledExpenses.getResultList();
+		List<ExpenseEntity> expensesList = new ArrayList<ExpenseEntity>(
+				expenses);
+		List<ExpenseDetail> edList = new ArrayList<ExpenseDetail>();
+		for (ExpenseEntity ee : expensesList) {
+			edList.add(new ExpenseDetail(ee));
+		}
+		return edList;
+	}
+
+	public List<ExpenseDetail> getRecentExpenses(int lastDays) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

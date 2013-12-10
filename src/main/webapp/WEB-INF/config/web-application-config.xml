@@ -6,7 +6,7 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- Scans for application @Components to deploy -->
-
+	<context:component-scan base-package="com.exp.tracker.services.impl" />
 
 	<!-- Imports the configurations of the different infrastructure systems 
 		of the application -->

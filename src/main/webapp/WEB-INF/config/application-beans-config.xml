@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/task 
+           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/config/jdbc.properties</value>
+				<value>/WEB-INF/config/email.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Scan for components to deploy -->
+	<context:component-scan base-package="com.exp.tracker.app.tasks" />
+	<!-- Let Spring no that we want a task executor and a scheduler -->
+	<task:annotation-driven executor="emailTaskExecutor"
+		scheduler="settlementTaskScheduler" />
+	<!-- Email Task Executor -->
+	<task:executor id="emailTaskExecutor" pool-size="5-15"
+		queue-capacity="25" />
+	<!-- Settlement Scheduler -->
+	<task:scheduler id="settlementTaskScheduler" pool-size="5" />
+
+	<!-- Settlement Service -->
+	<bean id="settlementService" class="com.exp.tracker.services.impl.JpaSettlementService"/>
+	<!-- Email Service -->
+	<bean id="emailService" class="com.exp.tracker.services.impl.JavaMailEmailService">
+		<property name="emailMessageSender" ref="emailMessageSender"/>
+	</bean>
+	<!-- Email message Sender -->
+	<bean id="emailMessageSender" class="com.exp.tracker.utils.EmailMessageHelper">
+		<property name="_smtpHost" value="${email.host.server}"/>
+		<property name="_user" value="${email.user.name}"/>
+		<property name="_password" value="${email.user.password}"/>
+		<property name="_from" value="${email.from.emailid}"/>
+		<property name="_fromName" value="${email.from.displayname}"/>
+	</bean>
+	<!-- Report Generation Service -->
+	<bean id="reportService"
+		class="com.exp.tracker.services.impl.JasperReportGenerationService">
+		<property name="emailService" ref="emailService"/>
+	</bean>
+	
+	<bean id="userService"
+		class="com.exp.tracker.services.impl.JpaUserService">
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+	</bean>
+
+	<bean id="passwordEncoder" class="com.exp.tracker.utils.PasswordEncoder"/>	
+</beans>
