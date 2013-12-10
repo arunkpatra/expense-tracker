@@ -41,7 +41,6 @@ public class ExpenseDetail implements Serializable {
     	setUserShares(new ArrayList<UserShare>());
 	}
     
-    @SuppressWarnings("unchecked")
 	public ExpenseDetail(ExpenseEntity ee) {
     	setId(ee.getId());
     	setDate(ee.getDate());
@@ -54,7 +53,7 @@ public class ExpenseDetail implements Serializable {
     	// critical flag
     	setEditMode(true);
     	//
-    	userShares = new ArrayList();
+    	userShares = new ArrayList<UserShare>();
     	for (UserExpenseEntity uee : ee.getUserExpenseSet()) {
     		UserShare us = new UserShare(uee);
     		userShares.add(us);
