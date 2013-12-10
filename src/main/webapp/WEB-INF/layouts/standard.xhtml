@@ -34,11 +34,7 @@
 <div id="page" class="container">
 	<!-- Header starts -->
 	<div id="header" > 
-		<div id="welcome">
-			<div class="left">
-				Expense Tracker
-			</div>
-			<div class="right">
+		<h4 class="alt bottom">
 				<c:if test="${not empty etUser.lastName}">
 					Welcome, ${etUser.firstName} ${etUser.lastName} | 
 					<a href="${request.contextPath}/et/changepassword">Change Password</a> | 
@@ -47,18 +43,18 @@
 				<c:if test="${empty currentUser.name}">
 					<a href="${request.contextPath}/et/login">Login</a>
 				</c:if>
-			</div>
-		</div>
-		<div id="branding" class="spring"><a
+		</h4>
+	</div> 
+	<div id="branding" class="spring"><a
 			href="${request.contextPath}/et/welcome"><img
 			src="${request.contextPath}/images/header.jpg"
 			alt="Expense Tracker" /></a>
-		</div>
-	</div> 
+	</div>
+	<hr class="space" />
 	<!-- Header over -->
 	<!-- Content Starts -->
 	<div id="content" >
-		<div id="local" >
+		<div id="local"  class="span-4 colborder">
 			<ul>
 				<c:if test="${not empty currentUser.name}">
 					<li><a href="${request.contextPath}/et/welcome">Home</a></li>
@@ -78,11 +74,11 @@
 					<li><a href="${request.contextPath}/et/payments">Payments</a></li>
 				</c:if>
 			</ul>
-			<p></p>
 		</div>
-		<div id="main">
+		<div id="main" class="span-19 last">
 			<ui:insert name="content" />
 		</div>
+		<hr class="space" />
 	</div>
 	<!-- Content ends -->
 </div>
