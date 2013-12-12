@@ -1,0 +1,90 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:sf="http://www.springframework.org/tags/faces"
+	  			xmlns:acegijsf="http://sourceforge.net/projects/jsf-comp/acegijsf"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+
+<h:form id="myExpenses">
+	<div class="section">
+		<h2>Unsettled Expenses</h2>
+		<ui:fragment id="myExpensesFragment">
+			<div id="myExpenseList">
+				<h:outputText id="noExpensesText" value="No Unbilled Expenses Found" rendered="#{expenses.rowCount == 0}"/>
+				<h:dataTable id="expenses" styleClass="summary" value="#{expenses}" var="e" rendered="#{expenses.rowCount > 0}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Description"/>
+						</f:facet>						
+						<sf:commandLink id="viewExpenseDetail" action="viewdetail" value="#{e.description}" processIds="*">
+								<f:param name="expenseId" value="#{e.id}" />
+						</sf:commandLink>						
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Paid By"/>
+						</f:facet>
+						<h:outputText value="#{e.paidBy}"/>
+						
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Amount"/>
+						</f:facet>
+						<h:outputText value="#{e.amount}"/>
+						
+					</h:column> 
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Date"/>
+						</f:facet>
+						<h:outputText value="#{e.date}">
+						<!-- 
+			            	<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
+			            	 -->
+			            	  <f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy"/>
+						</h:outputText>
+					</h:column> 
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Settl. Id"></h:outputText>
+						</f:facet>
+						<a href="${request.contextPath}/spring/settlementSubReport.pdf?sid=#{e.settlementId}" 
+						target="blank">#{e.settlementId}</a>
+						<!-- 
+						<sf:commandLink id="viewSettlement" action="viewSettlement" value="#{e.settlementId}" processIds="*" >
+								<f:param name="settlementId" value="#{e.settlementId}" />
+						</sf:commandLink>
+						 -->
+					</h:column>	
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Edit"></h:outputText>
+						</f:facet>
+						<sf:commandButton id="editExpense" value="Edit" processIds="*" action="editExpense"
+						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+							<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+						</sf:commandButton>
+					</h:column>				
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Delete"></h:outputText>						
+						</f:facet>
+						
+						<sf:commandButton id="deleteExpense" value="Delete" processIds="*" action="deleteExpense"
+						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+							<f:param name="expenseId" value="#{e.id}" />
+						</sf:commandButton>
+						
+					</h:column> 					
+				</h:dataTable>
+			</div>
+		</ui:fragment>
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>

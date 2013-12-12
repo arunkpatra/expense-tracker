@@ -1,0 +1,91 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+
+<h:form id="addUser">
+	<div class="section">
+		<h2>Add User</h2>	
+		<ui:fragment id="addUserFragment">
+			<div id="addUser">						
+				<p:fieldset>			
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="userName">User Name:</h:outputLabel>
+						</div>
+						<div class="input">			
+		
+<!-- 							<sf:clientTextValidator required="true" promptMessage="Enter a new user name."  -->
+<!-- 							regExp="^[a-zA-Z][a-zA-Z0-9]{3,16}$" invalidMessage="User Id must start with a character, should be 4 characters at a minimum and maximum 16 characters."> -->
+								<h:inputText id="userName" value="#{user.username}" required="true" maxlength="16"/>
+<!-- 							</sf:clientTextValidator> -->
+						</div>
+				</div>
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="enabled">Email Id:</h:outputLabel>
+						</div>						
+						<div class="input">
+<!-- 							<sf:clientTextValidator required="true" promptMessage="Enter an Email Id like yourname@yourcompany.com"  -->
+<!-- 							regExp="^([a-zA-Z]+(([a-zA-Z0-9]*)|((([^@]{0,}?)[a-zA-Z0-9]+){0,}))([@]{1})[a-zA-Z0-9]+(([.]{1})([a-zA-Z0-9]+)){1,2})$" -->
+<!-- 							invalidMessage="Invalid email Id. Enter an Email Id like yourname@yourcompany.com"> -->
+								<h:inputText id="emailId" value="#{user.emailId}" required="true" maxlength="32"/>
+<!-- 							</sf:clientTextValidator> -->
+						</div> 
+				</div>	
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="enabled">First Name:</h:outputLabel>
+						</div>						
+						<div class="input">
+<!-- 							<sf:clientTextValidator required="true" promptMessage="Enter First Name" > -->
+								<h:inputText id="firstName" value="#{user.firstName}" required="true" maxlength="16"/>
+<!-- 							</sf:clientTextValidator> -->
+						</div> 
+				</div>
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="enabled">Last Name:</h:outputLabel>
+						</div>						
+						<div class="input">
+<!-- 							<sf:clientTextValidator required="true" promptMessage="Enter Last Name" > -->
+								<h:inputText id="lastName" value="#{user.lastName}" required="true" maxlength="16"/>
+<!-- 							</sf:clientTextValidator> -->
+						</div> 
+				</div>
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="enabled">Middle Initial:</h:outputLabel>
+						</div>						
+						<div class="input">
+							<h:inputText id="mInit" value="#{user.middleInit}" required="false" maxlength="1" size="4"/>
+						</div> 
+				</div>
+				
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="enabled">Enabled:</h:outputLabel>
+						</div>						
+						<div class="input">
+							<h:selectBooleanCheckbox id="enabled" value="#{user.enabled}"/>
+						</div> 
+				</div>
+				</p:fieldset>
+				<div class="buttonGroup">
+						<p:commandButton id="cancel" value="Cancel" processIds="*" action="cancel" />
+<!-- 						<sf:validateAllOnClick> -->
+							<p:commandButton id="createUser" value="Create User" processIds="*" action="createUser" />
+<!-- 						</sf:validateAllOnClick>	 -->
+				</div>				
+			</div>
+		</ui:fragment>
+		
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>

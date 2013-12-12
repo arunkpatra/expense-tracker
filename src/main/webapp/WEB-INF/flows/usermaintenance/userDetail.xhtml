@@ -1,0 +1,58 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+
+<h:form id="userDetail">
+	<div class="section">
+		<h2>User Details</h2>		
+		<ui:fragment id="userDetailRecord">
+			<div id="userDetailResults">			
+			<fieldset>
+				<div class="field">
+					<div class="label">User Id:</div>
+					<div class="output">
+					<h:outputText value="#{selectedUser.username}"/>
+					</div>
+				</div>	
+				<div class="field">
+					<div class="label">Name:</div>
+					<div class="output">
+						<h:outputText value="#{selectedUser.firstName} #{selectedUser.middleInit} #{selectedUser.lastName}"/>
+					</div>
+				</div>
+				<div class="field">
+					<div class="label">Email Id:</div>
+					<div class="output">
+						<h:outputText value="#{selectedUser.emailId}"/>
+					</div>
+				</div>
+				<div class="field">
+					<div class="label">Enabled:</div>
+					<div class="output">
+						<h:outputText value="Yes" rendered="#{selectedUser.enabled == true}"/>
+						<h:outputText value="No" rendered="#{selectedUser.enabled == false}"/>
+					</div>
+				</div>			
+			</fieldset>			
+				<h:outputText id="noRolesText" value="No roles found for this user" rendered="#{userAuths.rowCount == 0}"/>
+				<h:dataTable id="auths" styleClass="summary" value="#{userAuths}" var="a" rendered="#{userAuths.rowCount > 0}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Authorization"/>
+						</f:facet>
+						#{a.authority}			
+					</h:column>
+				</h:dataTable>				
+			</div>
+		</ui:fragment>
+		
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>

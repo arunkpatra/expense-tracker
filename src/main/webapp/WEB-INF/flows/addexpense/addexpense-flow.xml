@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Secure the flow. -->
+	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any"/>
+	<!-- Attach a persistence context to this flow -->
+	<persistence-context />
+	<input name="toBeEditedExpenseId" required="false" />
+	<on-start>
+		<evaluate expression="userService.getUser(currentUser.name)" result="flowScope.etUser" />
+		<evaluate
+				expression="expenseService.getExpenseDetailBeanById(toBeEditedExpenseId)"
+				result="flowScope.expenseDetail" />	
+	</on-start>
+	<view-state id="enterExpenseDetail" model="expenseDetail">
+	<!-- 
+		<on-entry>
+			<evaluate
+				expression="expenseService.getExpenseDetailBeanById(toBeEditedExpenseId)"
+				result="flowScope.expenseDetail" />
+		</on-entry>
+	 -->
+		<transition on="calcShares">
+			<evaluate expression="expenseDetail.calculateShareAmounts()" />
+		</transition>
+		<transition on="overrideShares">
+			<evaluate expression="expenseDetail.overrideShareAmounts()" />
+		</transition>
+		<transition on="next" to="reviewExpense">
+		</transition>
+		<transition on="cancel" to="saveCancelledScreen" bind="false" />
+	</view-state>
+
+	<view-state id="reviewExpense">
+		<on-render>
+			<evaluate expression="expenseDetail.getUserShares()" result="viewScope.userShares"
+				result-type="dataModel"></evaluate>
+		</on-render>
+		<transition on="saveExpense" to="expenseAdditionResult">
+			<evaluate expression="expenseService.saveExpense(expenseDetail)" />
+		</transition>
+		<transition on="back" to="enterExpenseDetail" />
+		<transition on="cancel" to="saveCancelledScreen" bind="false" />
+	</view-state>
+
+	<view-state id="expenseAdditionResult">
+		<transition on="ok" to="finish">
+		</transition>
+		<transition on="addexpense" to="finish">
+		</transition>
+	</view-state>
+	<view-state id="saveCancelledScreen">
+		<transition on="ok" to="saveCancelled">
+		</transition>
+	</view-state>
+
+	<end-state id="saveCancelled" />
+	<end-state id="finish" commit="true" />
+
+</flow>

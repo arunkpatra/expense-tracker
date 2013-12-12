@@ -1,0 +1,65 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+<!-- 	<ui:fragment id="usersFragment"> -->
+<p:panel id="users" header="Users" toggleable="true" toggleSpeed="100" style="margin-top: 10px">
+	<h:outputText value="No Users Found" rendered="#{users.rowCount==0}"/>
+	<h:form rendered="#{users.rowCount > 0}">
+		<h:outputText value="Click on a user name to see details."/>
+		<p:outputPanel id="usersContent">
+			<p:dataTable value="#{users}" var="u">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="-"/>
+					</f:facet>
+					<div class="output">
+						<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
+							disabled="true" />
+					</div>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">Name</f:facet>
+					<p:commandLink id="viewUserDetail" action="viewuserdetail" value="#{u.username}" update=":users" >
+						<f:param name="username" value="#{u.username}" />
+					</p:commandLink>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">Modify</f:facet>
+					<p:commandButton id="modifyUser" value="Modify" action="modifyuser" >
+						<f:param name="usernameTobeModified" value="#{u.username}" />
+					</p:commandButton>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Reset Password">
+						</h:outputText>
+					</f:facet>
+					<p:commandButton id="reset" value="Reset Password" action="resetpassword" >
+						<f:param name="passwordResetUserName" value="#{u.username}" />
+					</p:commandButton>
+				</p:column>
+				<p:column>
+					<f:facet name="header">Delete</f:facet>
+					<p:commandButton id="deleteUser" value="Delete" action="deleteuser" >
+						<f:param name="userIdToBeDeleted" value="#{u.id}" update=":users"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<div class="buttonGroup">
+					<p:commandButton id="addNewUser" value="Add New User" action="adduser" />
+			</div>
+		</p:outputPanel>
+	</h:form>
+</p:panel>
+<!-- 	</ui:fragment> -->
+</ui:define>
+</ui:composition>

@@ -1,0 +1,127 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+
+<h:form id="modifyUser">
+	<div class="section">
+		<h2>Modify User</h2>	
+		<ui:fragment id="modifyUserFragment">
+		<div id="messagesInsertionPoint" >
+				<h:messages errorClass="errors" />
+			</div>
+			<div id="modifyUserScreen">						
+				<fieldset>			
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="userName">User Name:</h:outputLabel>
+						</div>
+						<div class="output">						
+								<h:outputText id="userName" value="#{selectedUserToBeModified.username}" required="true"/>
+						</div>
+				</div>
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="emailId">Email Id:</h:outputLabel>
+						</div>
+						<div class="input">	
+							<sf:clientTextValidator required="false" promptMessage="Enter an Email Id like yourname@yourcompany.com" 
+								regExp="^([a-zA-Z]+(([a-zA-Z0-9]*)|((([^@]{0,}?)[a-zA-Z0-9]+){0,}))([@]{1})[a-zA-Z0-9]+(([.]{1})([a-zA-Z0-9]+)){1,2})$"
+								invalidMessage="Invalid email Id. Enter an Email Id like yourname@yourcompany.com">					
+								<h:inputText id="emailId" value="#{selectedUserToBeModified.emailId}" required="false" maxlength="32"/>
+							</sf:clientTextValidator>
+						</div>
+				</div>	
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="firstName">First Name:</h:outputLabel>
+						</div>
+						<div class="input">		
+							<sf:clientTextValidator required="true" promptMessage="Enter first name">				
+								<h:inputText id="firstName" value="#{selectedUserToBeModified.firstName}" required="true" maxlength="16"/>
+							</sf:clientTextValidator>
+						</div>
+				</div>
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="lastName">Last Name:</h:outputLabel>
+						</div>
+						<div class="input">			
+							<sf:clientTextValidator required="true" promptMessage="Enter first name">					
+								<h:inputText id="lastName" value="#{selectedUserToBeModified.lastName}" required="true" maxlength="16"/>
+							</sf:clientTextValidator>
+						</div>
+				</div>
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="middleInit">Middle Init:</h:outputLabel>
+						</div>
+						<div class="input">						
+								<h:inputText id="middleInit" value="#{selectedUserToBeModified.middleInit}" required="false" maxlength="1" size="2"/>
+						</div>
+				</div>			
+				<div class="field">
+						<div class="label">
+							<h:outputLabel for="enabled" rendered="#{selectedUserToBeModified.username ne currentUser.name}">Enabled:</h:outputLabel>
+						</div>						
+						<div class="input">
+							<h:selectBooleanCheckbox id="enabled" value="#{selectedUserToBeModified.enabled}"
+							rendered="#{selectedUserToBeModified.username ne currentUser.name}"/>
+						</div> 
+				</div>
+				<div class="buttonGroup">
+					<sf:commandButton id="back" value="Back" processIds="*" action="back"/>					
+					<sf:validateAllOnClick>
+						<sf:commandButton id="updateUser" value="Save" processIds="*" action="updateUser"/>
+					</sf:validateAllOnClick>	
+					<sf:commandButton id="cancel" value="Cancel" processIds="*" action="cancel" />	
+				</div>		
+				</fieldset>			
+			</div>
+		</ui:fragment>		
+	</div>
+</h:form>
+<h:form id="modifyAuths">
+	<div class="section">	
+		<ui:fragment id="modifyUserAuthFragment">
+			<div id="modifyUserAuthScreen">						
+				<fieldset>
+				<h:outputText id="noRolesText" value="No roles found for this user" rendered="#{userAuths.rowCount == 0}"/>
+				<h:dataTable id="auths" styleClass="summary" value="#{userAuths}" var="a" rendered="#{userAuths.rowCount > 0}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Authorization"/>
+						</f:facet>
+						#{a.authority}			
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Action">
+                			</h:outputText>
+						</f:facet>
+						
+						<sf:commandButton id="deleteAuth" value="Delete" processIds="*" action="deleteAuth">
+							<f:param name="authIdToDelete" value="#{a.id}" />
+						</sf:commandButton>			
+					</h:column>
+				</h:dataTable>		
+				<div class="buttonGroup">
+						
+						
+							<sf:commandButton id="addAuth" value="Add New Role" processIds="*" action="addAuth">
+								<f:param name="selectedUserName" value="#{selectedUser.username}"></f:param>
+							</sf:commandButton>
+						
+				</div>
+				</fieldset>	
+			</div>
+		</ui:fragment>
+	</div>		
+</h:form>
+</ui:define>
+</ui:composition>

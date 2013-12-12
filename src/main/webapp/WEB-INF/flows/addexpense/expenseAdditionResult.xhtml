@@ -1,0 +1,28 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sf="http://www.springframework.org/tags/faces"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="content">
+		<ui:fragment id="expenseDetailFragment">
+			<div id="expenseSubmissionResults" class="section"><span
+				class="errors"> <h:messages globalOnly="true" /> </span>
+			<h2>Expense saved</h2>
+			<h:form id="mainForm">
+
+			<p>The expense was saved successfully.</p>
+				<div class="buttonGroup">
+				
+					<sf:commandButton id="ok" value="Ok" processIds="*" action="ok" rendered="#{not empty toBeEditedExpenseId}"/>
+				 	
+					<sf:commandButton id="addExpense" value="Add new expense" processIds="*" action="addexpense" 
+					rendered="#{empty toBeEditedExpenseId}"/>
+				</div>
+			</h:form>
+			</div>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>

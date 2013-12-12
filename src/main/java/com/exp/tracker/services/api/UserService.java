@@ -1,5 +1,6 @@
 package com.exp.tracker.services.api;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -21,7 +22,7 @@ public interface UserService {
 	 */
 	public List<UserEntity> getUsers();
 	
-	public List<UserBean> getUserBeans();
+	public Collection<UserBean> getUserBeans();
 	
 	public UserBean getUser(String userName);
 	

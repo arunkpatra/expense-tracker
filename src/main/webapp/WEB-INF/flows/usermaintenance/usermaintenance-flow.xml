@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+
+
+	<!-- Secure the flow. -->
+	<secured attributes="ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any" />
+	<!-- Attach a persistence context to this flow -->
+	<!-- 
+	<persistence-context />
+	 -->
+	<var name="user" class="com.exp.tracker.data.model.UserBean" />
+	<var name="newUserAuth" class="com.exp.tracker.data.model.AuthBean" />
+
+	<on-start>
+		<evaluate expression="userService.getUser(currentUser.name)"
+			result="flowScope.etUser" />
+	</on-start>
+	
+	<view-state id="adminOperations">
+		<on-render>
+			<evaluate expression="userService.getUserBeans()" 
+			result="conversationScope.users" result-type="dataModel"/>
+		</on-render>
+		<!-- View User -->
+		<transition on="viewuserdetail" to="userdetail">
+			<set name="flowScope.selectedUserName" value="(requestParameters.username)" />
+		</transition>
+		<!-- Add user -->
+		<transition on="adduser" to="addUserScreen">
+		</transition>
+		<!-- Modify User -->
+		<transition on="modifyuser" to="userModificationScreen" >
+			<set name="flowScope.usernameTobeModified" value="(requestParameters.usernameTobeModified)" />
+		</transition>
+		<!-- Delete User -->
+		<transition on="deleteuser" to="userDeletionReviewScreen">
+			<set name="flowScope.userIdToBeDeleted" value="(requestParameters.userIdToBeDeleted)" />
+		</transition>
+		<!-- Reset Password -->
+		<transition on="resetpassword" to="paaswordResetResults">
+			<set name="flowScope.passwordResetUserName" value="(requestParameters.passwordResetUserName)" />
+		</transition>
+	</view-state>
+
+	<view-state id="paaswordResetResults" popup="true">
+		<on-render>
+			<evaluate expression="userService.resetPassword(passwordResetUserName)" result="viewScope.resetUser" />
+			<evaluate expression="emailService.sendPasswordResetEmail(resetUser)"
+				result="viewScope.emailSendResult" />
+			<render fragments="passwordResetResults"></render>
+		</on-render>
+		<transition on="ok" to="adminOperations">
+		</transition>
+	</view-state>
+
+	<view-state id="userDeletionReviewScreen">
+		<transition on="no" to="adminOperations">
+		</transition>
+		<transition on="yes" to="userDeletionResultScreen">
+		</transition>
+	</view-state>
+
+	<view-state id="userDeletionResultScreen" popup="true">
+		<on-render>
+			<evaluate
+				expression="userService.deleteUser(userIdToBeDeleted, currentUser.name)"
+				result="viewScope.userDeletionResults" />
+			<render fragments="userDeletionResult" />
+		</on-render>
+		<transition on="ok" to="adminOperations">
+		</transition>
+	</view-state>
+
+<!-- <view-state id="userdetail" view="userDetail.xhtml" popup="true"> -->
+	<view-state id="userdetail" view="userDetail.xhtml" popup="true">
+		<on-render>
+			<evaluate expression="userService.getUser(selectedUserName)"
+				result="viewScope.selectedUser" />
+			<evaluate expression="selectedUser.getAuthSet()" result="viewScope.userAuths"
+				result-type="dataModel" />
+			<render fragments="userDetail" />
+		</on-render>
+	</view-state>
+
+
+	<view-state id="userModificationScreen" model="selectedUserToBeModified">
+		<on-render>
+			<evaluate expression="userService.getUser(usernameTobeModified)"
+				result="flowScope.selectedUserToBeModified" />
+			<evaluate expression="selectedUserToBeModified.getAuthSet()"
+				result="viewScope.userAuths" result-type="dataModel" />
+			<render fragments="modifyUser"></render>
+		</on-render>
+		<transition on="addAuth" to="addAuthScreen">
+		</transition>
+		<transition on="deleteAuth" to="deleteAuth">
+			<set name="flowScope.authIdToDelete" value="(requestParameters.authIdToDelete)" />
+		</transition>
+		<transition on="back" to="adminOperations" bind="false">
+		</transition>
+		<transition on="updateUser" to="userModificationResults">
+		</transition>
+		<transition on="cancel" to="adminOperations" bind="false">
+		</transition>
+	</view-state>
+
+	<view-state id="userModificationResults" popup="true">
+		<on-render>
+			<evaluate expression="userService.updateUser(selectedUserToBeModified)" />
+			<render fragments="userModificationResults" />
+		</on-render>
+		<transition on="ok" to="adminOperations">
+		</transition>
+	</view-state>
+
+	<view-state id="deleteAuth" view="deleteAuthResults.xhtml"
+		popup="true">
+		<on-render>
+			<evaluate expression="userService.removeAuthById(authIdToDelete)" />
+			<render fragments="deleteAuthResults" />
+		</on-render>
+		<transition on="ok" to="userModificationScreen">
+		</transition>
+	</view-state>
+
+	<view-state id="addAuthScreen" view="addAuthScreen.xhtml"
+		model="selectedUser">
+		<on-render>
+			<evaluate expression="userService.getUser(usernameTobeModified)"
+				result="flowScope.selectedUser" />
+			<evaluate expression="newUserAuth.setUsername(usernameTobeModified)" />
+			<evaluate expression="selectedUser.getAuthSet()" result="viewScope.userAuths"
+				result-type="dataModel" />
+			<render fragments="addAuth" />
+		</on-render>
+		<transition on="addNewAuth" to="addNewAuthResults">
+			<!--
+				<evaluate expression="selectedUser.setAuthToBeAdded(newUserAuth)"/>
+			-->
+		</transition>
+		<transition on="cancel" to="userModificationScreen" bind="false" />
+	</view-state>
+	<view-state id="addNewAuthResults" popup="true">
+		<on-render>
+			<evaluate expression="selectedUser.addAuth(newUserAuth.authority)" />
+			<evaluate expression="userService.updateAutorization(selectedUser)" />
+			<render fragments="addAuthResults" />
+		</on-render>
+		<transition on="ok" to="userModificationScreen">
+		</transition>
+	</view-state>
+	<view-state id="addUserScreen" model="user">
+		<on-render>
+			<evaluate expression="user.clearUserData()"/>
+			<render fragments="addUser" />
+		</on-render>
+		<transition on="createUser" to="userCreationResults"/>
+		<transition on="cancel" to="adminOperations" bind="false"/>
+	</view-state>
+	<view-state id="userCreationResults">
+		<on-render>
+			<evaluate expression="userService.addUser(user)" result="viewScope.createdUser" />
+			<evaluate
+				expression="emailService.sendWelcomeEmail(createdUser)"
+				result="viewScope.emailSendResult" />
+		</on-render>
+		<transition on="back" to="addUserScreen">
+		</transition>
+		<transition on="ok" to="adminOperations">
+		</transition>
+	</view-state>
+
+	<end-state id="finish" />
+
+</flow>

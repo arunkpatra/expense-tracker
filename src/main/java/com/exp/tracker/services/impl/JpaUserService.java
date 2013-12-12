@@ -223,7 +223,7 @@ public class JpaUserService implements UserService {
 		return ul;
 	}
 
-	public List<UserBean> getUserBeans() {
+	public Collection<UserBean> getUserBeans() {
 		List<UserBean> ubs = new ArrayList<UserBean>();
 		for (UserEntity ue : getUsers()) {
 			ubs.add(new UserBean(ue));

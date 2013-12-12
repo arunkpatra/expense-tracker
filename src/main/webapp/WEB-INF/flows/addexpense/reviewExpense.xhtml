@@ -1,0 +1,88 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:sf="http://www.springframework.org/tags/faces"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+
+<h:form id="expenseDetail">
+	<div class="section">
+		<h2>Review Expense</h2>
+		
+		<ui:fragment id="expenseDetailRecord">
+			<div id="expenseDetailResults">			
+			<fieldset>
+			<div class="field">
+				<div class="label">Description:</div>
+				<div class="output">
+				<h:outputText value="#{expenseDetail.description}"/>
+				</div>
+			</div>
+			<div class="field">
+				<div class="label">Amount:</div>
+				<div class="output">
+					<h:outputText value="#{expenseDetail.amount}">
+                		<f:convertNumber maxFractionDigits="2"/>
+                	</h:outputText>
+				</div>
+			</div>
+			<div class="field">
+				<div class="label">Paid by:</div>
+				<div class="output">
+				<h:outputText value="#{expenseDetail.paidBy}"/>
+				</div>
+			</div>
+			<div class="field">
+				<div class="label">Date:</div>
+				<div class="output">
+					<h:outputText value="#{expenseDetail.date}">
+			            	<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
+					</h:outputText>
+				</div>
+			</div>
+			<!-- 
+			<div class="buttonGroup">
+				<sf:commandButton id="editExpense" value="Edit" processIds="*" action="editExpense" 
+				rendered="#{selectedExpense.createdBy == currentUser.name}"/>
+			</div>
+			 -->
+		</fieldset>					
+				<h:outputText id="noShareText" value="No record of any contributions" rendered="#{userShares.rowCount == 0}"/>
+				<h:dataTable id="shares" styleClass="summary" value="#{userShares}" var="us" rendered="#{userShares.rowCount > 0}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Name"/>
+						</f:facet>
+						<div class="output">
+                			<h:outputText value="#{us.name}">
+                			</h:outputText>
+            			</div>	
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Share Amount"/>
+						</f:facet>
+						<div class="output">
+                			<h:outputText value="#{us.shareAmount}">
+                				<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                			</h:outputText>
+            			</div>            			
+					</h:column>
+				</h:dataTable>
+				<div class="buttonGroup">
+					<sf:commandButton id="cancel" value="Cancel" action="cancel"/>	
+					<sf:commandButton id="back" value="Back" action="back"/>	
+					<sf:validateAllOnClick> 
+						<sf:commandButton id="saveExpense" value="Save" processIds="*" action="saveExpense" />
+					</sf:validateAllOnClick>
+				</div>
+			</div>
+		</ui:fragment>
+		
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>
