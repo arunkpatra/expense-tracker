@@ -31,6 +31,7 @@
 					<p:commandLink id="viewUserDetail" action="viewuserdetail"  value="#{u.username}" update="@form" oncomplete="confirmDialog.show()"  >
 						<f:param name="username" value="#{u.username}" />
 					</p:commandLink>
+					<p:tooltip for="viewUserDetail" value="Click to see details" showEffect="fade" hideEffect="fade" /> 
 				</p:column>
 				
 				<p:column>
