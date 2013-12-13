@@ -26,8 +26,12 @@
 			result="conversationScope.users" result-type="dataModel"/>
 		</on-render>
 		<!-- View User -->
-		<transition on="viewuserdetail" to="userdetail">
+		<transition on="viewuserdetail" >
 			<set name="flowScope.selectedUserName" value="(requestParameters.username)" />
+			<evaluate expression="userService.getUser(selectedUserName)"
+				result="viewScope.selectedUser" />
+			<evaluate expression="selectedUser.getAuthSet()" result="viewScope.userAuths"
+				result-type="dataModel" />
 		</transition>
 		<!-- Add user -->
 		<transition on="adduser" to="addUserScreen">
@@ -75,8 +79,8 @@
 		</transition>
 	</view-state>
 
-<!-- <view-state id="userdetail" view="userDetail.xhtml" popup="true"> -->
-	<view-state id="userdetail" view="userDetail.xhtml" popup="true">
+<view-state id="userdetail" >
+<!-- 	<view-state id="userdetail" view="userDetail.xhtml" popup="true"> -->
 		<on-render>
 			<evaluate expression="userService.getUser(selectedUserName)"
 				result="viewScope.selectedUser" />
