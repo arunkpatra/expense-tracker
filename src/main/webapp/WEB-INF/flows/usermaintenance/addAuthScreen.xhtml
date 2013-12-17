@@ -1,58 +1,63 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	    		xmlns:ui="http://java.sun.com/jsf/facelets"
-	  			xmlns:h="http://java.sun.com/jsf/html"
-	  			xmlns:f="http://java.sun.com/jsf/core"
-	  			xmlns:p="http://primefaces.org/ui"
-				template="/WEB-INF/layouts/standard.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
 
-<ui:define name="content">
-	<h:form id="addAuth">
-		<div class="section">
-			<h2>Add Role</h2>		
-			<ui:fragment id="messages">
-			<div id="messagesInsertionPoint">
-				<h:messages errorClass="errors" />
-			</div>
-			</ui:fragment>
-			<ui:fragment id="addAuthRecord">
-				<div id="addAuthScreen">			
-				<fieldset>
-					<div class="field">
-						<div class="label">Name:</div>
-						<div class="output">#{selectedUser.username}</div>
-					</div>	
-					<div class="field">
-							<div class="label"><h:outputLabel for="newRole">New Role:</h:outputLabel>
-							</div>
-							<div class="input">
-								<h:selectOneMenu id="newRole" value="#{newUserAuth.authority}">
-									<f:selectItems value="#{roleService.rolesSelectItems}" />
-								</h:selectOneMenu> 
-							</div>
-						</div>		
-						<div class="buttonGroup">
-							<sf:validateAllOnClick>
-								<sf:commandButton id="addNewRole" value="Add Role" processIds="*" action="addNewAuth" />
-								<sf:commandButton id="cancel" value="Cancel" processIds="*" action="cancel" />
-							</sf:validateAllOnClick>	
+	<ui:define name="content">
+		<h:form id="addAuth">
+			<div class="section">
+				<h2>Add Role</h2>
+				<ui:fragment id="messages">
+					<div id="messagesInsertionPoint">
+						<h:messages errorClass="errors" />
 					</div>
-				</fieldset>			
-					<h:outputText id="noRolesText" value="No roles found for this user" rendered="#{userAuths.rowCount == 0}"/>
-					<h:dataTable id="auths" styleClass="summary" value="#{userAuths}" var="a" rendered="#{userAuths.rowCount > 0}">
-						<h:column>
-							<f:facet name="header">
-								<sf:commandLink id="sortByNameLink" action="sort" value="Existing Role(s)" processIds="*">
-									<f:param name="sortBy" value="authority" />
-								</sf:commandLink>
-							</f:facet>
+				</ui:fragment>
+				<ui:fragment id="addAuthRecord">
+					<div id="addAuthScreen">
+						<fieldset>
+							<div class="field">
+								<div class="label">Name:</div>
+								<div class="output">#{selectedUser.username}</div>
+							</div>
+							<div class="field">
+								<div class="label">
+									<h:outputLabel for="newRole">New Role:</h:outputLabel>
+								</div>
+								<div class="input">
+									<h:selectOneMenu id="newRole" value="#{newUserAuth.authority}">
+										<f:selectItems value="#{roleService.rolesSelectItems}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="buttonGroup">
+								<p:commandButton id="addNewRole" value="Add Role"
+									process="@form" action="addNewAuth" />
+								<p:commandButton id="cancel" value="Cancel" process="@form"
+									action="cancel" />
+							</div>
+						</fieldset>
+						<h:outputText id="noRolesText"
+							value="No roles found for this user"
+							rendered="#{userAuths.rowCount == 0}" />
+						<h:dataTable id="auths" styleClass="summary" value="#{userAuths}"
+							var="a" rendered="#{userAuths.rowCount > 0}">
+							<h:column>
+								<f:facet name="header">
+									<p:commandLink id="sortByNameLink" action="sort"
+										value="Existing Role(s)" process="@form">
+										<f:param name="sortBy" value="authority" />
+									</p:commandLink>
+								</f:facet>
 							#{a.authority}			
 						</h:column>
-					</h:dataTable>				
-				</div>
-			</ui:fragment>
-			
-		</div>
-	</h:form>
-</ui:define>
+						</h:dataTable>
+					</div>
+				</ui:fragment>
+
+			</div>
+		</h:form>
+	</ui:define>
 </ui:composition>

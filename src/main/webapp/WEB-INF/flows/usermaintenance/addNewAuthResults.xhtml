@@ -3,7 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
-	  			xmlns:sf="http://www.springframework.org/tags/faces"
+	  			xmlns:p="http://primefaces.org/ui"
 				template="/WEB-INF/layouts/standard.xhtml">
 
 <ui:define name="content">
@@ -19,7 +19,7 @@
 				<p>The new role was added successfully.</p>			
 			</div>
 			<div class="buttonGroup">
-				<sf:commandButton id="ok" value="Ok" processIds="*" action="ok" />
+				<p:commandButton id="ok" value="Ok" processIds="@form" action="ok" />
 			</div>
 		</ui:fragment>
 		

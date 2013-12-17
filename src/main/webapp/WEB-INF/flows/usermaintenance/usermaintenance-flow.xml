@@ -101,8 +101,11 @@
 		</on-render>
 		<transition on="addAuth" to="addAuthScreen">
 		</transition>
-		<transition on="deleteAuth" to="deleteAuth">
+		<transition on="deleteAuth">
 			<set name="flowScope.authIdToDelete" value="(requestParameters.authIdToDelete)" />
+			<evaluate expression="userService.removeAuthById(authIdToDelete)" />
+		</transition>
+		<transition on="deleteAuthOk" to="userModificationScreen">
 		</transition>
 		<transition on="back" to="adminOperations" bind="false">
 		</transition>
