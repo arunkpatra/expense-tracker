@@ -76,28 +76,6 @@
 		</transition>
 	</view-state>
 
-<!-- 	<view-state id="userDeletionResultScreen" popup="true"> -->
-<!-- 		<on-render> -->
-<!-- 			<evaluate -->
-<!-- 				expression="userService.deleteUser(userIdToBeDeleted, currentUser.name)" -->
-<!-- 				result="viewScope.userDeletionResults" /> -->
-<!-- 			<render fragments="userDeletionResult" /> -->
-<!-- 		</on-render> -->
-<!-- 		<transition on="ok" to="adminOperations"> -->
-<!-- 		</transition> -->
-<!-- 	</view-state> -->
-
-<view-state id="userdetail" >
-<!-- 	<view-state id="userdetail" view="userDetail.xhtml" popup="true"> -->
-		<on-render>
-			<evaluate expression="userService.getUser(selectedUserName)"
-				result="viewScope.selectedUser" />
-			<evaluate expression="selectedUser.getAuthSet()" result="viewScope.userAuths"
-				result-type="dataModel" />
-			<render fragments="userDetail" />
-		</on-render>
-	</view-state>
-
 
 	<view-state id="userModificationScreen" model="selectedUserToBeModified">
 		<on-render>
@@ -123,15 +101,6 @@
 		<transition on="updateOk" to="adminOperations">
 		</transition>
 		<transition on="cancel" to="adminOperations" bind="false">
-		</transition>
-	</view-state>
-
-	<view-state id="userModificationResults" popup="true">
-		<on-render>
-			<evaluate expression="userService.updateUser(selectedUserToBeModified)" />
-			<render fragments="userModificationResults" />
-		</on-render>
-		<transition on="updateOk" to="adminOperations">
 		</transition>
 	</view-state>
 
