@@ -51,7 +51,7 @@
 								</h:outputText>
 							</f:facet>
 							<p:commandButton id="reset" value="Reset Password"
-								action="resetpassword">
+								action="resetpassword" oncomplete="resetPwdDialog.show()">
 								<f:param name="passwordResetUserName" value="#{u.username}" />
 							</p:commandButton>
 						</p:column>
@@ -71,7 +71,20 @@
 
 				</p:outputPanel>
 			</p:panel>
-			<p:dialog widgetVar="confirmDialog" header="Confirmation"
+			<p:dialog widgetVar="resetPwdDialog" header="Password rest"
+				modal="true" width="300">
+				<p:outputPanel id="passwordResetContent">
+					<span class="errors"> <h:messages globalOnly="true" />
+					</span>
+					<p>Password was reset successfully. An email has been sent.</p>	
+				
+					<div class="buttonGroup">
+						<p:commandButton id="ok" value="Ok" process="@form" 
+						update="@form" action="passwordResetOk" />
+					</div>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog widgetVar="confirmDialog" header="User Details"
 				modal="true" width="300">
 
 				<p:fieldset legend="User Details">

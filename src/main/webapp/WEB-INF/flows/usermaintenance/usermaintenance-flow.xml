@@ -45,9 +45,13 @@
 			<set name="flowScope.userIdToBeDeleted" value="(requestParameters.userIdToBeDeleted)" />
 		</transition>
 		<!-- Reset Password -->
-		<transition on="resetpassword" to="paaswordResetResults">
+		<transition on="resetpassword" >
 			<set name="flowScope.passwordResetUserName" value="(requestParameters.passwordResetUserName)" />
+			<evaluate expression="userService.resetPassword(passwordResetUserName)" result="viewScope.resetUser" />
+			<evaluate expression="emailService.sendPasswordResetEmail(resetUser)"
+				result="viewScope.emailSendResult" />
 		</transition>
+		<transition on="passwordResetOk" to="adminOperations"/>
 	</view-state>
 
 	<view-state id="paaswordResetResults" popup="true">
@@ -62,22 +66,26 @@
 	</view-state>
 
 	<view-state id="userDeletionReviewScreen">
-		<transition on="no" to="adminOperations">
-		</transition>
-		<transition on="yes" to="userDeletionResultScreen">
-		</transition>
-	</view-state>
-
-	<view-state id="userDeletionResultScreen" popup="true">
-		<on-render>
+		<transition on="no" to="adminOperations"/>
+		<transition on="yes">
 			<evaluate
 				expression="userService.deleteUser(userIdToBeDeleted, currentUser.name)"
 				result="viewScope.userDeletionResults" />
-			<render fragments="userDeletionResult" />
-		</on-render>
+		</transition>
 		<transition on="ok" to="adminOperations">
 		</transition>
 	</view-state>
+
+<!-- 	<view-state id="userDeletionResultScreen" popup="true"> -->
+<!-- 		<on-render> -->
+<!-- 			<evaluate -->
+<!-- 				expression="userService.deleteUser(userIdToBeDeleted, currentUser.name)" -->
+<!-- 				result="viewScope.userDeletionResults" /> -->
+<!-- 			<render fragments="userDeletionResult" /> -->
+<!-- 		</on-render> -->
+<!-- 		<transition on="ok" to="adminOperations"> -->
+<!-- 		</transition> -->
+<!-- 	</view-state> -->
 
 <view-state id="userdetail" >
 <!-- 	<view-state id="userdetail" view="userDetail.xhtml" popup="true"> -->
@@ -109,7 +117,10 @@
 		</transition>
 		<transition on="back" to="adminOperations" bind="false">
 		</transition>
-		<transition on="updateUser" to="userModificationResults">
+		<transition on="updateUser" >
+			<evaluate expression="userService.updateUser(selectedUserToBeModified)" />
+		</transition>
+		<transition on="updateOk" to="adminOperations">
 		</transition>
 		<transition on="cancel" to="adminOperations" bind="false">
 		</transition>
@@ -120,7 +131,7 @@
 			<evaluate expression="userService.updateUser(selectedUserToBeModified)" />
 			<render fragments="userModificationResults" />
 		</on-render>
-		<transition on="ok" to="adminOperations">
+		<transition on="updateOk" to="adminOperations">
 		</transition>
 	</view-state>
 

@@ -3,7 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
-	  			xmlns:sf="http://www.springframework.org/tags/faces"
+	  			xmlns:p="http://primefaces.org/ui"
 				template="/WEB-INF/layouts/standard.xhtml">
 
 <ui:define name="content">
@@ -16,8 +16,8 @@
 			<h:outputText value="User could not be created. The user id you chose might already be in use." 
 			rendered="#{empty createdUser}"/>
 			<div class="buttonGroup">
-				<sf:commandButton id="back" value="Back" processIds="*" action="back" rendered="#{empty createdUser}"/>
-				<sf:commandButton id="Ok" value="Ok" action="ok"/>	
+				<p:commandButton id="back" value="Back" process="@form" action="back" rendered="#{empty createdUser}"/>
+				<p:commandButton id="Ok" value="Ok" action="ok"/>	
 			</div>
 		</ui:fragment>
 	</div>
