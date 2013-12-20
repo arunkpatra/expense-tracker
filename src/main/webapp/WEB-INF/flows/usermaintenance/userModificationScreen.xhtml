@@ -90,52 +90,42 @@
 			</div>
 		</h:form>
 		<h:form id="modifyAuths">
-			<div id="modifyUserAuthScreen">
-				<p:fieldset>
-					<h:outputText id="noRolesText" value="No roles found for this user"
-						rendered="#{userAuths.rowCount == 0}" />
-					<h:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-						var="a" rendered="#{userAuths.rowCount > 0}">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Authorization" />
-							</f:facet>
+			<p:fieldset id="roleList">
+				<h:outputText id="noRolesText" value="No roles found for this user"
+					rendered="#{userAuths.rowCount == 0}" />
+				<h:dataTable id="auths" styleClass="summary" value="#{userAuths}"
+					var="a" rendered="#{userAuths.rowCount > 0}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Authorization" />
+						</f:facet>
 									#{a.authority}			
 								</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Action">
-								</h:outputText>
-							</f:facet>
-							<p:commandButton id="deleteAuth" value="Delete" process=":modifyAuths"
-								action="deleteAuth" oncomplete="confirmDialog.show()" update=":modifyAuths">
-								<f:param name="authIdToDelete" value="#{a.id}" />
-							</p:commandButton>
-						</h:column>
-					</h:dataTable>
-					<div class="buttonGroup">
-						<p:commandButton id="addAuth" value="Add New Role" process="@form"
-							action="addAuth">
-							<f:param name="selectedUserName" value="#{selectedUser.username}"></f:param>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Action">
+							</h:outputText>
+						</f:facet>
+						<p:commandButton id="deleteAuth" value="Delete"
+							action="deleteAuth" oncomplete="confirmDialog.show()" >
+							<f:param name="authIdToDelete" value="#{a.id}" />
 						</p:commandButton>
-					</div>
-				</p:fieldset>
-			</div>
-			<p:dialog widgetVar="confirmDialog" header="Confirmation"
-				modal="true" width="300">
-				<div class="section">
-					<h2>Authorization deletion result</h2>
-					<ui:fragment id="deleteAuthResultsRecord">
-						<div id="deleteAuthResultsScreen">
-							<span class="errors"> <h:messages globalOnly="true" />
-							</span>
-							<p>The role was deleted successfully.</p>
-						</div>
-						<div class="buttonGroup">
-							<p:commandButton id="ok" value="Ok" process=":modifyAuths" action="deleteAuthOk" update=":modifyAuths"/>
-						</div>
-					</ui:fragment>
-				</div>
+					</h:column>
+				</h:dataTable>
+					<p:commandButton id="addAuth" value="Add New Role" process="@form"
+						action="addAuth">
+						<f:param name="selectedUserName" value="#{selectedUser.username}"></f:param>
+					</p:commandButton>
+			</p:fieldset>
+			<p:dialog widgetVar="confirmDialog" id="dlg1" 
+				header="Authorization deletion result" modal="true" width="300">
+				<p:outputPanel id="confirmContent">
+						<span class="errors"> <h:messages globalOnly="true" />
+						</span>
+						<p>The role was deleted successfully.</p>
+						<p:commandButton id="ok" value="Ok" action="deleteAuthOk"
+							update="roleList" />
+				</p:outputPanel>
 			</p:dialog>
 		</h:form>
 	</ui:define>

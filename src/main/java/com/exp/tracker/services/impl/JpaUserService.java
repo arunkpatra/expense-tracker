@@ -158,6 +158,7 @@ public class JpaUserService implements UserService {
 
 	@Transactional
 	public void removeAuthById(Long id) {
+	    System.out.println("**** JpaUserService.removeAuth()");
 		Query queryRemoveAuthority = em.createNamedQuery("removeAuthority");
 		queryRemoveAuthority.setParameter("id", id);
 		queryRemoveAuthority.executeUpdate();

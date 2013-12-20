@@ -96,8 +96,8 @@
 			<evaluate expression="userService.getUser(usernameTobeModified)"
 				result="flowScope.selectedUserToBeModified" />
 			<evaluate expression="selectedUserToBeModified.getAuthSet()"
-				result="viewScope.userAuths" result-type="dataModel" />
-			<render fragments="modifyUser"></render>
+				result="conversationScope.userAuths" result-type="dataModel" />
+<!-- 			<render fragments="modifyUser"></render> -->
 		</on-render>
 		<transition on="addAuth" to="addAuthScreen">
 		</transition>
