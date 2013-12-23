@@ -20,7 +20,7 @@
 	<view-state id="settlementGenerationEntry" model="settlement">
 		<on-render>
 			<evaluate expression="settlementService.getSettlements()"
-				result="viewScope.existingSettelements" result-type="dataModel" />
+				result="conversationScope.existingSettelements" result-type="dataModel" />
 		</on-render>
 		<transition on="next" to="settlementConfirmationScreen" />
 		<transition on="delete" to="settlementDeletionConfirmation">
