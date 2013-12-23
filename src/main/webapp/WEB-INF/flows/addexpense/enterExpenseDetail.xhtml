@@ -8,40 +8,39 @@
 	template="/WEB-INF/layouts/standard.xhtml">
 
 	<ui:define name="content">
-		<ui:fragment id="expenseDetailFragment">
-			<h:form id="mainForm">
-				<p:messages id="messages"  autoUpdate="true" closable="true" /> 
-				<p:fieldset id="expenseDetailsTable" legend="Enter expense details">
-					<p:panelGrid columns="2">
-						<h:outputLabel for="expenseDescription">Expense Description:</h:outputLabel>
-						<h:inputText id="expenseDescription"
-							value="#{expenseDetail.description}" required="true"
-							maxlength="64" label="Expense Description"/>
-						<h:outputLabel for="expenseDate">Expense Date:</h:outputLabel>
-						<h:inputText id="expenseDate" value="#{expenseDetail.date}"
-							required="true">
-							<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
-						</h:inputText>
-						<h:outputLabel for="paidBy">Paid by:</h:outputLabel>
-						<h:selectOneMenu id="paidBy" value="#{expenseDetail.paidBy}">
-							<f:selectItems value="#{userService.userNamesSelectItems}" />
-						</h:selectOneMenu>
-						<h:outputLabel for="expenseAmount">Expense Amount:</h:outputLabel>
-						<h:inputText id="expenseAmount" value="#{expenseDetail.amount}"
-							required="true" maxlength="7" />
-						<h:outputLabel for="expenseCategory">Expense Category:</h:outputLabel>
-						<h:inputText id="expenseCategory"
-							value="#{expenseDetail.category}" maxlength="32" />
+		<h:form id="mainForm">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<p:fieldset id="expenseDetailsTable" legend="Enter Expense Details">
+				<p:panelGrid columns="2" >
+					<h:outputLabel for="expenseDescription">Expense Description:</h:outputLabel>
+					<p:inputText id="expenseDescription"
+						value="#{expenseDetail.description}" maxlength="64"
+						label="Expense Description" />
+					<h:outputLabel for="expenseDate">Expense Date:</h:outputLabel>
+					<p:inputText id="expenseDate" value="#{expenseDetail.date}"
+						required="true">
+						<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+					</p:inputText>
+					<h:outputLabel for="paidBy">Paid by:</h:outputLabel>
+					<p:selectOneMenu id="paidBy" value="#{expenseDetail.paidBy}"
+						style="width:150px">
+						<f:selectItems value="#{userService.userNamesSelectItems}" />
+					</p:selectOneMenu>
+					<h:outputLabel for="expenseAmount">Expense Amount:</h:outputLabel>
+					<p:inputText id="expenseAmount" value="#{expenseDetail.amount}"
+						required="true" maxlength="7" />
+					<h:outputLabel for="expenseCategory">Expense Category:</h:outputLabel>
+					<p:inputText id="expenseCategory" value="#{expenseDetail.category}"
+						maxlength="32" />
 
-						<f:facet name="footer">
-							<p:commandButton id="calculateShares"
-								value="Distribute Shares Equally" action="calcShares"
-								update="userShares" />
-							<p:commandButton id="overrideShares" value="Override Shares"
-								action="overrideShares" update="userShares" />
-						</f:facet>
-					</p:panelGrid>
-				</p:fieldset>
+					<f:facet name="footer">
+						<p:commandButton id="calculateShares"
+							value="Distribute Shares Equally" action="calcShares"
+							update="userShares" />
+						<p:commandButton id="overrideShares" value="Override Shares"
+							action="overrideShares" update="userShares" />
+					</f:facet>
+				</p:panelGrid>
 
 				<!-- User details go here -->
 				<p:dataTable id="userShares" value="#{expenseDetail.userShares}"
@@ -67,8 +66,10 @@
 					<p:commandButton id="next" value="Next" process="@form"
 						action="next" />
 				</div>
+			</p:fieldset>
 
-			</h:form>
-		</ui:fragment>
+
+
+		</h:form>
 	</ui:define>
 </ui:composition>

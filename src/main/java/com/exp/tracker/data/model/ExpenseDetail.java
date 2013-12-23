@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.validation.ValidationContext;
@@ -205,6 +206,10 @@ public class ExpenseDetail implements Serializable {
 			calculateShareAmounts();
 		}
 		if ("next".equalsIgnoreCase(userEventName)) {
+		    if (StringUtils.isBlank(getDescription())) {
+		        MessageContext messages = context.getMessageContext();    
+                messages.addMessage(new MessageBuilder().error().code("description.is.empty").build());
+		    }
 			if (getAmount() == 0f) 
 			{
 				MessageContext messages = context.getMessageContext();	

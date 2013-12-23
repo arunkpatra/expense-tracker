@@ -16,13 +16,6 @@
 				result="flowScope.expenseDetail" />	
 	</on-start>
 	<view-state id="enterExpenseDetail" model="expenseDetail">
-	<!-- 
-		<on-entry>
-			<evaluate
-				expression="expenseService.getExpenseDetailBeanById(toBeEditedExpenseId)"
-				result="flowScope.expenseDetail" />
-		</on-entry>
-	 -->
 		<transition on="calcShares">
 			<evaluate expression="expenseDetail.calculateShareAmounts()" />
 		</transition>
@@ -31,7 +24,7 @@
 		</transition>
 		<transition on="next" to="reviewExpense">
 		</transition>
-		<transition on="cancel" to="saveCancelledScreen" bind="false" />
+		<transition on="cancel" to="saveCancelledScreen" bind="false" validate="false"/>
 	</view-state>
 
 	<view-state id="reviewExpense">
