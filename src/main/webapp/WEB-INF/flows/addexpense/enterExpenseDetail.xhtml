@@ -1,143 +1,74 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:sf="http://www.springframework.org/tags/faces" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	template="/WEB-INF/layouts/standard.xhtml">
 
 	<ui:define name="content">
 		<ui:fragment id="expenseDetailFragment">
-			<div id="messagesInsertionPoint" >
-				<h:messages class="errors" />
-			</div>
-			<div id="expenseDetailEntry" class="section">
-			<h2>Enter expense details</h2>			
 			<h:form id="mainForm">
-				<fieldset>
-					
-					<div class="field">
-						<div class="label">
-							<h:outputLabel for="expenseDescription">Expense Description:</h:outputLabel>
-						</div>
-						<div class="input">
-						
-							<sf:clientTextValidator required="true" promptMessage="Enter a short description for the expense." >
-								<h:inputText id="expenseDescription" value="#{expenseDetail.description}" required="true" maxlength="64"/>
-							</sf:clientTextValidator>
-						</div>
-					</div>
-					
-					<div class="field">
-						<div class="label">
-							<h:outputLabel for="expenseDate">Expense Date:</h:outputLabel>
-						</div>
-						<div class="input">				
-							<sf:clientDateValidator required="true" promptMessage="Enter the date on which you incurred this expense."
-							invalidMessage="Please specify a valid date. Format: MM/dd/yyyy">
-		        				<h:inputText id="expenseDate" value="#{expenseDetail.date}" required="true">
-	                				<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST"/>
-	                			</h:inputText>
-               				</sf:clientDateValidator>
-						</div>
-					</div>
-					<div class="field">
-						<div class="label"><h:outputLabel for="paidBy">Paid by:</h:outputLabel>
-						</div>
-						<div class="input">
-							<h:selectOneMenu id="paidBy" value="#{expenseDetail.paidBy}">
-								<f:selectItems value="#{userService.userNamesSelectItems}" />
-							</h:selectOneMenu> 
-						</div>
-					</div>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> 
+				<p:fieldset id="expenseDetailsTable" legend="Enter expense details">
+					<p:panelGrid columns="2">
+						<h:outputLabel for="expenseDescription">Expense Description:</h:outputLabel>
+						<h:inputText id="expenseDescription"
+							value="#{expenseDetail.description}" required="true"
+							maxlength="64" />
+						<h:outputLabel for="expenseDate">Expense Date:</h:outputLabel>
+						<h:inputText id="expenseDate" value="#{expenseDetail.date}"
+							required="true">
+							<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+						</h:inputText>
+						<h:outputLabel for="paidBy">Paid by:</h:outputLabel>
+						<h:selectOneMenu id="paidBy" value="#{expenseDetail.paidBy}">
+							<f:selectItems value="#{userService.userNamesSelectItems}" />
+						</h:selectOneMenu>
+						<h:outputLabel for="expenseAmount">Expense Amount:</h:outputLabel>
+						<h:inputText id="expenseAmount" value="#{expenseDetail.amount}"
+							required="true" maxlength="7" />
+						<h:outputLabel for="expenseCategory">Expense Category:</h:outputLabel>
+						<h:inputText id="expenseCategory"
+							value="#{expenseDetail.category}" maxlength="32" />
 
+						<f:facet name="footer">
+							<p:commandButton id="calculateShares"
+								value="Distribute Shares Equally" action="calcShares"
+								update="userShares" />
+							<p:commandButton id="overrideShares" value="Override Shares"
+								action="overrideShares" update="userShares" />
+						</f:facet>
+					</p:panelGrid>
+				</p:fieldset>
 
-				<div class="field">
-						<div class="label">
-							<h:outputLabel for="expenseAmount">Expense Amount:</h:outputLabel>
-						</div>
-						<div class="input">
-						<!-- 
-							^			# Start of string.
-							[0-9]+		# Must have one or more numbers.
-							(			# Begin optional group.
-							\.          # The decimal point, . must be escaped, 
-                    				    # or it is treated as "any character".
-    						[0-9]{1,2}  # One or two numbers.
-							)?          # End group, signify it's optional with ?
-							$           # End of string
-						 -->
-							<sf:clientTextValidator required="true" regExp="^[0-9]+(\.[0-9]{1,2})?$" promptMessage="Enter the expense amount." 
-							invalidMessage="Enter a valid amount.">
-								<h:inputText id="expenseAmount" value="#{expenseDetail.amount}" required="true" maxlength="7"/>
-							</sf:clientTextValidator>
-						</div>
-					</div>
-					
-					
-					
-					<div class="field">
-						<div class="label">
-							<h:outputLabel for="expenseCategory">Expense Category:</h:outputLabel>
-						</div>
-						<div class="input">
-							<sf:clientTextValidator promptMessage="Choose a cetegory.">
-								<h:inputText id="expenseCategory" value="#{expenseDetail.category}" maxlength="32"/>
-							</sf:clientTextValidator>
-						</div>
-					</div>
-					<div class="buttonGroup">
-						<sf:validateAllOnClick>
-							<sf:commandButton id="calculateShares" value="Distribute Shares Equally" processIds="*" action="calcShares" />
-						</sf:validateAllOnClick>	
-						
-						<sf:validateAllOnClick>
-							<sf:commandButton id="overrideShares" value="Override Shares" processIds="*" action="overrideShares" />
-						</sf:validateAllOnClick>
-						
-					</div>
-					<!-- User details go here -->
-					<h:dataTable id="userShares" styleClass="summary" value="#{expenseDetail.userShares}" var="us" >
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="-">
-                			</h:outputText>
-						</f:facet>
-						<div class="input">
-							<h:selectBooleanCheckbox id="participationFlag" value="#{us.participationFlag}"/>
-						</div> 
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Name">
-                			</h:outputText>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{us.name}">
-                			</h:outputText>
-            			</div>
-					</h:column>
-					
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Share Amount">
-                			</h:outputText>
-						</f:facet>
-						
-                			<h:outputText value="#{us.shareAmount}" rendered="#{expenseDetail.overrideSharesFlag == false}" />
-                			
-            				<h:inputText value="#{us.shareAmount}" rendered="#{expenseDetail.overrideSharesFlag == true}" />
-					</h:column>			
-				</h:dataTable>
+				<!-- User details go here -->
+				<p:dataTable id="userShares" value="#{expenseDetail.userShares}"
+					var="us">
+					<p:column headerText="-">
+						<h:selectBooleanCheckbox id="participationFlag"
+							value="#{us.participationFlag}" />
+					</p:column>
+					<p:column headerText="Name">
+						<h:outputText value="#{us.name}" />
+					</p:column>
+
+					<p:column headerText="Share Amount">
+						<h:outputText value="#{us.shareAmount}"
+							rendered="#{expenseDetail.overrideSharesFlag == false}" />
+
+						<h:inputText value="#{us.shareAmount}"
+							rendered="#{expenseDetail.overrideSharesFlag == true}" />
+					</p:column>
+				</p:dataTable>
 				<div class="buttonGroup">
-					<sf:commandButton id="cancel" value="Cancel" action="cancel"/>	
-						<sf:validateAllOnClick>
-							<sf:commandButton id="next" value="Next" processIds="*" action="next" />
-						</sf:validateAllOnClick>
+					<p:commandButton id="cancel" value="Cancel" action="cancel" />
+					<p:commandButton id="next" value="Next" process="@form"
+						action="next" />
 				</div>
-				</fieldset>
-			</h:form></div>
+
+			</h:form>
 		</ui:fragment>
 	</ui:define>
 </ui:composition>
