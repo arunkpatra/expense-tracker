@@ -15,12 +15,14 @@
 					<p:panelGrid columns="2">
 						<h:outputLabel for="startDate">Settlement Start Date:</h:outputLabel>
 						<p:calendar value="#{settlement.startDate}" id="startDate"
-							pattern="MM/dd/yyyy" timeZone="EST" required="true" requiredMessage="Please enter Settlement Start Date"/>
+							pattern="MM/dd/yyyy" timeZone="EST" required="true"
+							requiredMessage="Please enter Settlement Start Date" />
 
 
 						<h:outputLabel for="endDate">Settlement End Date:</h:outputLabel>
 						<p:calendar value="#{settlement.endDate}" id="endDate"
-							pattern="MM/dd/yyyy" timeZone="EST" required="true" requiredMessage="Please enter Settlement End Date"/>
+							pattern="MM/dd/yyyy" timeZone="EST" required="true"
+							requiredMessage="Please enter Settlement End Date" />
 
 					</p:panelGrid>
 					<p:commandButton id="next" value="Next" processIds="*"
@@ -33,53 +35,44 @@
 				<h:outputText id="noSettlementsText"
 					value="No previous settlements exist."
 					rendered="#{existingSettelements.rowCount == 0}" />
-				<div class="label">
-					<h:outputLabel rendered="#{existingSettelements.rowCount > 0}">Existing settlements</h:outputLabel>
-				</div>
-				<p:dataTable id="settlements" styleClass="summary"
-					value="#{existingSettelements}" var="s"
-					rendered="#{existingSettelements.rowCount > 0}">
+				<h:outputLabel rendered="#{existingSettelements.rowCount > 0}">Existing settlements</h:outputLabel>
+
+				<p:dataTable id="settlementsTable" value="#{existingSettelements}"
+					var="s" rendered="#{existingSettelements.rowCount > 0}">
 					<p:column headerText="Settl. Id">
 						<a
 							href="${request.contextPath}/et/settlementSubReport.pdf?sid=#{s.id}"
 							target="blank"> #{s.id} </a>
 					</p:column>
 					<p:column headerText="Start Date">
-						<div class="output" align="center">
-							<h:outputText value="#{s.startDate}">
-								<f:convertDateTime dateStyle="short" timeZone="EST"
-									pattern="MM/dd/yyyy" />
-							</h:outputText>
-						</div>
+						<h:outputText value="#{s.startDate}">
+							<f:convertDateTime dateStyle="short" timeZone="EST"
+								pattern="MM/dd/yyyy" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="End Date">
-						<div class="output" align="center">
-							<h:outputText value="#{s.endDate}">
-								<f:convertDateTime dateStyle="short" timeZone="EST"
-									pattern="MM/dd/yyyy" />
-							</h:outputText>
-						</div>
+						<h:outputText value="#{s.endDate}">
+							<f:convertDateTime dateStyle="short" timeZone="EST"
+								pattern="MM/dd/yyyy" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="Settled">
-						<div class="output" align="center">
-							<h:outputText value="Yes" rendered="#{s.settlementFlag == 1}" />
-							<h:outputText value="No" rendered="#{s.settlementFlag == 0}" />
-						</div>
+						<h:outputText value="Yes" rendered="#{s.settlementFlag == 1}" />
+						<h:outputText value="No" rendered="#{s.settlementFlag == 0}" />
 					</p:column>
 
 					<p:column headerText="Exp. Report">
-						<div class="output" align="center">
-							<a href="${request.contextPath}/et/expenseReport.pdf?sid=#{s.id}"
-								target="blank"> <img
-								src="${request.contextPath}/images/pdficon_small.gif"
-								alt="Exp. Report" />
-							</a>
-						</div>
+						<a href="${request.contextPath}/et/expenseReport.pdf?sid=#{s.id}"
+							target="blank"> <img
+							src="${request.contextPath}/images/pdficon_small.gif"
+							alt="Exp. Report" />
+						</a>
 					</p:column>
 
 					<p:column headerText="Close">
 						<p:commandButton id="settle" value="Close" processIds="*"
-							action="completeSettlement" rendered="#{(s.settlementFlag == 0)}">
+							oncomplete="confirmDialog.show()" action="completeSettlement"
+							rendered="#{(s.settlementFlag == 0)}">
 							<f:param name="settlementId" value="#{s.id}" />
 						</p:commandButton>
 					</p:column>
@@ -90,8 +83,22 @@
 							<f:param name="settlementId" value="#{s.id}" />
 						</p:commandButton>
 					</p:column>
-
 				</p:dataTable>
+				<p:dialog widgetVar="confirmDialog" id="dlg1"
+					header="Settlement Closure Result" modal="true" width="300">
+					<p:outputPanel id="confirmContent">
+						<p:messages id="messages1" autoUpdate="true" closable="true" />
+						<h:outputText value="Settlement was closed successfully."
+							rendered="#{settlementClosureResult == 0}" />
+						<h:outputText
+							value="You can not close a settlement while there are still records to settle."
+							rendered="#{settlementClosureResult == 1}" />
+
+						<p:commandButton id="ok" value="Ok" action="ok"
+							update="settlementsTable" />
+
+					</p:outputPanel>
+				</p:dialog>
 			</h:form>
 		</sec:authorize>
 

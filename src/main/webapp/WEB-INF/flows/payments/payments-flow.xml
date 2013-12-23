@@ -18,12 +18,15 @@
 	<view-state id="currentPayments">
 		<on-entry>
 			<evaluate expression="paymentService.getPaymnentsForUser(currentUser.name)"
-				result="viewScope.userPayments" result-type="dataModel" />
+				result="conversationScope.userPayments" result-type="dataModel" />
 			<evaluate expression="paymentService.getAllPayments()"
-				result="viewScope.allPayments" result-type="dataModel" />
+				result="conversationScope.allPayments" result-type="dataModel" />
 		</on-entry>
-		<transition on="settleTransaction" to="paymentResult">
+		<transition on="settleTransaction" >			
 			<set name="flowScope.selectedUserSettlementId" value="(requestParameters.userSettlementId)" />
+			<evaluate expression="paymentService.applyUserPayment(selectedUserSettlementId)" />
+		</transition>
+		<transition on="ok" to="currentPayments">
 		</transition>
 	</view-state>
 

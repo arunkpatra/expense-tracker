@@ -4,179 +4,171 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:sf="http://www.springframework.org/tags/faces"
-	xmlns:acegijsf="http://sourceforge.net/projects/jsf-comp/acegijsf" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
 	template="/WEB-INF/layouts/standard.xhtml">
 
 	<ui:define name="content">
-		<ui:fragment id="payments">
-			<div id="paymentsDetails" class="section"><span
-				class="errors"> <h:messages globalOnly="true" /> </span>
-			<h2>Payments</h2>
-			<h:form id="mainForm">
+		<h2>Payments</h2>
+		<h:form id="mainForm">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
 			<!-- USER ONLY PAGE -->
-				<acegijsf:authorize ifNotGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
-				<h:outputText id="noShareText" value="No outstanding payments or receipts for you." rendered="#{userPayments.rowCount == 0}"/>
-				<h:dataTable id="shares" styleClass="summary" value="#{userPayments}" var="up" rendered="#{userPayments.rowCount > 0}">
+			<sec:authorize ifNotGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
+				<h:outputText id="noShareText"
+					value="No outstanding payments or receipts for you."
+					rendered="#{userPayments.rowCount == 0}" />
+				<h:dataTable id="shares" styleClass="summary"
+					value="#{userPayments}" var="up"
+					rendered="#{userPayments.rowCount > 0}">
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Sttlmt. Id"></h:outputText>
 						</f:facet>
-						<a href="${request.contextPath}/spring/settlementSubReport.pdf?sid=#{up.settlementId}" target="blank">
-							#{up.settlementId}
-						</a>
-						
+						<a
+							href="${request.contextPath}/et/settlementSubReport.pdf?sid=#{up.settlementId}"
+							target="blank"> #{up.settlementId} </a>
 					</h:column>
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Exp. Report">
-                			</h:outputText>
+							</h:outputText>
 						</f:facet>
 						<div class="output" align="center">
-                			<a href="${request.contextPath}/spring/expenseReport.pdf?sid=#{up.settlementId}" target="blank" >
-                				<img src="${request.contextPath}/resources/images/pdficon_small.gif" alt="Exp. Report" />
-                			</a>
-            			</div>
+							<a
+								href="${request.contextPath}/et/expenseReport.pdf?sid=#{up.settlementId}"
+								target="blank"> <img
+								src="${request.contextPath}/images/pdficon_small.gif"
+								alt="Exp. Report" />
+							</a>
+						</div>
 					</h:column>
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Amount"></h:outputText>
 						</f:facet>
 						<div class="output">
-                			<h:outputText value="#{up.amount}" >
-                				<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                			</h:outputText>
-            			</div>            			
+							<h:outputText value="#{up.amount}">
+								<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+							</h:outputText>
+						</div>
 					</h:column>
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Start Date"></h:outputText>
 						</f:facet>
 						<div class="output">
-                			<h:outputText value="#{up.startDate}">
-                				<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
-                			</h:outputText>
-            			</div>            			
+							<h:outputText value="#{up.startDate}">
+								<f:convertDateTime dateStyle="short" timeZone="EST"
+									pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</div>
 					</h:column>
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="End Date"></h:outputText>
 						</f:facet>
 						<div class="output">
-                			<h:outputText value="#{up.endDate}">
-                				<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
-                			</h:outputText>
-            			</div>            			
+							<h:outputText value="#{up.endDate}">
+								<f:convertDateTime dateStyle="short" timeZone="EST"
+									pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</div>
 					</h:column>
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Payment"></h:outputText>
 						</f:facet>
-						<!-- If user has debit -->	
-						<h:outputText value="Not Paid" rendered="#{(up.settledFlag == 0) and (up.amount lt 0)}" style="font-weight: bold; color: red"/>
-						<h:outputText value="Paid" rendered="#{(up.settledFlag == 1) and (up.amount lt 0)}"/>							
+						<!-- If user has debit -->
+						<h:outputText value="Not Paid"
+							rendered="#{(up.settledFlag == 0) and (up.amount lt 0)}"
+							style="font-weight: bold; color: red" />
+						<h:outputText value="Paid"
+							rendered="#{(up.settledFlag == 1) and (up.amount lt 0)}" />
 						<!-- If user has credit -->
-						<h:outputText value="Recieved" rendered="#{(up.settledFlag == 1) and (up.amount >= 0)}"/>
-						<h:outputText value="Pending" rendered="#{(up.settledFlag == 0) and (up.amount >= 0)}" style="font-weight: bold; color: red"/>   			
+						<h:outputText value="Recieved"
+							rendered="#{(up.settledFlag == 1) and (up.amount >= 0)}" />
+						<h:outputText value="Pending"
+							rendered="#{(up.settledFlag == 0) and (up.amount >= 0)}"
+							style="font-weight: bold; color: red" />
 					</h:column>
 				</h:dataTable>
-				</acegijsf:authorize>
-				
-				
-				<!-- ********************************************************************************************* -->
-				<!-- SUPERVISOR ONLY SCREEN -->
-				<acegijsf:authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
-				<h:outputText id="noShareText" value="No outstanding payments or receipts for any user." rendered="#{allPayments.rowCount == 0}"/>
-				<h:dataTable id="shares" styleClass="summary" value="#{allPayments}" var="ap" rendered="#{allPayments.rowCount > 0}">
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Sttlmt. Id"></h:outputText>
-						</f:facet>
-						<div class="output">
-						<a href="${request.contextPath}/spring/settlementSubReport.pdf?sid=#{ap.settlementId}" target="blank">
-							#{ap.settlementId}
-						</a>
-            			</div>	
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Exp. Report"></h:outputText>
-						</f:facet>
-						<div class="output" align="center">
-                			<a href="${request.contextPath}/spring/expenseReport.pdf?sid=#{ap.settlementId}" target="blank" >
-                				<img src="${request.contextPath}/resources/images/pdficon_small.gif" alt="Exp. Report" />
-                			</a>            			
-            			</div>	
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="User"></h:outputText>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{ap.userName}">
-                			</h:outputText>
-            			</div>	
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Amt."></h:outputText>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{ap.amount}">
-                				<f:convertNumber maxFractionDigits="2"/>
-                				<!-- 
-                				<f:convertNumber type="currency" currencySymbol="Rs."/>
-                				 -->
-                			</h:outputText>
-            			</div>            			
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Start Date"></h:outputText>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{ap.startDate}">
-                				<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
-                			</h:outputText>
-            			</div>            			
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="End Date"></h:outputText>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{ap.endDate}">
-                				<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
-                			</h:outputText>
-            			</div>            			
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Status"></h:outputText>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="Settled" rendered="#{(ap.settledFlag == 1)}"/>
-                			<h:outputText value="Pending" rendered="#{(ap.settledFlag == 0)}"/>
-            			</div>            			
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Action"></h:outputText>
-						</f:facet>
-            			    <!-- This action will settle this record. Admin must recieve paper money from user first -->       			
-							<sf:commandButton id="moneyPaidByUser" value="Recieve" processIds="*" action="settleTransaction" 
-							rendered="#{(ap.settledFlag == 0) and (ap.amount lt 0)}">
+			</sec:authorize>
+
+
+			<!-- ********************************************************************************************* -->
+			<!-- SUPERVISOR ONLY SCREEN -->
+			<sec:authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
+				<p:fieldset id="paymentDetailsTable1" legend="Payments">
+					<h:outputText id="noShareText1"
+						value="No outstanding payments or receipts for any user."
+						rendered="#{allPayments.rowCount == 0}" />
+					<p:dataTable id="shares1" value="#{allPayments}" var="ap"
+						rendered="#{allPayments.rowCount > 0}">
+						<p:column headerText="Sttlmt. Id">
+							<a
+								href="${request.contextPath}/et/settlementSubReport.pdf?sid=#{ap.settlementId}"
+								target="blank"> #{ap.settlementId} </a>
+						</p:column>
+						<p:column headerText="Exp. Report">
+							<a
+								href="${request.contextPath}/et/expenseReport.pdf?sid=#{ap.settlementId}"
+								target="blank"> <img
+								src="${request.contextPath}/images/pdficon_small.gif"
+								alt="Exp. Report" />
+							</a>
+						</p:column>
+						<p:column headerText="User">
+							<h:outputText value="#{ap.userName}" />
+						</p:column>
+						<p:column headerText="Amt.">
+							<h:outputText value="#{ap.amount}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Start Date">
+							<h:outputText value="#{ap.startDate}">
+								<f:convertDateTime dateStyle="short" timeZone="EST"
+									pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="End Date">
+							<h:outputText value="#{ap.endDate}">
+								<f:convertDateTime dateStyle="short" timeZone="EST"
+									pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Status">
+							<h:outputText value="Settled" rendered="#{(ap.settledFlag == 1)}" />
+							<h:outputText value="Pending" rendered="#{(ap.settledFlag == 0)}" />
+						</p:column>
+						<p:column headerText="Action">
+							<!-- This action will settle this record. Admin must recieve paper money from user first -->
+							<p:commandButton id="moneyPaidByUser" value="Recieve"
+								processIds="*" action="settleTransaction"
+								oncomplete="confirmDialog.show()"
+								rendered="#{(ap.settledFlag == 0) and (ap.amount lt 0)}">
 								<f:param name="userSettlementId" value="#{ap.userSettlementId}" />
-							</sf:commandButton>
-						           			
-						    <sf:commandButton id="paid" value="Disburse" processIds="*" action="settleTransaction" 
-							rendered="#{(ap.settledFlag == 0) and (ap.amount gt 0)}">
+							</p:commandButton>
+
+							<p:commandButton id="paid" value="Disburse" processIds="*"
+								action="settleTransaction" oncomplete="confirmDialog.show()"
+								rendered="#{(ap.settledFlag == 0) and (ap.amount gt 0)}">
 								<f:param name="userSettlementId" value="#{ap.userSettlementId}" />
-							</sf:commandButton>		
-					</h:column>
-				</h:dataTable>
-				</acegijsf:authorize>			
-			</h:form></div>
-		</ui:fragment>
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+				<p:dialog widgetVar="confirmDialog" id="dlg1"
+					header="Payment Confirmation" modal="true" width="300">
+					<p:outputPanel id="confirmContent">
+						<p:messages id="messages1" autoUpdate="true" closable="true" />
+						<p>Transaction completed successfully.</p>
+						<p:commandButton id="ok" value="Ok" action="ok"
+							update="paymentDetailsTable1" />
+					</p:outputPanel>
+				</p:dialog>
+			</sec:authorize>
+
+		</h:form>
 	</ui:define>
 </ui:composition>

@@ -26,9 +26,13 @@
 		<transition on="delete" to="settlementDeletionConfirmation">
 			<set name="flowScope.toBeDeletedSettlementId" value="(requestParameters.settlementId)" />
 		</transition>
-		<transition on="completeSettlement" to="settlementCompletionScreen">
+		<transition on="completeSettlement" >
 			<set name="flowScope.selectedSettlementId" value="(requestParameters.settlementId)" />
+			<evaluate
+				expression="settlementService.completeSettlement(selectedSettlementId)"
+				result="conversationScope.settlementClosureResult" />			
 		</transition>
+		<transition on="ok" to="settlementGenerationEntry"/>
 	</view-state>
 
 	<view-state id="settlementDeletionConfirmation">
