@@ -23,7 +23,7 @@
 					</p:inputText>
 					<h:outputLabel for="paidBy">Paid by:</h:outputLabel>
 					<p:selectOneMenu id="paidBy" value="#{expenseDetail.paidBy}"
-						style="width:150px">
+						style="width:150px" >
 						<f:selectItems value="#{userService.userNamesSelectItems}" />
 					</p:selectOneMenu>
 					<h:outputLabel for="expenseAmount">Expense Amount:</h:outputLabel>
@@ -67,9 +67,6 @@
 						action="next" />
 				</div>
 			</p:fieldset>
-
-
-
 		</h:form>
 	</ui:define>
 </ui:composition>
