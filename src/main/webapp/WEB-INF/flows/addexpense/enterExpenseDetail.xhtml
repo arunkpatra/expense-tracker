@@ -16,12 +16,11 @@
 					<p:inputText id="expenseDescription"
 						value="#{expenseDetail.description}" maxlength="64"
 						label="Expense Description" />
-					<h:outputLabel for="expenseDate">Expense Date:</h:outputLabel>
-					<p:inputText id="expenseDate" value="#{expenseDetail.date}"
-						required="true">
-						<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
-					</p:inputText>
-					<h:outputLabel for="paidBy">Paid by:</h:outputLabel>
+
+					<h:outputLabel for="expenseDate" >Expense Date:</h:outputLabel>
+					<p:calendar value="#{expenseDetail.date}" id="expenseDate" pattern="MM/dd/yyyy" timeZone="EST"/> 					
+					
+					<h:outputLabel >Paid by:</h:outputLabel>
 					<p:selectOneMenu id="paidBy" value="#{expenseDetail.paidBy}"
 						style="width:150px" >
 						<f:selectItems value="#{userService.userNamesSelectItems}" />
