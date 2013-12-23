@@ -1,0 +1,57 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="content">
+		<h:form id="expenses">
+			<h2>Expense Search Results</h2>
+			<h:outputText id="noExpensesText" value="No Expenses Found"
+				rendered="#{expenses.rowCount == 0}" />
+			<p:dataTable id="expenses" value="#{expenses}" var="e"
+				rendered="#{expenses.rowCount > 0}">
+				<p:column headerText="Description">
+					<p:commandLink id="viewExpenseDetail" action="viewdetail"
+						value="#{e.description}" processIds="*">
+						<f:param name="expenseId" value="#{e.id}" />
+					</p:commandLink>
+				</p:column>
+				<p:column headerText="Paid By">
+					<h:outputText value="#{e.paidBy}" />
+				</p:column>
+				<p:column headerText="Amount">
+					<h:outputText value="#{e.amount}" />
+				</p:column>
+				<p:column headerText="Date">
+					<h:outputText value="#{e.date}">
+						<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Settl. Id">
+					<a
+						href="${request.contextPath}/spring/settlementSubReport.pdf?sid=#{e.settlementId}"
+						target="blank">#{e.settlementId}</a>
+				</p:column>
+				<p:column headerText="Edit">
+					<p:commandButton id="editExpense" value="Edit" processIds="*"
+						action="editExpense"
+						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+						<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="Delete">
+					<p:commandButton id="deleteExpense" value="Delete" processIds="*"
+						action="deleteExpense"
+						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+						<f:param name="expenseId" value="#{e.id}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

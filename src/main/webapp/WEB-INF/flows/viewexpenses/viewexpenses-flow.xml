@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+	
+	<!-- Secure the flow. -->
+	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any"/>
+	<!-- Attach a persistence context to this flow -->
+	
+	<!-- 
+	<persistence-context />
+	 -->
+
+	<var name="expenseSearchCriteria" class="com.exp.tracker.data.model.ExpenseSearchCriteria" />
+
+	<on-start>
+		<evaluate expression="userService.getUser(currentUser.name)"
+			result="flowScope.etUser" />
+	</on-start>
+	<view-state id="enterExpenseSearchCriteria" model="expenseSearchCriteria">
+		<!--
+			<on-entry> <evaluate
+			expression="expenseSearchCriteria.setPaidBy(currentUser.name)" />
+			</on-entry>
+		-->
+		<transition on="search" to="expenseSearchResult" />
+	</view-state>
+
+	<view-state id="expenseSearchResult" model="expenses">
+		<on-render>
+			<evaluate expression="expenseService.getExpenses(expenseSearchCriteria)"
+				result="conversationScope.expenses" result-type="dataModel" />
+				<!-- 
+				<render fragments="expenses"></render>
+				 -->
+		</on-render>
+		<transition on="sort">
+			<set name="expenseSearchCriteria.sortBy" value="requestParameters.sortBy" />
+			<render fragments="expenses:searchResultsFragment" />
+		</transition>
+		<!-- 
+		<transition on="viewdetail" to="expenseDetail">
+			<set name="flowScope.selectedExpenseId" value="(requestParameters.expenseId)" />
+		</transition>
+		 -->
+		<transition on="viewdetail" to="viewExpenseFlow">
+			<set name="flowScope.toBeViewedExpenseId" value="(requestParameters.expenseId)" />
+		</transition>
+		
+		<transition on="deleteExpense" to="expenseDeletionResults">
+			<set name="flowScope.selectedExpenseId" value="(requestParameters.expenseId)" />
+		</transition>
+		
+		<transition on="editExpense" to="editExpenseFlow">
+			<set name="flowScope.toBeEditedExpenseId" value="(requestParameters.toBeEditedExpenseId)" />
+		</transition>
+	</view-state>	
+	
+	<subflow-state id="viewExpenseFlow" subflow="viewexpensedetail">
+		<input name="toBeViewedExpenseId" value="toBeViewedExpenseId" />
+		<transition on="finish" to="expenseSearchResult">
+		</transition>
+	</subflow-state>
+	
+	<subflow-state id="editExpenseFlow" subflow="addexpense">
+		<input name="toBeEditedExpenseId" value="toBeEditedExpenseId" />
+		<transition on="saveCancelled" to="expenseSearchResult" />
+		<transition on="finish" to="expenseSearchResult" />
+	</subflow-state>
+
+
+	<view-state id="expenseDeletionResults" popup="true">
+		<on-render>
+			<evaluate expression="expenseService.deleteExpenseById(selectedExpenseId)"
+				result="viewScope.expenseDeletionResult" />
+			<render fragments="expenseDeletionResults" />
+		</on-render>
+		<transition on="ok" to="expenseSearchResult" />
+	</view-state>
+<!-- 
+	<view-state id="expenseDetail" view="expenseDetail.xhtml" popup="true">
+		<on-render>
+			<evaluate expression="expenseService.getExpenseById(selectedExpenseId)"
+				result="viewScope.selectedExpense" />
+			<evaluate expression="selectedExpense.getUserExpenseSet()"
+				result="viewScope.userShares" result-type="dataModel" />
+
+			<render fragments="expenseDetail" />
+		</on-render>
+		<transition on="editExpense">
+			<evaluate expression="selectedExpense.editRecord()" />
+		</transition>
+	</view-state>
+ -->
+	
+	<end-state id="finish" />
+</flow>

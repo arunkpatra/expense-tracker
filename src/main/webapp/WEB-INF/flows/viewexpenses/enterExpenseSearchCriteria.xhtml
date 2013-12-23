@@ -1,0 +1,54 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="content">
+		<ui:fragment id="expenseSearchCriteriaFragment">
+			<div id="expenseSearchCriteria" class="section">
+				<div id="messagesInsertionPoint">
+					<h:messages errorClass="errors" />
+				</div>
+				<h2>Enter expense search criteria</h2>
+				<h:form id="mainForm">
+					<fieldset>
+						<div class="field">
+							<div class="label">
+								<h:outputLabel for="startDate">Start Date:</h:outputLabel>
+							</div>
+							<div class="input">
+								<h:inputText id="startDate"
+									value="#{expenseSearchCriteria.startDate}" required="true">
+									<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+								</h:inputText>
+							</div>
+						</div>
+						<div class="field">
+							<div class="label">
+								<h:outputLabel for="endDate">End Date:</h:outputLabel>
+							</div>
+							<div class="input">
+
+								<h:inputText id="endDate"
+									value="#{expenseSearchCriteria.endDate}" required="true">
+									<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+								</h:inputText>
+
+							</div>
+						</div>
+
+						<div class="buttonGroup">
+
+							<p:commandButton id="searchExpenses" value="Search Expenses"
+								processIds="*" action="search" />
+
+						</div>
+					</fieldset>
+				</h:form>
+			</div>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
