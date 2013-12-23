@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Secure the flow. -->
+	<secured attributes="ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any" />
+	<!-- Attach a persistence context to this flow -->
+	<!-- 
+	<persistence-context />
+	  -->
+
+	<var name="settlement" class="com.exp.tracker.data.model.SettlementBean" />
+	<var name="printSettlementReportAction" class="com.exp.tracker.app.action.PrintSettlementReportAction" />
+	<on-start>
+		<evaluate expression="userService.getUser(currentUser.name)"
+			result="flowScope.etUser" />
+	</on-start>
+	<view-state id="settlementGenerationEntry" model="settlement">
+		<on-render>
+			<evaluate expression="settlementService.getSettlements()"
+				result="viewScope.existingSettelements" result-type="dataModel" />
+		</on-render>
+		<transition on="next" to="settlementConfirmationScreen" />
+		<transition on="delete" to="settlementDeletionConfirmation">
+			<set name="flowScope.toBeDeletedSettlementId" value="(requestParameters.settlementId)" />
+		</transition>
+		<transition on="completeSettlement" to="settlementCompletionScreen">
+			<set name="flowScope.selectedSettlementId" value="(requestParameters.settlementId)" />
+		</transition>
+	</view-state>
+
+	<view-state id="settlementDeletionConfirmation">
+		<transition on="yes" to="settlementDeletionResults">
+			<evaluate
+				expression="settlementService.deleteSettlement(toBeDeletedSettlementId)"
+				result="flowScope.settlementDeletionResult" />
+		</transition>
+		<transition on="no" to="settlementGenerationEntry" bind="false" />
+	</view-state>
+
+	<view-state id="settlementDeletionResults">
+		<transition on="ok" to="settlementGenerationEntry" />
+	</view-state>
+
+	<view-state id="settlementConfirmationScreen">
+		<on-render>
+			<evaluate expression="expenseService.getUnsettledExpenses(settlement)"
+				result="conversationScope.expenses" result-type="dataModel" />
+		</on-render>
+		<transition on="createSettlement" to="settlementGenerationResult">
+			<evaluate expression="settlementService.createSettlement(settlement)"
+				result="flowScope.settlementCreationId" />
+			<evaluate
+				expression="reportService.generateSettlementReport(settlementCreationId, flowRequestContext)" />
+			<!--
+				These following tasks have now been chained internally with the
+				above task
+			-->
+			<!--
+				<evaluate
+				expression="reportService.generateExpenseReport(settlementCreationId,
+				flowRequestContext)" /> <evaluate
+				expression="emailService.sendSettlementEmail(settlementCreationId)"
+				result="flowScope.emailSendResult" />
+			-->
+		</transition>
+		<!-- Go Back one screen -->
+		<transition on="cancel" to="settlementGenerationEntry">
+		</transition>
+
+		<transition on="editExpense" to="editExpenseFlow">
+			<set name="flowScope.toBeEditedExpenseId" value="(requestParameters.toBeEditedExpenseId)" />
+		</transition>
+		<transition on="viewdetail" to="viewExpenseFlow">
+			<set name="flowScope.toBeViewedExpenseId" value="(requestParameters.expenseId)" />
+		</transition>
+	</view-state>
+
+	<subflow-state id="viewExpenseFlow" subflow="viewexpensedetail">
+		<input name="toBeViewedExpenseId" value="toBeViewedExpenseId" />
+		<transition on="finish" to="settlementConfirmationScreen">
+		</transition>
+	</subflow-state>
+	
+	<subflow-state id="editExpenseFlow" subflow="addexpense">
+		<input name="toBeEditedExpenseId" value="toBeEditedExpenseId" />
+		<transition on="saveCancelled" to="settlementConfirmationScreen" />
+		<transition on="finish" to="settlementConfirmationScreen">
+			<!--
+				<evaluate
+				expression="expenseService.getUnsettledExpenses(settlement)"
+				result="flowScope.expenses" result-type="dataModel" />
+			-->
+		</transition>
+	</subflow-state>
+
+	<view-state id="settlementCompletionScreen" popup="true">
+		<on-render>
+			<evaluate
+				expression="settlementService.completeSettlement(selectedSettlementId)"
+				result="viewScope.settlementClosureResult" />
+			<render fragments="settlementCompletionResults" />
+		</on-render>
+		<transition on="ok" to="settlementGenerationEntry">
+		</transition>
+	</view-state>
+
+	<view-state id="settlementGenerationResult">
+		<!--
+			<on-render> <evaluate
+			expression="printSettlementReportAction.setReportGenerationResult(reportGenerationResult)"
+			/> <evaluate expression="printSettlementReportAction" /> </on-render>
+		-->
+		<!--
+			<on-render> <evaluate
+			expression="settlementService.createSettlement(settlement)"
+			result="flowScope.settlementCreationId" /> <evaluate
+			expression="emailService.sendSettlementEmail(settlementCreationId)"
+			result="flowScope.emailSendResult" /> <evaluate
+			expression="reportService.generateSettlementReport(settlementCreationId,
+			flowRequestContext)" result="flowScope.reportGenerationResult" />
+
+			</on-render>
+		-->
+		<!--
+			<transition on="print"> <evaluate
+			expression="printSettlementReportAction.setReportGenerationResult(reportGenerationResult)"
+			/> <evaluate expression="printSettlementReportAction" />
+			</transition>
+		-->
+	</view-state>
+
+	<view-state id="printpage" popup="true"
+		view="externalRedirect:/spring/simpleReport.pdf">
+		<on-entry>
+			<evaluate expression="printSettlementReportAction" />
+		</on-entry>
+	</view-state>
+
+
+	<end-state id="finish" />
+</flow>

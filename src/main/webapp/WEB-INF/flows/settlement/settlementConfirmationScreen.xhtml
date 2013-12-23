@@ -1,0 +1,63 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="expenses">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<h2>Settlement Confirmation</h2>
+			<h:outputText id="noExpensesText"
+				value="No expenses were found to settle."
+				rendered="#{expenses.rowCount == 0}" />
+
+
+			<h:outputLabel id="verifyText"
+				value="Following expenses will be settled. Please verify this list."
+				rendered="#{expenses.rowCount > 0}" />
+
+			<p:dataTable id="expenses" styleClass="summary" value="#{expenses}"
+				var="e" rendered="#{expenses.rowCount > 0}">
+				<p:column headerText="Description">
+					<p:commandLink id="viewExpenseDetail" action="viewdetail"
+						value="#{e.description}" processIds="*">
+						<f:param name="expenseId" value="#{e.id}" />
+					</p:commandLink>
+				</p:column>
+				<p:column headerText="Paid By">
+					<h:outputText value="#{e.paidBy}" />
+				</p:column>
+				<p:column headerText="Amount">
+
+					<h:outputText value="#{e.amount}" />
+
+				</p:column>
+				<p:column headerText="Date">
+					<h:outputText value="#{e.date}">
+						<f:convertDateTime dateStyle="short" timeZone="EST"
+							pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Edit">
+					<p:commandButton id="editExpense" value="Edit" processIds="*"
+						action="editExpense">
+						<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<div class="buttonGroup">
+				<p:commandButton id="cancel" value="Cancel" processIds="*"
+					action="cancel" />
+				<p:commandButton id="createSettlement" value="Create Settlement"
+					processIds="*" action="createSettlement"
+					rendered="#{expenses.rowCount > 0}" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

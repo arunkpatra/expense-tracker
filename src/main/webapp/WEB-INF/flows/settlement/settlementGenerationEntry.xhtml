@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="content">
+		<sec:authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
+			<h:form id="mainForm">
+				<p:messages id="messages" autoUpdate="true" closable="true" />
+				<p:fieldset legend="Create a new settlement">
+					<p:panelGrid columns="2">
+						<h:outputLabel for="startDate">Settlement Start Date:</h:outputLabel>
+						<h:inputText id="startDate" value="#{settlement.startDate}"
+							required="true">
+							<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+						</h:inputText>
+
+						<h:outputLabel for="endDate">Settlement End Date:</h:outputLabel>
+						<h:inputText id="endDate" value="#{settlement.endDate}"
+							required="true">
+							<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+						</h:inputText>
+					</p:panelGrid>
+					<p:commandButton id="next" value="Next" processIds="*"
+						action="next" />
+				</p:fieldset>
+			</h:form>
+
+			<h:form id="subForm">
+				<!-- User details go here -->
+				<h:outputText id="noSettlementsText"
+					value="No previous settlements exist."
+					rendered="#{existingSettelements.rowCount == 0}" />
+				<div class="label">
+					<h:outputLabel rendered="#{existingSettelements.rowCount > 0}">Existing settlements</h:outputLabel>
+				</div>
+				<p:dataTable id="settlements" styleClass="summary"
+					value="#{existingSettelements}" var="s"
+					rendered="#{existingSettelements.rowCount > 0}">
+					<p:column headerText="Settl. Id">
+						<a
+							href="${request.contextPath}/et/settlementSubReport.pdf?sid=#{s.id}"
+							target="blank"> #{s.id} </a>
+					</p:column>
+					<p:column headerText="Start Date">
+						<div class="output" align="center">
+							<h:outputText value="#{s.startDate}">
+								<f:convertDateTime dateStyle="short" timeZone="EST"
+									pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</div>
+					</p:column>
+					<p:column headerText="End Date">
+						<div class="output" align="center">
+							<h:outputText value="#{s.endDate}">
+								<f:convertDateTime dateStyle="short" timeZone="EST"
+									pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</div>
+					</p:column>
+					<p:column headerText="Settled">
+						<div class="output" align="center">
+							<h:outputText value="Yes" rendered="#{s.settlementFlag == 1}" />
+							<h:outputText value="No" rendered="#{s.settlementFlag == 0}" />
+						</div>
+					</p:column>
+
+					<p:column headerText="Exp. Report">
+						<div class="output" align="center">
+							<a
+								href="${request.contextPath}/et/expenseReport.pdf?sid=#{s.id}"
+								target="blank"> <img
+								src="${request.contextPath}/images/pdficon_small.gif"
+								alt="Exp. Report" />
+							</a>
+						</div>
+					</p:column>
+
+					<p:column headerText="Close">
+						<p:commandButton id="settle" value="Close" processIds="*"
+							action="completeSettlement" rendered="#{(s.settlementFlag == 0)}">
+							<f:param name="settlementId" value="#{s.id}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="Delete">
+						<p:commandButton id="delete" value="Delete" processIds="*"
+							action="delete">
+							<f:param name="settlementId" value="#{s.id}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</sec:authorize>
+
+	</ui:define>
+</ui:composition>

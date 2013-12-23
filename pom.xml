@@ -71,6 +71,12 @@
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${springframework-version}</version>
 		</dependency>
@@ -99,7 +105,7 @@
 			<artifactId>spring-faces</artifactId>
 			<version>${webflow-version}</version>
 		</dependency>
-            
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>

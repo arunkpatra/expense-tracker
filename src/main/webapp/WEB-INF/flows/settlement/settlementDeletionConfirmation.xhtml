@@ -1,0 +1,28 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="content">
+
+<h:form id="settlementDeletionReview">
+	<div class="section">
+		<h2>Delete Settlement</h2>	
+		<ui:fragment id="settlementDeletionReviewFragment">
+			<p>You are about to delete settlement # #{toBeDeletedSettlementId}. All associated expenses and reports will be deleted as well.
+			This process can not be reversed. Be sure to take a backup of your database first. Your system
+			administrator can take a backup of your database.</p>
+			<br/>
+			<p>Do you still want to delete this settlement?</p>						
+			<div class="buttonGroup">
+				<p:commandButton id="no" value="No" processIds="*" action="no" />
+				<p:commandButton id="yes" value="Yes" processIds="*" action="yes" />
+			</div>
+		</ui:fragment>
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>

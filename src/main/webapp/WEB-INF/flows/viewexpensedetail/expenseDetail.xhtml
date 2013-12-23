@@ -1,83 +1,51 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	    		xmlns:ui="http://java.sun.com/jsf/facelets"
-	  			xmlns:h="http://java.sun.com/jsf/html"
-	  			xmlns:f="http://java.sun.com/jsf/core"
-	  			xmlns:p="http://primefaces.org/ui"
-				template="/WEB-INF/layouts/standard.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
 
-<ui:define name="content">
+	<ui:define name="content">
+		<h:form id="expenseDetail">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<p:fieldset legend="Expense Details">
+				<p:panelGrid columns="2">
+					<h:outputLabel id="desc">Description:</h:outputLabel>
+					<h:outputText value="#{selectedExpense.description}" />
 
-<h:form id="expenseDetail">
-	<div class="section">
-		<h2>Expense Details</h2>
-		
-		<ui:fragment id="expenseDetailRecord">
-			<div id="expenseDetailResults">			
-			<fieldset>
-			<div class="field">
-				<div class="label">Description:</div>
-				<div class="output">
-				<h:outputText value="#{selectedExpense.description}"/>
-				</div>
-			</div>
-			<div class="field">
-				<div class="label">Amount:</div>
-				<div class="output">
+					<h:outputLabel id="amt">Amount:</h:outputLabel>
 					<h:outputText value="#{selectedExpense.amount}">
-                		<f:convertNumber maxFractionDigits="2"/>
-                	</h:outputText>
-				</div>
-			</div>
-			<div class="field">
-				<div class="label">Paid by:</div>
-				<div class="output">
-				<h:outputText value="#{selectedExpense.paidBy}"/>
-				</div>
-			</div>
-			<div class="field">
-				<div class="label">Date:</div>
-				<div class="output">
-					<h:outputText value="#{selectedExpense.date}">
-			            	<f:convertDateTime dateStyle="short" timeZone="EST" pattern="MM/dd/yyyy"/>
+						<f:convertNumber maxFractionDigits="2" />
 					</h:outputText>
-				</div>
-			</div>
 
-			</fieldset>
-					
-				<h:outputText id="noShareText" value="No record of any contributions" 
-				rendered="#{userShares.rowCount == 0}"/>
-				<h:dataTable id="shares" styleClass="summary" value="#{userShares}" var="us" 
-				rendered="#{userShares.rowCount > 0}">
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Name"/>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{us.name}">
-                			</h:outputText>
-            			</div>	
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Share Amount"/>
-						</f:facet>
-						<div class="output">
-                			<h:outputText value="#{us.shareAmount}">
-                				<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                			</h:outputText>
-            			</div>            			
-					</h:column>
-				</h:dataTable>
-				
-			</div>
+					<h:outputLabel id="pdby">Paid by:</h:outputLabel>
+					<h:outputText value="#{selectedExpense.paidBy}" />
+
+					<h:outputLabel id="expDate">Date:</h:outputLabel>
+					<h:outputText value="#{selectedExpense.date}">
+						<f:convertDateTime dateStyle="short" timeZone="EST"
+							pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:panelGrid>
+			</p:fieldset>
+
+			<h:outputText id="noShareText" value="No record of any contributions"
+				rendered="#{userShares.rowCount == 0}" />
+			<p:dataTable id="shares" styleClass="summary" value="#{userShares}"
+				var="us" rendered="#{userShares.rowCount > 0}">
+				<p:column headerText="Name">
+					<h:outputText value="#{us.name}" />
+				</p:column>
+				<p:column headerText="Share Amount">
+					<h:outputText value="#{us.shareAmount}">
+						<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
 			<div class="buttonGroup">
-				 <p:commandButton id="Ok" value="Ok" processIds="*" action="ok" />
+				<p:commandButton id="Ok" value="Ok" processIds="*" action="ok" />
 			</div>
-		</ui:fragment>
-		
-	</div>
-</h:form>
-</ui:define>
+		</h:form>
+	</ui:define>
 </ui:composition>
