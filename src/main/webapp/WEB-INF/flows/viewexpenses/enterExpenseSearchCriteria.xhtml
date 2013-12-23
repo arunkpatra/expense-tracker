@@ -7,48 +7,26 @@
 	template="/WEB-INF/layouts/standard.xhtml">
 
 	<ui:define name="content">
-		<ui:fragment id="expenseSearchCriteriaFragment">
-			<div id="expenseSearchCriteria" class="section">
-				<div id="messagesInsertionPoint">
-					<h:messages errorClass="errors" />
+		<h:form id="mainForm">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<p:fieldset id="expenseSearchCriteria"
+				legend="Enter expense search criteria">
+				<p:panelGrid columns="2">
+					<h:outputLabel for="startDate">Start Date:</h:outputLabel>
+					<p:calendar value="#{expenseSearchCriteria.startDate}"
+						id="startDate" pattern="MM/dd/yyyy" timeZone="EST" />
+
+					<h:outputLabel for="endDate">End Date:</h:outputLabel>
+					<p:calendar value="#{expenseSearchCriteria.endDate}"
+						id="endDate" pattern="MM/dd/yyyy" timeZone="EST" />
+				</p:panelGrid>
+				<div class="buttonGroup">
+
+					<p:commandButton id="searchExpenses" value="Search Expenses"
+						processIds="*" action="search" />
+
 				</div>
-				<h2>Enter expense search criteria</h2>
-				<h:form id="mainForm">
-					<fieldset>
-						<div class="field">
-							<div class="label">
-								<h:outputLabel for="startDate">Start Date:</h:outputLabel>
-							</div>
-							<div class="input">
-								<h:inputText id="startDate"
-									value="#{expenseSearchCriteria.startDate}" required="true">
-									<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
-								</h:inputText>
-							</div>
-						</div>
-						<div class="field">
-							<div class="label">
-								<h:outputLabel for="endDate">End Date:</h:outputLabel>
-							</div>
-							<div class="input">
-
-								<h:inputText id="endDate"
-									value="#{expenseSearchCriteria.endDate}" required="true">
-									<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
-								</h:inputText>
-
-							</div>
-						</div>
-
-						<div class="buttonGroup">
-
-							<p:commandButton id="searchExpenses" value="Search Expenses"
-								processIds="*" action="search" />
-
-						</div>
-					</fieldset>
-				</h:form>
-			</div>
-		</ui:fragment>
+			</p:fieldset>
+		</h:form>
 	</ui:define>
 </ui:composition>

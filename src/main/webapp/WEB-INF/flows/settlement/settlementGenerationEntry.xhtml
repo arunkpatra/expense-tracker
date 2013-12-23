@@ -14,16 +14,14 @@
 				<p:fieldset legend="Create a new settlement">
 					<p:panelGrid columns="2">
 						<h:outputLabel for="startDate">Settlement Start Date:</h:outputLabel>
-						<h:inputText id="startDate" value="#{settlement.startDate}"
-							required="true">
-							<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
-						</h:inputText>
+						<p:calendar value="#{settlement.startDate}" id="startDate"
+							pattern="MM/dd/yyyy" timeZone="EST" required="true" requiredMessage="Please enter Settlement Start Date"/>
+
 
 						<h:outputLabel for="endDate">Settlement End Date:</h:outputLabel>
-						<h:inputText id="endDate" value="#{settlement.endDate}"
-							required="true">
-							<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
-						</h:inputText>
+						<p:calendar value="#{settlement.endDate}" id="endDate"
+							pattern="MM/dd/yyyy" timeZone="EST" required="true" requiredMessage="Please enter Settlement End Date"/>
+
 					</p:panelGrid>
 					<p:commandButton id="next" value="Next" processIds="*"
 						action="next" />
@@ -71,8 +69,7 @@
 
 					<p:column headerText="Exp. Report">
 						<div class="output" align="center">
-							<a
-								href="${request.contextPath}/et/expenseReport.pdf?sid=#{s.id}"
+							<a href="${request.contextPath}/et/expenseReport.pdf?sid=#{s.id}"
 								target="blank"> <img
 								src="${request.contextPath}/images/pdficon_small.gif"
 								alt="Exp. Report" />
