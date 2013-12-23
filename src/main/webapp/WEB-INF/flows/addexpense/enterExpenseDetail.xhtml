@@ -10,13 +10,13 @@
 	<ui:define name="content">
 		<ui:fragment id="expenseDetailFragment">
 			<h:form id="mainForm">
-				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> 
+				<p:messages id="messages"  autoUpdate="true" closable="true" /> 
 				<p:fieldset id="expenseDetailsTable" legend="Enter expense details">
 					<p:panelGrid columns="2">
 						<h:outputLabel for="expenseDescription">Expense Description:</h:outputLabel>
 						<h:inputText id="expenseDescription"
 							value="#{expenseDetail.description}" required="true"
-							maxlength="64" />
+							maxlength="64" label="Expense Description"/>
 						<h:outputLabel for="expenseDate">Expense Date:</h:outputLabel>
 						<h:inputText id="expenseDate" value="#{expenseDetail.date}"
 							required="true">
