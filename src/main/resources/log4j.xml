@@ -12,40 +12,40 @@
 	</appender>
 
 	<logger name="org.springframework.beans">
-		<level value="warn" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="org.springframework.binding">
-		<level value="debug" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.springframework.jdbc">
-		<level value="warn" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="org.springframework.transaction">
-		<level value="warn" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="org.springframework.orm">
-		<level value="warn" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="debug" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.springframework.faces">
-		<level value="debug" />
+		<level value="INFO" />
 	</logger>
 	
 	<logger name="org.springframework.webflow">
-		<level value="debug" />
+		<level value="INFO" />
 	</logger>
 	
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="INFO" />
 		<appender-ref ref="console" />
 	</root>
 	

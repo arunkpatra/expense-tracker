@@ -70,9 +70,9 @@
 					</p:column>
 
 					<p:column headerText="Close">
-						<p:commandButton id="settle" value="Close" processIds="*"
+						<p:commandButton id="settle" value="Close" 
 							oncomplete="confirmDialog.show()" action="completeSettlement"
-							rendered="#{(s.settlementFlag == 0)}">
+							rendered="#{(s.settlementFlag == 0)}"  processIds="*">
 							<f:param name="settlementId" value="#{s.id}" />
 						</p:commandButton>
 					</p:column>
@@ -94,7 +94,7 @@
 							value="You can not close a settlement while there are still records to settle."
 							rendered="#{settlementClosureResult == 1}" />
 
-						<p:commandButton id="ok" value="Ok" action="ok"
+						<p:commandButton id="ok" value="Ok" action="closeSettlementOk"
 							update="settlementsTable" />
 
 					</p:outputPanel>

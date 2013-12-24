@@ -99,7 +99,8 @@ public class SettlementBean implements Serializable {
 	public void validateSettlementGenerationEntry(ValidationContext context) {
 		String userEventName = context.getUserEvent();
 		if ((userEventName.equalsIgnoreCase("completeSettlement")) ||
-				(userEventName.equalsIgnoreCase("delete"))) {
+				(userEventName.equalsIgnoreCase("delete")) ||
+				(userEventName.equalsIgnoreCase("closeSettlementOk"))){
 			// nothing
 		} else {
 			if (getStartDate().after(getEndDate())) {
