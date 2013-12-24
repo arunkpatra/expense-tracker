@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Expense Tracker Web Application</name>
-	<description>Expense Tracker Web Application</description>
+	<description>Multi User Expense Tracker Web Application</description>
 
 	<properties>
 		<springframework-version>3.2.1.RELEASE</springframework-version>
