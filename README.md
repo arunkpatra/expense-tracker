@@ -10,3 +10,5 @@ d) Reporting
 
 
 [![Build Status](https://travis-ci.org/arunkpatra/expense-tracker.png?branch=master)](https://travis-ci.org/arunkpatra/expense-tracker)
+[![Dependency Status](https://gemnasium.com/arunkpatra/expense-tracker.png)](https://gemnasium.com/arunkpatra/expense-tracker)
+
