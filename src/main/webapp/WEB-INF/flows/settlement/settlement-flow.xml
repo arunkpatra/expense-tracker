@@ -30,7 +30,7 @@
 			<set name="flowScope.selectedSettlementId" value="(requestParameters.settlementId)" />
 			<evaluate
 				expression="settlementService.completeSettlement(selectedSettlementId)"
-				result="flowScope.settlementClosureResult" />			
+				result="viewScope.settlementClosureResult" />			
 		</transition>
 		<transition on="closeSettlementOk" to="settlementGenerationEntry"/>
 	</view-state>
