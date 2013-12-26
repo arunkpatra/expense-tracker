@@ -41,7 +41,7 @@
 					var="s" rendered="#{existingSettelements.rowCount > 0}">
 					<p:column headerText="Settl. Id">
 						<a
-							href="${request.contextPath}/et/settlementSubReport.pdf?sid=#{s.id}"
+							href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{s.id}"
 							target="blank"> #{s.id} </a>
 					</p:column>
 					<p:column headerText="Start Date">
@@ -62,7 +62,7 @@
 					</p:column>
 
 					<p:column headerText="Exp. Report">
-						<a href="${request.contextPath}/et/expenseReport.pdf?sid=#{s.id}"
+						<a href="${request.contextPath}/et/reports/expenseReport.pdf?sid=#{s.id}"
 							target="blank"> <img
 							src="${request.contextPath}/images/pdficon_small.gif"
 							alt="Exp. Report" />
