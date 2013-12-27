@@ -12,18 +12,18 @@
 			<p:fieldset id="reviewDetailsTable" legend="Review Expense Details">
 				<p:panelGrid columns="2">
 					<h:outputLabel for="expenseDescription">Description:</h:outputLabel>
-					<h:outputText value="#{expenseDetail.description}" />
+					<h:outputText id="expenseDescription" value="#{expenseDetail.description}" />
 
 					<h:outputLabel for="expenseAmount">Amount:</h:outputLabel>
-					<h:outputText value="#{expenseDetail.amount}">
+					<h:outputText id="expenseAmount" value="#{expenseDetail.amount}">
 						<f:convertNumber maxFractionDigits="2" />
 					</h:outputText>
 
 					<h:outputLabel for="expensePaidBy">Paid by:</h:outputLabel>
-					<h:outputText value="#{expenseDetail.paidBy}" />
+					<h:outputText id="expensePaidBy" value="#{expenseDetail.paidBy}" />
 
 					<h:outputLabel for="expenseDate">Date:</h:outputLabel>
-					<h:outputText value="#{expenseDetail.date}">
+					<h:outputText id="expenseDate" value="#{expenseDetail.date}">
 						<f:convertDateTime dateStyle="short" timeZone="EST"
 							pattern="MM/dd/yyyy" />
 					</h:outputText>
