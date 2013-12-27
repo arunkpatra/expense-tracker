@@ -49,7 +49,7 @@ public class WelcomeFlowExecutionTests extends AbstractXmlFlowExecutionTests
         MockExternalContext context = new MockExternalContext();
         context.setCurrentUser("System");
         
-        //startFlow(context);
+        //startFlow(input, context);
         
         //assertCurrentStateEquals("passwordChangeCheck");
         //assertResponseWrittenEquals("passwordChangeCheck", context);
