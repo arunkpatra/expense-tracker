@@ -5,15 +5,17 @@
 	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<!-- Secure the flow. -->
-	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any"/>
+	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN"
+		match="any" />
 	<!-- Attach a persistence context to this flow -->
 	<persistence-context />
 	<input name="toBeEditedExpenseId" required="false" />
 	<on-start>
-		<evaluate expression="userService.getUser(currentUser.name)" result="flowScope.etUser" />
+		<evaluate expression="userService.getUser(currentUser.name)"
+			result="flowScope.etUser" />
 		<evaluate
-				expression="expenseService.getExpenseDetailBeanById(toBeEditedExpenseId)"
-				result="flowScope.expenseDetail" />	
+			expression="expenseService.getExpenseDetailBeanById(toBeEditedExpenseId)"
+			result="flowScope.expenseDetail" />
 	</on-start>
 	<view-state id="enterExpenseDetail" model="expenseDetail">
 		<transition on="calcShares">
@@ -24,13 +26,15 @@
 		</transition>
 		<transition on="next" to="reviewExpense">
 		</transition>
-		<transition on="cancel" to="saveCancelledScreen" bind="false" validate="false"/>
+		<transition on="cancel" to="saveCancelledScreen" bind="false"
+			validate="false" />
 	</view-state>
 
 	<view-state id="reviewExpense">
 		<on-render>
 			<evaluate expression="expenseDetail.getUserShares()" result="viewScope.userShares"
-				result-type="dataModel"></evaluate>
+				result-type="dataModel">
+			</evaluate>
 		</on-render>
 		<transition on="saveExpense" to="expenseAdditionResult">
 			<evaluate expression="expenseService.saveExpense(expenseDetail)" />
