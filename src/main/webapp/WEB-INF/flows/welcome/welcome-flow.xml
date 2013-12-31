@@ -3,12 +3,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
-	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any"/>
+
+	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN"
+		match="any" />
+
 	<on-start>
-		<evaluate expression="userService.getUser(currentUser.name)" result="flowScope.etUser" />
+		<evaluate expression="userService.getUser(currentUser.name)"
+			result="flowScope.etUser" />
 	</on-start>
+	
 	<action-state id="passwordChangeCheck">
-		<evaluate expression="userService.isPasswordChangeNeeded(currentUser.name)" />
+		<evaluate expression="userService.isPasswordChangeNeeded(currentUser.name)" result="flowScope.pwdCheckNeeded"/>
 		<transition on="yes" to="changePasswordFlow" />
 		<transition on="no" to="welcome" />
 	</action-state>
@@ -18,8 +23,8 @@
 		<transition on="finish" to="logout">
 		</transition>
 	</subflow-state>
-	
-	<view-state id="welcome"/>
-	<view-state id="logout" view="externalRedirect:contextRelative:/et/logout"/>
+
+	<view-state id="welcome" />
+	<view-state id="logout" view="externalRedirect:contextRelative:/et/logout" />
 	<end-state id="finish" />
 </flow>

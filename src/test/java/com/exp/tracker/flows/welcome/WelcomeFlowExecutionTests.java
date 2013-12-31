@@ -40,30 +40,31 @@ public class WelcomeFlowExecutionTests extends AbstractXmlFlowExecutionTests
     }
     
     public void testStartWelcomeFlow() {
-        UserBean etUser = createUser();
+        UserBean etUser = createTestUserBean();
         EasyMock.expect(userService.getUser("System")).andReturn(etUser);
+        EasyMock.expect(userService.isPasswordChangeNeeded("System")).andReturn(false);
         
         EasyMock.replay(userService);
         
-        MutableAttributeMap<String> input = new LocalAttributeMap<String>();
         MockExternalContext context = new MockExternalContext();
         context.setCurrentUser("System");
-        
-        //startFlow(input, context);
-        
-        //assertCurrentStateEquals("passwordChangeCheck");
-        //assertResponseWrittenEquals("passwordChangeCheck", context);
-        //assertTrue(getRequiredFlowAttribute("etUser") instanceof UserBean);
 
-        //EasyMock.verify(userService);
+        startFlow(context);
+        
+        assertCurrentStateEquals("welcome");
+        assertResponseWrittenEquals("welcome", context);
+        assertTrue(getRequiredFlowAttribute("etUser") instanceof UserBean);
+
+        EasyMock.verify(userService);
     }
     
-    private UserBean createUser() {
+    private UserBean createTestUserBean() {
         UserBean u = new UserBean();
+        u.setId(1L);
         u.setEnabled(true);
         u.setUsername("System");
         u.setPassword("admin");
-        u.setPasswordChangeNeeded(false);
+        u.setPasswordChangeNeeded(true);
         u.setFirstName("System");
         u.setLastName("Administrator");
         u.setId(1L);
