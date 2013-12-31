@@ -4,8 +4,6 @@ import org.easymock.EasyMock;
 import org.springframework.faces.model.converter.FacesConversionService;
 import org.springframework.webflow.config.FlowDefinitionResource;
 import org.springframework.webflow.config.FlowDefinitionResourceFactory;
-import org.springframework.webflow.core.collection.LocalAttributeMap;
-import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockFlowBuilderContext;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
@@ -38,27 +36,31 @@ public class WelcomeFlowExecutionTests extends AbstractXmlFlowExecutionTests
         builderContext.getFlowBuilderServices().setConversionService(
                 new FacesConversionService());
     }
-    
-    public void testStartWelcomeFlow() {
+
+    public void testStartWelcomeFlow()
+    {
         UserBean etUser = createTestUserBean();
         EasyMock.expect(userService.getUser("System")).andReturn(etUser);
-        EasyMock.expect(userService.isPasswordChangeNeeded("System")).andReturn(false);
-        
+        EasyMock.expect(userService.isPasswordChangeNeeded("System"))
+                .andReturn(false);
+
         EasyMock.replay(userService);
-        
+
         MockExternalContext context = new MockExternalContext();
         context.setCurrentUser("System");
 
         startFlow(context);
-        
+
         assertCurrentStateEquals("welcome");
         assertResponseWrittenEquals("welcome", context);
         assertTrue(getRequiredFlowAttribute("etUser") instanceof UserBean);
 
         EasyMock.verify(userService);
     }
-    
-    private UserBean createTestUserBean() {
+
+
+    private UserBean createTestUserBean()
+    {
         UserBean u = new UserBean();
         u.setId(1L);
         u.setEnabled(true);
@@ -68,7 +70,7 @@ public class WelcomeFlowExecutionTests extends AbstractXmlFlowExecutionTests
         u.setFirstName("System");
         u.setLastName("Administrator");
         u.setId(1L);
-        
+
         return u;
     }
 }
