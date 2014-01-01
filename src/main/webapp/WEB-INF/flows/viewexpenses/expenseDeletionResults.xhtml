@@ -3,7 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
-	  			xmlns:sf="http://www.springframework.org/tags/faces"
+	  			xmlns:p="http://primefaces.org/ui"
 				template="/WEB-INF/layouts/standard.xhtml">
 
 <ui:define name="content">
@@ -16,7 +16,7 @@
 			<h:outputText value="You can not delete an expense which has already been settled." rendered="#{expenseDeletionResult == 1}"/>
 			
 			<div class="buttonGroup">
-				<sf:commandButton id="ok" value="Ok" processIds="*" action="ok" />
+				<p:commandButton id="ok" value="Ok" processIds="*" action="ok" />
 			</div>
 		</ui:fragment>
 		
