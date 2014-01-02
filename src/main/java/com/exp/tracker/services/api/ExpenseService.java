@@ -7,30 +7,73 @@ import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.ExpenseSearchCriteria;
 import com.exp.tracker.data.model.SettlementBean;
 
-
 /**
- * A service interface for creating and retrieving expenses
+ * A service interface for creating and retrieving expenses.
  */
-public interface ExpenseService {
+public interface ExpenseService
+{
 
     /**
-     * Create a new, transient hotel booking instance for the given user.
-     * @param hotelId the hotelId
-     * @param userName the user name
-     * @return the new transient booking instance
+     * Save an expense.
+     * 
+     * @param expenseDetaild
+     *            Expense detail.
+     * @return int The status of the operation.
      */
-    public int saveExpense(ExpenseDetail ed);
-    
-    public List<ExpenseEntity> getExpenses(ExpenseSearchCriteria esc);
-    
-    public List<ExpenseDetail> getUnsettledExpenses(SettlementBean sb);
-    
-    public List<ExpenseDetail> getRecentExpenses(int lastDays);
-    
-    public ExpenseDetail getExpenseById(Long id);
-    
-    public ExpenseDetail getExpenseDetailBeanById(Long id);
-    
-    public int deleteExpenseById(Long expenseId);
+    int saveExpense(ExpenseDetail expenseDetaild);
+
+    /**
+     * Retrieve expenses for a provided expense search criteria.
+     * 
+     * @param expSearchCriteria
+     *            The expense search criteria
+     * @return A list of expenses
+     */
+    List<ExpenseEntity> getExpenses(ExpenseSearchCriteria expSearchCriteria);
+
+    /**
+     * Get unsettled expenses for a settlement.
+     * 
+     * @param settlementBean
+     *            The settlement bean
+     * @return A list of expensedetail objects.
+     */
+    List<ExpenseDetail> getUnsettledExpenses(SettlementBean settlementBean);
+
+    /**
+     * Get a list of recent expenses.
+     * 
+     * @param lastDays
+     *            The days to consider.
+     * @return A list of expenses.
+     */
+    List<ExpenseDetail> getRecentExpenses(int lastDays);
+
+    /**
+     * Get a specific expensedetail record.
+     * 
+     * @param expenseId
+     *            The expense detail Id.
+     * @return The expensedetail record.
+     */
+    ExpenseDetail getExpenseById(Long expenseId);
+
+    /**
+     * Get an expense detail bean by ID.
+     * 
+     * @param expenseId
+     *            The expense ID
+     * @return The expense detail record
+     */
+    ExpenseDetail getExpenseDetailBeanById(Long expenseId);
+
+    /**
+     * Delete an expense record.
+     * 
+     * @param expenseId
+     *            The expense ID
+     * @return status of the operation.
+     */
+    int deleteExpenseById(Long expenseId);
 
 }

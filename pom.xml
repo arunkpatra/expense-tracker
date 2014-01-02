@@ -41,13 +41,11 @@
 	</repositories>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
 			<version>${derby.client.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>commons-collections</groupId>
