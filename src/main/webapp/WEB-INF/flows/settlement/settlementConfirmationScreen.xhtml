@@ -55,9 +55,22 @@
 				<p:commandButton id="cancel" value="Cancel" processIds="*"
 					action="cancel" />
 				<p:commandButton id="createSettlement" value="Create Settlement"
-					processIds="*" action="createSettlement"
+					process="@form" update="@form" action="createSettlement"
+					oncomplete="confirmDialog.show()"
 					rendered="#{expenses.rowCount > 0}" />
 			</div>
+			<p:dialog widgetVar="confirmDialog" id="dlg1"
+				header="Settlement Closure Result" modal="true" width="300">
+				<p:outputPanel id="confirmContent">
+					<p:messages id="messages1" autoUpdate="true" closable="true" />
+					<h:outputText value="Settlement was generated successfully."
+						rendered="#{settlementCreationId ne 0}" />
+					<h:outputText
+						value="No expenses were found to settle for the period specified!"
+						rendered="#{settlementCreationId == 0}" />
+				</p:outputPanel>
+				<p:commandButton id="ok" value="Ok" action="createSettlementOk"/>
+			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>
