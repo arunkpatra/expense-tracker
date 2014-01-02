@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 /**
+ * This package contains model objects used by the presentation tier.
  * 
  * @author Arun Patra
  *

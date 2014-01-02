@@ -29,84 +29,97 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="et_reports")
+@Table(name = "et_reports")
 @NamedQueries({
-	@NamedQuery(name="getReport", query="SELECT r FROM ReportEntity r " +
-			"WHERE (r.settlementId = :sid) AND (r.reportName = :reportName)"),
-	@NamedQuery(name="deleteReportsForSid", query="DELETE FROM ReportEntity r " +
-			"WHERE (r.settlementId = :sid)")})
-public class ReportEntity implements Serializable{
-	private static final long serialVersionUID = 55095596780689514L;
-	public static final String SETTLEMENT_REPORT = "settlement_report";
-	public static final String EXPENSE_REPORT = "expense_report";
-	public static final String PDF_REPORT_TYPE = "PDF";
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name="createddate")
-	private Date createdDate;
-	
-	@Column(name="reportcontent")
-	@Lob
-	private byte[] reportContent;
-	
-	@Column(name="reporttype")
-	private String reportType;
-	
-	@Column(name="reportname")
-	private String reportName;
-	
-	@Column(name="settlementid")
-	private long settlementId;
+        @NamedQuery(name = "getReport", query = "SELECT r FROM ReportEntity r "
+                + "WHERE (r.settlementId = :sid) AND (r.reportName = :reportName)"),
+        @NamedQuery(name = "deleteReportsForSid", query = "DELETE FROM ReportEntity r "
+                + "WHERE (r.settlementId = :sid)") })
+public class ReportEntity implements Serializable
+{
+    private static final long serialVersionUID = 55095596780689514L;
+    public static final String SETTLEMENT_REPORT = "settlement_report";
+    public static final String EXPENSE_REPORT = "expense_report";
+    public static final String PDF_REPORT_TYPE = "PDF";
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "createddate")
+    private Date createdDate;
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
+    @Column(name = "reportcontent")
+    @Lob
+    private byte[] reportContent;
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+    @Column(name = "reporttype")
+    private String reportType;
 
-	public byte[] getReportContent() {
-		return reportContent;
-	}
+    @Column(name = "reportname")
+    private String reportName;
 
-	public void setReportContent(byte[] reportContent) {
-		this.reportContent = reportContent;
-	}
+    @Column(name = "settlementid")
+    private long settlementId;
 
-	public String getReportType() {
-		return reportType;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setReportType(String reportType) {
-		this.reportType = reportType;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public String getReportName() {
-		return reportName;
-	}
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
 
-	public void setReportName(String reportName) {
-		this.reportName = reportName;
-	}
+    public void setCreatedDate(Date createdDate)
+    {
+        this.createdDate = createdDate;
+    }
 
-	public long getSettlementId() {
-		return settlementId;
-	}
+    public byte[] getReportContent()
+    {
+        return reportContent;
+    }
 
-	public void setSettlementId(long settlementId) {
-		this.settlementId = settlementId;
-	}
+    public void setReportContent(byte[] reportContent)
+    {
+        this.reportContent = reportContent;
+    }
+
+    public String getReportType()
+    {
+        return reportType;
+    }
+
+    public void setReportType(String reportType)
+    {
+        this.reportType = reportType;
+    }
+
+    public String getReportName()
+    {
+        return reportName;
+    }
+
+    public void setReportName(String reportName)
+    {
+        this.reportName = reportName;
+    }
+
+    public long getSettlementId()
+    {
+        return settlementId;
+    }
+
+    public void setSettlementId(long settlementId)
+    {
+        this.settlementId = settlementId;
+    }
 
 }

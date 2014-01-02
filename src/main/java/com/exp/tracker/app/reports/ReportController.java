@@ -32,6 +32,7 @@ import com.exp.tracker.data.model.ExpenseReportDataBean;
 import com.exp.tracker.data.model.SettlementBean;
 import com.exp.tracker.data.model.UserSettlementBean;
 import com.exp.tracker.services.api.SettlementService;
+import com.sun.istack.FinalArrayList;
 
 /**
  * Simple <code>Controller</code> implementation returning data for report
@@ -90,7 +91,7 @@ public class ReportController extends MultiActionController
      * @param settlementId
      * @return
      */
-    private Map<String, ?> getModelForExpenseReport(String settlementId)
+    private Map<String, ?> getModelForExpenseReport(final String settlementId)
     {
         Map<String, Object> model = new HashMap<String, Object>();
         // get data from back end

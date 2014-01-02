@@ -32,116 +32,135 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "et_user_settlement")
-@NamedQueries( {
-		@NamedQuery(name = "getUserSettlementById", query = "SELECT use from UserSettlementEntity use "
-				+ "WHERE use.id = :userSettlementId"),
-		@NamedQuery(name = "getUnsettledUserSettlementsForSettlementId", query = "SELECT use from UserSettlementEntity use "
-				+ "WHERE (use.settlement_id = :settlementId) AND (use.settlementFlag = 0)") })
-public class UserSettlementEntity implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "getUserSettlementById", query = "SELECT use from UserSettlementEntity use "
+                + "WHERE use.id = :userSettlementId"),
+        @NamedQuery(name = "getUnsettledUserSettlementsForSettlementId", query = "SELECT use from UserSettlementEntity use "
+                + "WHERE (use.settlement_id = :settlementId) AND (use.settlementFlag = 0)") })
+public class UserSettlementEntity implements Serializable
+{
 
-	private static final long serialVersionUID = 2574201400839693407L;
-	public static final int SETTLEMENT_COMPLETED = 1;
-	public static final int SETTLEMENT_NOT_COMPLETED = 0;
+    private static final long serialVersionUID = 2574201400839693407L;
+    public static final int SETTLEMENT_COMPLETED = 1;
+    public static final int SETTLEMENT_NOT_COMPLETED = 0;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "settlement_id")
-	private Long settlement_id;
+    @Column(name = "settlement_id")
+    private Long settlement_id;
 
-	@Column(name = "amount")
-	private float amount;
+    @Column(name = "amount")
+    private float amount;
 
-	@Column(name = "settlementcompleted")
-	private int settlementFlag;
+    @Column(name = "settlementcompleted")
+    private int settlementFlag;
 
-	@Column(name = "username")
-	private String userName;
+    @Column(name = "username")
+    private String userName;
 
-	@Column(name = "setteleddate")
-	private Date settledDate;
-	
-	@Column(name="usershare")
-	private Float userShare;
-	
-	@Column(name="userpaid")
-	private Float userPaid;
+    @Column(name = "setteleddate")
+    private Date settledDate;
 
-	@ManyToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "settlement_id", referencedColumnName = "id", insertable = false, updatable = false)
-	private SettlementEntity settlement;
+    @Column(name = "usershare")
+    private Float userShare;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "userpaid")
+    private Float userPaid;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "settlement_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SettlementEntity settlement;
 
-	public Long getSettlement_id() {
-		return settlement_id;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setSettlement_id(Long settlementId) {
-		settlement_id = settlementId;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public float getAmount() {
-		return amount;
-	}
+    public Long getSettlement_id()
+    {
+        return settlement_id;
+    }
 
-	public void setAmount(float amount) {
-		this.amount = amount;
-	}
+    public void setSettlement_id(Long settlementId)
+    {
+        settlement_id = settlementId;
+    }
 
-	public int getSettlementFlag() {
-		return settlementFlag;
-	}
+    public float getAmount()
+    {
+        return amount;
+    }
 
-	public void setSettlementFlag(int settlementFlag) {
-		this.settlementFlag = settlementFlag;
-	}
+    public void setAmount(float amount)
+    {
+        this.amount = amount;
+    }
 
-	public SettlementEntity getSettlement() {
-		return settlement;
-	}
+    public int getSettlementFlag()
+    {
+        return settlementFlag;
+    }
 
-	public void setSettlement(SettlementEntity settlement) {
-		this.settlement = settlement;
-	}
+    public void setSettlementFlag(int settlementFlag)
+    {
+        this.settlementFlag = settlementFlag;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    public SettlementEntity getSettlement()
+    {
+        return settlement;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setSettlement(SettlementEntity settlement)
+    {
+        this.settlement = settlement;
+    }
 
-	public Date getSettledDate() {
-		return settledDate;
-	}
+    public String getUserName()
+    {
+        return userName;
+    }
 
-	public void setSettledDate(Date settledDate) {
-		this.settledDate = settledDate;
-	}
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
 
-	public Float getUserShare() {
-		return userShare;
-	}
+    public Date getSettledDate()
+    {
+        return settledDate;
+    }
 
-	public void setUserShare(Float userShare) {
-		this.userShare = userShare;
-	}
+    public void setSettledDate(Date settledDate)
+    {
+        this.settledDate = settledDate;
+    }
 
-	public Float getUserPaid() {
-		return userPaid;
-	}
+    public Float getUserShare()
+    {
+        return userShare;
+    }
 
-	public void setUserPaid(Float userPaid) {
-		this.userPaid = userPaid;
-	}
+    public void setUserShare(Float userShare)
+    {
+        this.userShare = userShare;
+    }
+
+    public Float getUserPaid()
+    {
+        return userPaid;
+    }
+
+    public void setUserPaid(Float userPaid)
+    {
+        this.userPaid = userPaid;
+    }
 
 }

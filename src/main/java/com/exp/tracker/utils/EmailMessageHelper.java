@@ -21,326 +21,340 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.scheduling.annotation.Async;
 
 import com.exp.tracker.data.model.SettlementBean;
 import com.exp.tracker.data.model.UserBean;
 
-public class EmailMessageHelper implements IEmailMessageSender {
+public class EmailMessageHelper implements IEmailMessageSender
+{
 
-	private String _smtpHost;
-	private String _user;
-	private String _password;
-	private String _from;
-	private String _fromName;
+    /**
+     * The logger.
+     */
+    private static final Log logger = LogFactory
+            .getLog(EmailMessageHelper.class);
 
-	private Properties props;
-	public static final int _port = 587;
-	public static final String TRANSPORT_TYPE = "smtp";
+    private String _smtpHost;
+    private String _user;
+    private String _password;
+    private String _from;
+    private String _fromName;
 
-	public EmailMessageHelper() {
-	}
+    private Properties props;
+    public static final int _port = 587;
+    public static final String TRANSPORT_TYPE = "smtp";
 
-	@Async
-	public void sendSettlementNotice(SettlementBean sb, List<UserBean> ul,
-			byte[] settlementReport, byte[] expenseReport) {
-		System.out.println("In sendSettlementNotice...");
-		this.props = new Properties();
-		props.put("mail.smtp.host", _smtpHost);
-		props.put("mail.smtp.starttls.enable", "true");
-		int result = 0;
-		try {
-			// Get a Session object
-			Session session = Session.getInstance(props, null);
-			session.setDebug(false);
-			// create message
-			Message msg = new MimeMessage(session);
-//			msg.setHeader("Content-Type", "text/html");
-			List<Address> toAddressList = new ArrayList<Address>();
-			for (UserBean ub : ul) {
-				if (null != ub.getEmailId()) {
-					if (!"".equalsIgnoreCase(ub.getEmailId())) {
-						Address adr;
-						adr = new InternetAddress(ub.getEmailId());
-						toAddressList.add(adr);
-					}
-				}
-			}
-			if (toAddressList.size() != 0) {
-				Address[] toListArray = new Address[toAddressList.size()];// =
-				// (Address[])
-				// toAddressList.toArray();
-				int i = 0;
-				for (Address a : toAddressList) {
-					toListArray[i] = a;
-					i += 1;
-				}
-				//
-				msg.setRecipients(Message.RecipientType.TO, toListArray);
-				msg.setFrom(new InternetAddress(_from, _fromName));
-				msg.setSubject("New Settlement generated.");
-				Calendar calendar = Calendar.getInstance();
-				msg.setSentDate(calendar.getTime());
-				//
-				// set contents.
-				// create and fill the first message part
-				MimeBodyPart mailMessagePart = new MimeBodyPart();
-//				mailMessagePart.setHeader("X-Mailer", "sendhtml");
-//				mailMessagePart.setHeader("Content-Type", "text/html");
-				mailMessagePart.setContent(getMessageText(sb, ul), "text/html");
-//				try {
-//					mailMessagePart.setDataHandler(new DataHandler(
-//							new ByteArrayDataSource(getMessageText(sb, ul), "text/html")));
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+    public EmailMessageHelper() {
+    }
 
-//				mailMessagePart.setText(getMessageText(sb, ul));
-				// handle the settlement attachment now
-				MimeBodyPart mailSettlementReportAttachmentPart = new MimeBodyPart();
-				mailSettlementReportAttachmentPart
-						.setDataHandler(new DataHandler(new ByteArrayDataSource(settlementReport,"application/octet-stream")));
-				mailSettlementReportAttachmentPart
-						.setFileName("SettlementReport.pdf");
-				// handle the expense attachment now
-				MimeBodyPart mailExpenseReportAttachmentPart = new MimeBodyPart();
-				mailExpenseReportAttachmentPart
-						.setDataHandler(new DataHandler(new ByteArrayDataSource(expenseReport,"application/octet-stream")));
-				mailExpenseReportAttachmentPart
-						.setFileName("ExpenseReport.pdf");
+    @Async
+    public void sendSettlementNotice(SettlementBean sb, List<UserBean> ul,
+            byte[] settlementReport, byte[] expenseReport)
+    {
+        if (logger.isDebugEnabled()) {
+            logger.debug("About to send settlement notice.");
+        }
+        this.props = new Properties();
+        props.put("mail.smtp.host", _smtpHost);
+        props.put("mail.smtp.starttls.enable", "true");
+        int result = 0;
+        try {
+            // Get a Session object
+            Session session = Session.getInstance(props, null);
+            session.setDebug(false);
+            // create message
+            Message msg = new MimeMessage(session);
+            List<Address> toAddressList = new ArrayList<Address>();
+            for (UserBean ub : ul) {
+                if (null != ub.getEmailId()) {
+                    if (!"".equalsIgnoreCase(ub.getEmailId())) {
+                        Address adr;
+                        adr = new InternetAddress(ub.getEmailId());
+                        toAddressList.add(adr);
+                    }
+                }
+            }
+            if (toAddressList.size() != 0) {
+                Address[] toListArray = new Address[toAddressList.size()];// =
+                // (Address[])
+                // toAddressList.toArray();
+                int i = 0;
+                for (Address a : toAddressList) {
+                    toListArray[i] = a;
+                    i += 1;
+                }
+                //
+                msg.setRecipients(Message.RecipientType.TO, toListArray);
+                msg.setFrom(new InternetAddress(_from, _fromName));
+                msg.setSubject("New Settlement generated.");
+                Calendar calendar = Calendar.getInstance();
+                msg.setSentDate(calendar.getTime());
+                //
+                // set contents.
+                // create and fill the first message part
+                MimeBodyPart mailMessagePart = new MimeBodyPart();
 
-				// create the Multipart and add its parts to it
-				Multipart mp = new MimeMultipart();
-				mp.addBodyPart(mailMessagePart);
-				mp.addBodyPart(mailSettlementReportAttachmentPart);
-				mp.addBodyPart(mailExpenseReportAttachmentPart);
+                mailMessagePart.setContent(getMessageText(sb, ul), "text/html");
 
-				// add the Multipart to the message
-				msg.setContent(mp);
+                // handle the settlement attachment now
+                MimeBodyPart mailSettlementReportAttachmentPart = new MimeBodyPart();
+                mailSettlementReportAttachmentPart
+                        .setDataHandler(new DataHandler(
+                                new ByteArrayDataSource(settlementReport,
+                                        "application/octet-stream")));
+                mailSettlementReportAttachmentPart
+                        .setFileName("SettlementReport.pdf");
+                // handle the expense attachment now
+                MimeBodyPart mailExpenseReportAttachmentPart = new MimeBodyPart();
+                mailExpenseReportAttachmentPart.setDataHandler(new DataHandler(
+                        new ByteArrayDataSource(expenseReport,
+                                "application/octet-stream")));
+                mailExpenseReportAttachmentPart
+                        .setFileName("ExpenseReport.pdf");
 
-				// msg.setText(getMessageText(sb, ul));
-				//
-				Transport transport = session.getTransport(TRANSPORT_TYPE);
-				transport.connect(_smtpHost, _user, _password);
-				transport.sendMessage(msg, toListArray);
-				//
-				System.out.println("\nMail was sent successfully.");
-			} else {
-				System.out.println("No email ids to send email.");
-			}
-		} catch (AddressException ae) {
-			ae.printStackTrace();
-			result = 1;
-		} catch (MessagingException me) {
-			me.printStackTrace();
-			result = 1;
-		} catch (UnsupportedEncodingException uee) {
-			uee.printStackTrace();
-			result = 1;
-		}
+                // create the Multipart and add its parts to it
+                Multipart mp = new MimeMultipart();
+                mp.addBodyPart(mailMessagePart);
+                mp.addBodyPart(mailSettlementReportAttachmentPart);
+                mp.addBodyPart(mailExpenseReportAttachmentPart);
 
-		// return result;
-	}
+                // add the Multipart to the message
+                msg.setContent(mp);
 
-	private String getMessageText(SettlementBean s, List<UserBean> ul) {
-		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-		StringBuffer sb = new StringBuffer();
-		sb.append("<html><body>" +
-				"<table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">" +
-				"<tr>" +
-				"<td width=\"582\"><br/><font face=\"Verdana, Arial, Helvetica, sans-serif\" size=\"2\"> <b>Dear ");
-		sb.append("Expense Tracker User,");
-		sb.append("<br><br></b>Warm Greetings to you!" +
-				"<br><br>A new settlement has been created for the following period:<br><br><b>Start Date:</b> ");
-		sb.append(df.format(s.getStartDate()));
-		sb.append("<br><b>End Date:</b> ");
-		sb.append(df.format(s.getEndDate()));
-		sb.append("<br><br>Please logon to Expense Tracker to see your payables/recievables.<br>" +
-				"<br>Thank You,<br>Expense Tracker Admin<br></td></tr></table></body></html>");
-		return sb.toString();
-	}
+                Transport transport = session.getTransport(TRANSPORT_TYPE);
+                transport.connect(_smtpHost, _user, _password);
+                transport.sendMessage(msg, toListArray);
+                //
+                logger.info("Mail was sent succesfuly.");
+            } else {
+                logger.info("No email ids to send email.");
+            }
+        } catch (AddressException ae) {
+            logger.error("Error occured while sending email.", ae);            
+            result = 1;
+        } catch (MessagingException me) {
+            logger.error("Error occured while sending email.", me);           
+            result = 1;
+        } catch (UnsupportedEncodingException uee) {
+            logger.error("Error occured while sending email.", uee);           
+            result = 1;
+        }
 
-	private String getWelcomeMessageText(UserBean ub) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("Dear ").append(ub.getFirstName()).append(",").append("\n\n");
-		sb
-				.append(
-						"Your new Expense Tracker user id has been created. "
-								+ "It is recommended that you change your password after you logon for the first time.")
-				.append("\n\n");
-		sb.append("User Id:").append("\t").append(ub.getUsername())
-				.append("\n");
-		sb.append("Password:  ").append("\t").append(ub.getPassword()).append(
-				"\n");
-		sb.append("\n");
-		sb.append("Have a great day!.").append("\n\n");
-		sb.append("Thank You,").append("\n").append("Expense Tracker Admin");
-		return sb.toString();
-	}
+        // return result;
+    }
 
-	private String getPasswordResetMessageText(UserBean ub) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("Dear ").append(ub.getFirstName()).append(",").append("\n\n");
-		sb
-				.append(
-						"Your Expense Tracker password has been reset. "
-								+ "It is recommended that you change your password "
-								+ "after you logon using your temporary password mentioned below.")
-				.append("\n\n");
-		sb.append("User Id:").append("\t").append(ub.getUsername())
-				.append("\n");
-		sb.append("Password:  ").append("\t").append(ub.getPassword()).append(
-				"\n");
-		sb.append("\n");
-		sb.append("Have a great day!.").append("\n\n");
-		sb.append("Thank You,").append("\n").append("Expense Tracker Admin");
-		return sb.toString();
-	}
+    private String getMessageText(SettlementBean s, List<UserBean> ul)
+    {
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        StringBuffer sb = new StringBuffer();
+        sb.append("<html><body>"
+                + "<table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">"
+                + "<tr>"
+                + "<td width=\"582\"><br/><font face=\"Verdana, Arial, Helvetica, sans-serif\" size=\"2\"> <b>Dear ");
+        sb.append("Expense Tracker User,");
+        sb.append("<br><br></b>Warm Greetings to you!"
+                + "<br><br>A new settlement has been created for the following period:<br><br><b>Start Date:</b> ");
+        sb.append(df.format(s.getStartDate()));
+        sb.append("<br><b>End Date:</b> ");
+        sb.append(df.format(s.getEndDate()));
+        sb.append("<br><br>Please logon to Expense Tracker to see your payables/recievables.<br>"
+                + "<br>Thank You,<br>Expense Tracker Admin<br></td></tr></table></body></html>");
+        return sb.toString();
+    }
 
-	@Async
-	public void sendPasswordResetEmail(UserBean ub) {
-		this.props = new Properties();
-		props.put("mail.smtp.host", _smtpHost);
-		props.put("mail.smtp.starttls.enable", "true");
-		int result = 0;
-		try {
-			Session session = Session.getInstance(props, null);
-			session.setDebug(false);
-			// create message
-			Message msg = new MimeMessage(session);
-			List<Address> toAddressList = new ArrayList<Address>();
+    private String getWelcomeMessageText(UserBean ub)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Dear ").append(ub.getFirstName()).append(",").append("\n\n");
+        sb.append(
+                "Your new Expense Tracker user id has been created. "
+                        + "It is recommended that you change your password after you logon for the first time.")
+                .append("\n\n");
+        sb.append("User Id:").append("\t").append(ub.getUsername())
+                .append("\n");
+        sb.append("Password:  ").append("\t").append(ub.getPassword())
+                .append("\n");
+        sb.append("\n");
+        sb.append("Have a great day!.").append("\n\n");
+        sb.append("Thank You,").append("\n").append("Expense Tracker Admin");
+        return sb.toString();
+    }
 
-			Address adr;
-			adr = new InternetAddress(ub.getEmailId());
-			toAddressList.add(adr);
+    private String getPasswordResetMessageText(UserBean ub)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Dear ").append(ub.getFirstName()).append(",").append("\n\n");
+        sb.append(
+                "Your Expense Tracker password has been reset. "
+                        + "It is recommended that you change your password "
+                        + "after you logon using your temporary password mentioned below.")
+                .append("\n\n");
+        sb.append("User Id:").append("\t").append(ub.getUsername())
+                .append("\n");
+        sb.append("Password:  ").append("\t").append(ub.getPassword())
+                .append("\n");
+        sb.append("\n");
+        sb.append("Have a great day!.").append("\n\n");
+        sb.append("Thank You,").append("\n").append("Expense Tracker Admin");
+        return sb.toString();
+    }
 
-			Address[] toListArray = new Address[toAddressList.size()];// =
-			// (Address[])
-			// toAddressList.toArray();
-			int i = 0;
-			for (Address a : toAddressList) {
-				toListArray[i] = a;
-				i += 1;
-			}
-			//
-			msg.setRecipients(Message.RecipientType.TO, toListArray);
-			msg.setFrom(new InternetAddress(_from, _fromName));
-			msg.setSubject("Your New Expense Tracker Password has been Reset.");
-			Calendar calendar = Calendar.getInstance();
-			msg.setSentDate(calendar.getTime());
-			//
-			// set contents.
-			msg.setText(getPasswordResetMessageText(ub));
-			//
-			Transport transport = session.getTransport(TRANSPORT_TYPE);
-			transport.connect(_smtpHost, _user, _password);
-			transport.sendMessage(msg, toListArray);
-			//
-			System.out.println("\nPassword Rest Mail was sent successfully.");
-		} catch (AddressException ae) {
-			ae.printStackTrace();
-			result = 1;
-		} catch (MessagingException me) {
-			me.printStackTrace();
-			result = 1;
-		} catch (UnsupportedEncodingException uee) {
-			uee.printStackTrace();
-			result = 1;
-		}
-		// return result;
-	}
+    @Async
+    public void sendPasswordResetEmail(UserBean ub)
+    {
+        this.props = new Properties();
+        props.put("mail.smtp.host", _smtpHost);
+        props.put("mail.smtp.starttls.enable", "true");
+        int result = 0;
+        try {
+            Session session = Session.getInstance(props, null);
+            session.setDebug(false);
+            // create message
+            Message msg = new MimeMessage(session);
+            List<Address> toAddressList = new ArrayList<Address>();
 
-	@Async
-	public void sendWelcomeEmail(UserBean ub) {
-		this.props = new Properties();
-		props.put("mail.smtp.host", _smtpHost);
-		props.put("mail.smtp.starttls.enable", "true");
-		int result = 0;
-		try {
-			Session session = Session.getInstance(props, null);
-			session.setDebug(false);
-			// create message
-			Message msg = new MimeMessage(session);
-			List<Address> toAddressList = new ArrayList<Address>();
+            Address adr;
+            adr = new InternetAddress(ub.getEmailId());
+            toAddressList.add(adr);
 
-			Address adr;
-			adr = new InternetAddress(ub.getEmailId());
-			toAddressList.add(adr);
+            Address[] toListArray = new Address[toAddressList.size()];// =
+            int i = 0;
+            for (Address a : toAddressList) {
+                toListArray[i] = a;
+                i += 1;
+            }
+            //
+            msg.setRecipients(Message.RecipientType.TO, toListArray);
+            msg.setFrom(new InternetAddress(_from, _fromName));
+            msg.setSubject("Your New Expense Tracker Password has been Reset.");
+            Calendar calendar = Calendar.getInstance();
+            msg.setSentDate(calendar.getTime());
+            //
+            // set contents.
+            msg.setText(getPasswordResetMessageText(ub));
+            //
+            Transport transport = session.getTransport(TRANSPORT_TYPE);
+            transport.connect(_smtpHost, _user, _password);
+            transport.sendMessage(msg, toListArray);
+            //
+            System.out.println("\nPassword Rest Mail was sent successfully.");
+        } catch (AddressException ae) {
+            logger.error("Error occured while sending password reset email.", ae);           
+            result = 1;
+        } catch (MessagingException me) {
+            logger.error("Error occured while sending password reset email.", me);
+            result = 1;
+        } catch (UnsupportedEncodingException uee) {
+            logger.error("Error occured while sending password reset email.", uee);
+            result = 1;
+        }
+        // return result;
+    }
 
-			Address[] toListArray = new Address[toAddressList.size()];// =
-			// (Address[])
-			// toAddressList.toArray();
-			int i = 0;
-			for (Address a : toAddressList) {
-				toListArray[i] = a;
-				i += 1;
-			}
-			//
-			msg.setRecipients(Message.RecipientType.TO, toListArray);
-			msg.setFrom(new InternetAddress(_from, _fromName));
-			msg.setSubject("Your New Expense Tracker User Id.");
-			Calendar calendar = Calendar.getInstance();
-			msg.setSentDate(calendar.getTime());
-			//
-			// set contents.
-			msg.setText(getWelcomeMessageText(ub));
-			//
-			Transport transport = session.getTransport(TRANSPORT_TYPE);
-			transport.connect(_smtpHost, _user, _password);
-			transport.sendMessage(msg, toListArray);
-			//
-			System.out.println("\nMail was sent successfully.");
-		} catch (AddressException ae) {
-			ae.printStackTrace();
-			result = 1;
-		} catch (MessagingException me) {
-			me.printStackTrace();
-			result = 1;
-		} catch (UnsupportedEncodingException uee) {
-			uee.printStackTrace();
-			result = 1;
-		}
-		// return result;
-	}
+    @Async
+    public void sendWelcomeEmail(UserBean ub)
+    {
+        this.props = new Properties();
+        props.put("mail.smtp.host", _smtpHost);
+        props.put("mail.smtp.starttls.enable", "true");
+        int result = 0;
+        try {
+            Session session = Session.getInstance(props, null);
+            session.setDebug(false);
+            // create message
+            Message msg = new MimeMessage(session);
+            List<Address> toAddressList = new ArrayList<Address>();
 
-	public String get_smtpHost() {
-		return _smtpHost;
-	}
+            Address adr;
+            adr = new InternetAddress(ub.getEmailId());
+            toAddressList.add(adr);
 
-	public void set_smtpHost(String smtpHost) {
-		_smtpHost = smtpHost;
-	}
+            Address[] toListArray = new Address[toAddressList.size()];// =
+            // (Address[])
+            // toAddressList.toArray();
+            int i = 0;
+            for (Address a : toAddressList) {
+                toListArray[i] = a;
+                i += 1;
+            }
+            //
+            msg.setRecipients(Message.RecipientType.TO, toListArray);
+            msg.setFrom(new InternetAddress(_from, _fromName));
+            msg.setSubject("Your New Expense Tracker User Id.");
+            Calendar calendar = Calendar.getInstance();
+            msg.setSentDate(calendar.getTime());
+            //
+            // set contents.
+            msg.setText(getWelcomeMessageText(ub));
+            //
+            Transport transport = session.getTransport(TRANSPORT_TYPE);
+            transport.connect(_smtpHost, _user, _password);
+            transport.sendMessage(msg, toListArray);
+            //
+            System.out.println("\nMail was sent successfully.");
+        } catch (AddressException ae) {
+            logger.error("Error occured while sending welcome email.", ae);
+            result = 1;
+        } catch (MessagingException me) {
+            logger.error("Error occured while sending welcome email.", me);
+            result = 1;
+        } catch (UnsupportedEncodingException uee) {
+            logger.error("Error occured while sending welcome email.", uee);
+            result = 1;
+        }
+        // return result;
+    }
 
-	public String get_user() {
-		return _user;
-	}
+    public String get_smtpHost()
+    {
+        return _smtpHost;
+    }
 
-	public void set_user(String user) {
-		_user = user;
-	}
+    public void set_smtpHost(String smtpHost)
+    {
+        _smtpHost = smtpHost;
+    }
 
-	public String get_password() {
-		return _password;
-	}
+    public String get_user()
+    {
+        return _user;
+    }
 
-	public void set_password(String password) {
-		_password = password;
-	}
+    public void set_user(String user)
+    {
+        _user = user;
+    }
 
-	public String get_from() {
-		return _from;
-	}
+    public String get_password()
+    {
+        return _password;
+    }
 
-	public void set_from(String from) {
-		_from = from;
-	}
+    public void set_password(String password)
+    {
+        _password = password;
+    }
 
-	public String get_fromName() {
-		return _fromName;
-	}
+    public String get_from()
+    {
+        return _from;
+    }
 
-	public void set_fromName(String fromName) {
-		_fromName = fromName;
-	}
+    public void set_from(String from)
+    {
+        _from = from;
+    }
+
+    public String get_fromName()
+    {
+        return _fromName;
+    }
+
+    public void set_fromName(String fromName)
+    {
+        _fromName = fromName;
+    }
 }

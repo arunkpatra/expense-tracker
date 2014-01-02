@@ -31,166 +31,192 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @NamedQueries({
-@NamedQuery(name="getAllUsers", query="SELECT u FROM UserEntity u"),
-@NamedQuery(name="deleteUser", query="DELETE FROM UserEntity u WHERE u.id = :id"),
-@NamedQuery(name="getAllUserNames", query="SELECT u.username FROM UserEntity u"),
-@NamedQuery(name="getUser", query="SELECT u FROM UserEntity u WHERE u.username = :username"),
-@NamedQuery(name="findUserMatch", query="SELECT u FROM UserEntity u WHERE (u.username = :username)")})
-public class UserEntity implements Serializable{
+        @NamedQuery(name = "getAllUsers", query = "SELECT u FROM UserEntity u"),
+        @NamedQuery(name = "deleteUser", query = "DELETE FROM UserEntity u WHERE u.id = :id"),
+        @NamedQuery(name = "getAllUserNames", query = "SELECT u.username FROM UserEntity u"),
+        @NamedQuery(name = "getUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+        @NamedQuery(name = "findUserMatch", query = "SELECT u FROM UserEntity u WHERE (u.username = :username)") })
+public class UserEntity implements Serializable
+{
 
-	private static final long serialVersionUID = -6352029652777390448L;
-	public static final int USER_ENABLED = 1;
-	public static final int USER_DISABLED = 0;
-	public static final String ALL_USERS = "All";
-	public static final int PASSWORD_CHANGE_NEEDED = 1;
-	public static final int PASSWORD_CHANGE_NOT_NEEDED = 0;
-	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name="username")
-	private String username;
-	
-	@Column(name="password")
-	private String password;
-	
-	@Column(name="enabled")
-	private int enabled;
-	
-	@Column(name="pwdchangeneeded")
-	private int passwordChangeNeeded;
-	
-	@Column(name="emailid")
-	private String emailId;
-	
-	@Column(name="firstname")
-	private String firstName;
-	
-	@Column(name="lastname")
-	private String lastName;
-	
-	@Column(name="middleinit")
-	private String middleInit;
-	
-	@Column(name="createddate")
-	private Date createdDate;
-	
-	@Column(name="lastupdateddate")
-	private Date lastUpdatedDate;
-	
-	@OneToMany(targetEntity=AuthEntity.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
-	private List<AuthEntity> authSet;
-	
-	public String getUsername() {
-		return username;
-	}
+    private static final long serialVersionUID = -6352029652777390448L;
+    public static final int USER_ENABLED = 1;
+    public static final int USER_DISABLED = 0;
+    public static final String ALL_USERS = "All";
+    public static final int PASSWORD_CHANGE_NEEDED = 1;
+    public static final int PASSWORD_CHANGE_NOT_NEEDED = 0;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public String getPassword() {
-		return password;
-	}
+    @Column(name = "username")
+    private String username;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    @Column(name = "password")
+    private String password;
 
-	public int getEnabled() {
-		return enabled;
-	}
+    @Column(name = "enabled")
+    private int enabled;
 
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
-	}
-//	public UserBean getUserBean() {
-//		UserBean ub = new UserBean();
-//		ub.setUsername(this.username);
-//		ub.setPassword(this.getPassword());
-//		UISelectBoolean usb = new UISelectBoolean();
-//		ub.setEnabled(usb);
-//		if (this.getEnabled() == UserEntity.USER_ENABLED) {
-//			usb.setSelected(true);
-//		} else {
-//			usb.setSelected(false);
-//		}
-//		return ub;
-//	}
+    @Column(name = "pwdchangeneeded")
+    private int passwordChangeNeeded;
 
-	public List<AuthEntity> getAuthSet() {
-		return authSet;
-	}
+    @Column(name = "emailid")
+    private String emailId;
 
-	public void setAuthSet(List<AuthEntity> authSet) {
-		this.authSet = authSet;
-	}
+    @Column(name = "firstname")
+    private String firstName;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "lastname")
+    private String lastName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "middleinit")
+    private String middleInit;
 
-	public String getEmailId() {
-		return emailId;
-	}
+    @Column(name = "createddate")
+    private Date createdDate;
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+    @Column(name = "lastupdateddate")
+    private Date lastUpdatedDate;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    @OneToMany(targetEntity = AuthEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<AuthEntity> authSet;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getPassword()
+    {
+        return password;
+    }
 
-	public String getMiddleInit() {
-		return middleInit;
-	}
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 
-	public void setMiddleInit(String middleInit) {
-		this.middleInit = middleInit;
-	}
+    public int getEnabled()
+    {
+        return enabled;
+    }
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
+    public void setEnabled(int enabled)
+    {
+        this.enabled = enabled;
+    }
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+    // public UserBean getUserBean() {
+    // UserBean ub = new UserBean();
+    // ub.setUsername(this.username);
+    // ub.setPassword(this.getPassword());
+    // UISelectBoolean usb = new UISelectBoolean();
+    // ub.setEnabled(usb);
+    // if (this.getEnabled() == UserEntity.USER_ENABLED) {
+    // usb.setSelected(true);
+    // } else {
+    // usb.setSelected(false);
+    // }
+    // return ub;
+    // }
 
-	public Date getLastUpdatedDate() {
-		return lastUpdatedDate;
-	}
+    public List<AuthEntity> getAuthSet()
+    {
+        return authSet;
+    }
 
-	public void setLastUpdatedDate(Date lastUpdatedDate) {
-		this.lastUpdatedDate = lastUpdatedDate;
-	}
+    public void setAuthSet(List<AuthEntity> authSet)
+    {
+        this.authSet = authSet;
+    }
 
-	public int getPasswordChangeNeeded() {
-		return passwordChangeNeeded;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setPasswordChangeNeeded(int passwordChangeNeeded) {
-		this.passwordChangeNeeded = passwordChangeNeeded;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public String getEmailId()
+    {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId)
+    {
+        this.emailId = emailId;
+    }
+
+    public String getFirstName()
+    {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
+
+    public String getMiddleInit()
+    {
+        return middleInit;
+    }
+
+    public void setMiddleInit(String middleInit)
+    {
+        this.middleInit = middleInit;
+    }
+
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate)
+    {
+        this.createdDate = createdDate;
+    }
+
+    public Date getLastUpdatedDate()
+    {
+        return lastUpdatedDate;
+    }
+
+    public void setLastUpdatedDate(Date lastUpdatedDate)
+    {
+        this.lastUpdatedDate = lastUpdatedDate;
+    }
+
+    public int getPasswordChangeNeeded()
+    {
+        return passwordChangeNeeded;
+    }
+
+    public void setPasswordChangeNeeded(int passwordChangeNeeded)
+    {
+        this.passwordChangeNeeded = passwordChangeNeeded;
+    }
 }

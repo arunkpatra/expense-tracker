@@ -33,194 +33,210 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "et_settlement")
-@NamedQueries( {
-		@NamedQuery(name = "getExpensesForSettlementId", query = 
-				"SELECT e.id, "
-				+ "e.amount, "
-				+ "e.date, "
-				+ "e.description, "
-				+ "e.paidBy, "
-				+ "ue.username, "
-				+ "ue.shareAmount "
-				+ "FROM ExpenseEntity e, UserExpenseEntity ue "
-				+ "WHERE (e.settlementId = :settlementId) AND (e.id = ue.expense_id) ORDER BY e.date ASC, e.id ASC"),
-		@NamedQuery(name = "paymentsForUser", query = "SELECT us.amount, "
-				+ "us.settlementFlag, "
-				+ "s.startDate, "
-				+ "s.endDate, "
-				+ "s.id, "
-				+ "us.userName "
-				+ "FROM UserSettlementEntity us, SettlementEntity s "
-				+ "WHERE (us.userName = :userName) AND (us.settlement_id = s.id) ORDER BY s.endDate DESC"),
-		@NamedQuery(name = "allPayments", query = "SELECT us.amount, "
-				+ "us.settlementFlag, "
-				+ "s.startDate, "
-				+ "s.endDate, "
-				+ "s.id, "
-				+ "us.userName, "
-				+ "us.id "
-				+ "FROM UserSettlementEntity us, SettlementEntity s "
-				+ "WHERE (us.settlement_id = s.id) ORDER BY s.endDate DESC"),
-		@NamedQuery(name = "getAllSettlements", query = "SELECT s from SettlementEntity s ORDER BY s.endDate DESC"),
-//		@NamedQuery(name = "addSettlementReportPdf", query = "UPDATE SettlementEntity s " +
-//				"SET s.reportPdf = :settlementReportPdf " +
-//				"WHERE s.id = :id"),
-//		@NamedQuery(name = "addExpenseReportPdf", query = "UPDATE SettlementEntity s " +
-//				"SET s.expenseReportPdf = :expenseReportPdf " +
-//				"WHERE s.id = :id"),
-		@NamedQuery(name = "getAllSettlementsForUser", query = "SELECT s from SettlementEntity s, UserSettlementEntity use " +
-				"WHERE (s.id = use.settlement_id) AND " +
-				"(use.userName = :userName) ORDER BY s.endDate DESC"),
-		@NamedQuery(name = "deleteSettlementForId", query = "DELETE SettlementEntity s WHERE s.id = :sid"),
-		@NamedQuery(name = "getSettlementForId", query = "SELECT s from SettlementEntity s WHERE s.id = :id " +
-				"ORDER BY s.endDate DESC")})
-public class SettlementEntity implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "getExpensesForSettlementId", query = "SELECT e.id, "
+                + "e.amount, "
+                + "e.date, "
+                + "e.description, "
+                + "e.paidBy, "
+                + "ue.username, "
+                + "ue.shareAmount "
+                + "FROM ExpenseEntity e, UserExpenseEntity ue "
+                + "WHERE (e.settlementId = :settlementId) AND (e.id = ue.expense_id) ORDER BY e.date ASC, e.id ASC"),
+        @NamedQuery(name = "paymentsForUser", query = "SELECT us.amount, "
+                + "us.settlementFlag, "
+                + "s.startDate, "
+                + "s.endDate, "
+                + "s.id, "
+                + "us.userName "
+                + "FROM UserSettlementEntity us, SettlementEntity s "
+                + "WHERE (us.userName = :userName) AND (us.settlement_id = s.id) ORDER BY s.endDate DESC"),
+        @NamedQuery(name = "allPayments", query = "SELECT us.amount, "
+                + "us.settlementFlag, " + "s.startDate, " + "s.endDate, "
+                + "s.id, " + "us.userName, " + "us.id "
+                + "FROM UserSettlementEntity us, SettlementEntity s "
+                + "WHERE (us.settlement_id = s.id) ORDER BY s.endDate DESC"),
+        @NamedQuery(name = "getAllSettlements", query = "SELECT s from SettlementEntity s ORDER BY s.endDate DESC"),
+        // @NamedQuery(name = "addSettlementReportPdf", query =
+        // "UPDATE SettlementEntity s " +
+        // "SET s.reportPdf = :settlementReportPdf " +
+        // "WHERE s.id = :id"),
+        // @NamedQuery(name = "addExpenseReportPdf", query =
+        // "UPDATE SettlementEntity s " +
+        // "SET s.expenseReportPdf = :expenseReportPdf " +
+        // "WHERE s.id = :id"),
+        @NamedQuery(name = "getAllSettlementsForUser", query = "SELECT s from SettlementEntity s, UserSettlementEntity use "
+                + "WHERE (s.id = use.settlement_id) AND "
+                + "(use.userName = :userName) ORDER BY s.endDate DESC"),
+        @NamedQuery(name = "deleteSettlementForId", query = "DELETE SettlementEntity s WHERE s.id = :sid"),
+        @NamedQuery(name = "getSettlementForId", query = "SELECT s from SettlementEntity s WHERE s.id = :id "
+                + "ORDER BY s.endDate DESC") })
+public class SettlementEntity implements Serializable
+{
 
-	private static final long serialVersionUID = -3307656260377225300L;
-	public static final int SETTLEMENT_COMPLETED = 1;
-	public static final int SETTLEMENT_NOT_COMPLETED = 0;
+    private static final long serialVersionUID = -3307656260377225300L;
+    public static final int SETTLEMENT_COMPLETED = 1;
+    public static final int SETTLEMENT_NOT_COMPLETED = 0;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "cyclestartdate")
-	private Date startDate;
+    @Column(name = "cyclestartdate")
+    private Date startDate;
 
-	@Column(name = "cycleenddate")
-	private Date endDate;
+    @Column(name = "cycleenddate")
+    private Date endDate;
 
-	@Column(name = "volume")
-	private float volume;
-	
-	@Column(name="createddate")
-	private Date createdDate;
-	
-	@Column(name="closeddate")
-	private Date closedDate;
-	
-//	@Column(name="reportpdf")
-//	@Lob
-//	private byte[] reportPdf;
-//
-//	@Column(name="expensereportpdf")
-//	@Lob
-//	private byte[] expenseReportPdf;
-	
-	@Column(name = "settlementcompleted")
-	private int settlementCompleted;
-	
-	@Column(name="accountmanager")
-	private String accountManager;
+    @Column(name = "volume")
+    private float volume;
 
-	@OneToMany(targetEntity = UserSettlementEntity.class, 
-			cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")
-	private Set<UserSettlementEntity> userSettlementSet;
+    @Column(name = "createddate")
+    private Date createdDate;
 
-	/**
-	 * There might be many expenses for a settlement
-	 */
-	@OneToMany(targetEntity = ExpenseEntity.class, 
-			cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")
-//	@GenericGenerator(name="uuid-gen", strategy = "uuid")
-//	@CollectionId(columns = @Column(name = "COL_ID"), type = @Type(type = "string"), generator = "uuid-gen")
-	private Set<ExpenseEntity> expenseSet;
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "closeddate")
+    private Date closedDate;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // @Column(name="reportpdf")
+    // @Lob
+    // private byte[] reportPdf;
+    //
+    // @Column(name="expensereportpdf")
+    // @Lob
+    // private byte[] expenseReportPdf;
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    @Column(name = "settlementcompleted")
+    private int settlementCompleted;
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    @Column(name = "accountmanager")
+    private String accountManager;
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    @OneToMany(targetEntity = UserSettlementEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")
+    private Set<UserSettlementEntity> userSettlementSet;
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    /**
+     * There might be many expenses for a settlement
+     */
+    @OneToMany(targetEntity = ExpenseEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")
+    // @GenericGenerator(name="uuid-gen", strategy = "uuid")
+    // @CollectionId(columns = @Column(name = "COL_ID"), type = @Type(type =
+    // "string"), generator = "uuid-gen")
+    private Set<ExpenseEntity> expenseSet;
 
-	public float getVolume() {
-		return volume;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setVolume(float volume) {
-		this.volume = volume;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public int getSettlementCompleted() {
-		return settlementCompleted;
-	}
+    public Date getStartDate()
+    {
+        return startDate;
+    }
 
-	public void setSettlementCompleted(int settlementCompleted) {
-		this.settlementCompleted = settlementCompleted;
-	}
+    public void setStartDate(Date startDate)
+    {
+        this.startDate = startDate;
+    }
 
-	public Set<UserSettlementEntity> getUserSettlementSet() {
-		return userSettlementSet;
-	}
+    public Date getEndDate()
+    {
+        return endDate;
+    }
 
-	public void setUserSettlementSet(
-			Set<UserSettlementEntity> userSettlementSet) {
-		this.userSettlementSet = userSettlementSet;
-	}
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
+    public float getVolume()
+    {
+        return volume;
+    }
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+    public void setVolume(float volume)
+    {
+        this.volume = volume;
+    }
 
-	public Date getClosedDate() {
-		return closedDate;
-	}
+    public int getSettlementCompleted()
+    {
+        return settlementCompleted;
+    }
 
-	public void setClosedDate(Date closedDate) {
-		this.closedDate = closedDate;
-	}
+    public void setSettlementCompleted(int settlementCompleted)
+    {
+        this.settlementCompleted = settlementCompleted;
+    }
 
-//	public byte[] getReportPdf() {
-//		return reportPdf;
-//	}
-//
-//	public void setReportPdf(byte[] reportPdf) {
-//		this.reportPdf = reportPdf;
-//	}
-//
-//	public byte[] getExpenseReportPdf() {
-//		return expenseReportPdf;
-//	}
-//
-//	public void setExpenseReportPdf(byte[] expenseReportPdf) {
-//		this.expenseReportPdf = expenseReportPdf;
-//	}
+    public Set<UserSettlementEntity> getUserSettlementSet()
+    {
+        return userSettlementSet;
+    }
 
-	public String getAccountManager() {
-		return accountManager;
-	}
+    public void setUserSettlementSet(Set<UserSettlementEntity> userSettlementSet)
+    {
+        this.userSettlementSet = userSettlementSet;
+    }
 
-	public void setAccountManager(String accountManager) {
-		this.accountManager = accountManager;
-	}
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
 
-	public Set<ExpenseEntity> getExpenseSet() {
-		return expenseSet;
-	}
+    public void setCreatedDate(Date createdDate)
+    {
+        this.createdDate = createdDate;
+    }
 
-	public void setExpenseSet(Set<ExpenseEntity> expenseSet) {
-		this.expenseSet = expenseSet;
-	}
+    public Date getClosedDate()
+    {
+        return closedDate;
+    }
+
+    public void setClosedDate(Date closedDate)
+    {
+        this.closedDate = closedDate;
+    }
+
+    // public byte[] getReportPdf() {
+    // return reportPdf;
+    // }
+    //
+    // public void setReportPdf(byte[] reportPdf) {
+    // this.reportPdf = reportPdf;
+    // }
+    //
+    // public byte[] getExpenseReportPdf() {
+    // return expenseReportPdf;
+    // }
+    //
+    // public void setExpenseReportPdf(byte[] expenseReportPdf) {
+    // this.expenseReportPdf = expenseReportPdf;
+    // }
+
+    public String getAccountManager()
+    {
+        return accountManager;
+    }
+
+    public void setAccountManager(String accountManager)
+    {
+        this.accountManager = accountManager;
+    }
+
+    public Set<ExpenseEntity> getExpenseSet()
+    {
+        return expenseSet;
+    }
+
+    public void setExpenseSet(Set<ExpenseEntity> expenseSet)
+    {
+        this.expenseSet = expenseSet;
+    }
 
 }

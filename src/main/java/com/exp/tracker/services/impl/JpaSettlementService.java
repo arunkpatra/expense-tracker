@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,11 @@ import com.exp.tracker.services.api.SettlementService;
 @Repository
 public class JpaSettlementService implements SettlementService {
 
+    /**
+     * The logger.
+     */
+    private static final Log logger = LogFactory.getLog(JpaSettlementService.class);
+    
 	private EntityManager em;
 
 	@PersistenceContext
@@ -44,7 +51,6 @@ public class JpaSettlementService implements SettlementService {
 		// create new settlement
 		SettlementEntity se = new SettlementEntity();
 		Query queryGetExpenses = null;
-//		queryGetExpenses = em.createNamedQuery("getExpenses");
 		queryGetExpenses = em.createNamedQuery("getUnsettledExpenses");
 		queryGetExpenses.setParameter("startDate", sb.getStartDate());
 		queryGetExpenses.setParameter("endDate", sb.getEndDate());
@@ -209,29 +215,6 @@ public class JpaSettlementService implements SettlementService {
 	public int deleteSettlement(Long sid) {
 		// 0 return code is good. 1 is bad
 		int result = 0;		
-//		try {
-//			// Settlement deletion is a complex process. Do this in order
-			// delete reports
-//			Query queryDeleteReportsForSid = em.createNamedQuery("deleteReportsForSid");
-//			queryDeleteReportsForSid.setParameter("sid", sid);
-//			queryDeleteReportsForSid.executeUpdate();
-			// reports deleted
-//			
-//			// find expenses with matching settlement id, and delete them all
-//			Query queryDeleteExpensesForSid = em.createNamedQuery("deleteExpensesForSid");
-//			queryDeleteExpensesForSid.setParameter("sid", sid);
-//			queryDeleteExpensesForSid.executeUpdate();
-//			// expenses deleted
-//			
-//			// delete all settlements
-//			Query queryDeleteSettlementForId = em.createNamedQuery("deleteSettlementForId");
-//			queryDeleteSettlementForId.setParameter("sid", sid);
-//			queryDeleteSettlementForId.executeUpdate();
-//			// settlement deleted
-//		} catch (Exception e) {
-//			result = 1;
-//			e.printStackTrace();
-//		}
 		try {
 			// delete reports
 			Query queryDeleteReportsForSid = em.createNamedQuery("deleteReportsForSid");
@@ -242,7 +225,7 @@ public class JpaSettlementService implements SettlementService {
 			em.remove(se);
 		} catch (Exception e) {
 			result = 1;
-			e.printStackTrace();
+			logger.error("Error occured while deleting settlement " + e.getMessage(), e); 
 		}
 		return result;
 	}

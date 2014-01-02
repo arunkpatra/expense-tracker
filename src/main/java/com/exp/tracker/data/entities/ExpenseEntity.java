@@ -37,181 +37,202 @@ import com.exp.tracker.data.model.ExpenseDetail;
 
 @Entity
 @Table(name = "et_expense")
-@NamedQueries( {
-		@NamedQuery(name = "unsettledExpenseForUser", query = "SELECT SUM(u.shareAmount) FROM ExpenseEntity e, UserExpenseEntity u "
-				+ "WHERE (e.date >= :startDate) AND "
-				+ "(e.date <= :endDate) AND "
-				+ "(e.id = u.expense_id) AND "
-				+ "(e.settlementId = NULL) AND " + "(u.username = :userName)"),
-		@NamedQuery(name = "unsettledAmountPaidByUser", query = "SELECT SUM(amount) FROM ExpenseEntity e "
-				+ "WHERE (e.date >= :startDate) AND "
-				+ "(e.date <= :endDate) AND "
-				+ "(e.settlementId = NULL) AND "
-				+ "(e.paidBy = :paidBy)"),
-		@NamedQuery(name = "expenseForUser", query = "SELECT SUM(u.shareAmount) FROM ExpenseEntity e, UserExpenseEntity u "
-				+ "WHERE (e.date >= :startDate) AND "
-				+ "(e.date <= :endDate) AND "
-				+ "(e.id = u.expense_id) AND "
-				+ "(u.username = :userName)"),
-		@NamedQuery(name = "anyExpensesForUser", query = "SELECT e FROM ExpenseEntity e, UserExpenseEntity u "
-					+ "WHERE "
-					+ "(e.id = u.expense_id) AND "
-					+ "((u.username = :userName) OR (e.paidBy = :userName))"),
-		@NamedQuery(name = "amountPaidByUser", query = "SELECT SUM(amount) FROM ExpenseEntity e "
-				+ "WHERE (e.date >= :startDate) AND "
-				+ "(e.date <= :endDate) AND " + "e.paidBy = :paidBy"),
-		@NamedQuery(name = "getExpenses", query = "SELECT e FROM ExpenseEntity e "
-				+ "WHERE (e.date >= :startDate) AND " + "(e.date <= :endDate) ORDER BY e.date DESC"),
-		@NamedQuery(name = "getUnsettledExpenses", query = "SELECT e FROM ExpenseEntity e "
-				+ "WHERE (e.date >= :startDate) AND " + "(e.date <= :endDate) AND (e.settlementId = NULL) ORDER BY e.date DESC"),
-//		@NamedQuery(name = "getUnsettledExpenses", query = "SELECT e FROM ExpenseEntity e "
-//				+ "WHERE (e.date >= :startDate) AND "
-//				+ "(e.date <= :endDate) AND " + "(e.settlementId = NULL)"),
-		@NamedQuery(name = "addSettlementId", query = "UPDATE ExpenseEntity e SET e.settlementId = :settlementId " +
-				"WHERE (e.date >= :startDate) AND " +
-				"(e.date <= :endDate) AND " +
-				"e.settlementId = NULL"),
-		@NamedQuery(name = "getExpenseById", query = "SELECT e FROM ExpenseEntity e " +
-				"WHERE e.id = :id"),
-		@NamedQuery(name = "deleteExpensesForSid", query = "DELETE FROM ExpenseEntity e " +
-				"WHERE e.settlementId = :sid"),
-		@NamedQuery(name = "getExpensesForUser", query = "SELECT e FROM ExpenseEntity e " +
-				"WHERE (e.paidBy = :paidBy) AND " +
-				"(e.date >= :startDate) AND " +
-				"(e.date <= :endDate)") })
-public class ExpenseEntity implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "unsettledExpenseForUser", query = "SELECT SUM(u.shareAmount) FROM ExpenseEntity e, UserExpenseEntity u "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) AND "
+                + "(e.id = u.expense_id) AND "
+                + "(e.settlementId = NULL) AND " + "(u.username = :userName)"),
+        @NamedQuery(name = "unsettledAmountPaidByUser", query = "SELECT SUM(amount) FROM ExpenseEntity e "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) AND "
+                + "(e.settlementId = NULL) AND "
+                + "(e.paidBy = :paidBy)"),
+        @NamedQuery(name = "expenseForUser", query = "SELECT SUM(u.shareAmount) FROM ExpenseEntity e, UserExpenseEntity u "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) AND "
+                + "(e.id = u.expense_id) AND "
+                + "(u.username = :userName)"),
+        @NamedQuery(name = "anyExpensesForUser", query = "SELECT e FROM ExpenseEntity e, UserExpenseEntity u "
+                + "WHERE "
+                + "(e.id = u.expense_id) AND "
+                + "((u.username = :userName) OR (e.paidBy = :userName))"),
+        @NamedQuery(name = "amountPaidByUser", query = "SELECT SUM(amount) FROM ExpenseEntity e "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) AND " + "e.paidBy = :paidBy"),
+        @NamedQuery(name = "getExpenses", query = "SELECT e FROM ExpenseEntity e "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) ORDER BY e.date DESC"),
+        @NamedQuery(name = "getUnsettledExpenses", query = "SELECT e FROM ExpenseEntity e "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) AND (e.settlementId = NULL) ORDER BY e.date DESC"),
+        // @NamedQuery(name = "getUnsettledExpenses", query =
+        // "SELECT e FROM ExpenseEntity e "
+        // + "WHERE (e.date >= :startDate) AND "
+        // + "(e.date <= :endDate) AND " + "(e.settlementId = NULL)"),
+        @NamedQuery(name = "addSettlementId", query = "UPDATE ExpenseEntity e SET e.settlementId = :settlementId "
+                + "WHERE (e.date >= :startDate) AND "
+                + "(e.date <= :endDate) AND " + "e.settlementId = NULL"),
+        @NamedQuery(name = "getExpenseById", query = "SELECT e FROM ExpenseEntity e "
+                + "WHERE e.id = :id"),
+        @NamedQuery(name = "deleteExpensesForSid", query = "DELETE FROM ExpenseEntity e "
+                + "WHERE e.settlementId = :sid"),
+        @NamedQuery(name = "getExpensesForUser", query = "SELECT e FROM ExpenseEntity e "
+                + "WHERE (e.paidBy = :paidBy) AND "
+                + "(e.date >= :startDate) AND " + "(e.date <= :endDate)") })
+public class ExpenseEntity implements Serializable
+{
 
-	private static final long serialVersionUID = -3326698472797161467L;
+    private static final long serialVersionUID = -3326698472797161467L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private float amount;
+    private float amount;
 
-	private Date date;
+    private Date date;
 
-	private String description;
+    private String description;
 
-	private String category;
+    private String category;
 
-	private String paidBy;
-	
-	@Column(name = "createdby")
-	private String createdBy;
-	
-	@Column(name = "settlement_id")
-	private Long settlementId;
-	
-	/**
-	 * There may be many expenses for a settlemnt
-	 */
-	@ManyToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "settlement_id", referencedColumnName = "id", insertable = false, updatable = false)
-	private SettlementEntity settlement;
+    private String paidBy;
 
-	@OneToMany(targetEntity = UserExpenseEntity.class, 
-			cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "expense")
-	private Set<UserExpenseEntity> userExpenseSet;
+    @Column(name = "createdby")
+    private String createdBy;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "settlement_id")
+    private Long settlementId;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     * There may be many expenses for a settlemnt
+     */
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "settlement_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SettlementEntity settlement;
 
-	public float getAmount() {
-		return amount;
-	}
+    @OneToMany(targetEntity = UserExpenseEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "expense")
+    private Set<UserExpenseEntity> userExpenseSet;
 
-	public void setAmount(float amount) {
-		this.amount = amount;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public float getAmount()
+    {
+        return amount;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setAmount(float amount)
+    {
+        this.amount = amount;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public Date getDate()
+    {
+        return date;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public void setDate(Date date)
+    {
+        this.date = date;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public String getDescription()
+    {
+        return description;
+    }
 
-	public ExpenseEntity() {
-	}
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
 
-	public ExpenseEntity(ExpenseDetail ed) {
-		
-		this.setAmount(ed.getAmount());
-		this.setCategory(ed.getCategory());
-		this.setDate(ed.getDate());
-		this.setPaidBy(ed.getPaidBy());
-		this.setDescription(ed.getDescription());
-		this.setCreatedBy(ed.getCreatedBy());
-		// userExpenseSet = new HashSet<UserExpenseEntity>();
-		// for (UserShare us : ed.getUserShares()) {
-		// UserExpenseEntity uee = new UserExpenseEntity();
-		// uee.setUsername(us.getName());
-		// uee.setPercent(us.getSharePercentage());
-		// userExpenseSet.add(uee);
-		// }
-	}
+    public String getCategory()
+    {
+        return category;
+    }
 
-	public Set<UserExpenseEntity> getUserExpenseSet() {
-		return userExpenseSet;
-	}
+    public void setCategory(String category)
+    {
+        this.category = category;
+    }
 
-	public void setUserExpenseSet(Set<UserExpenseEntity> userExpenseSet) {
-		this.userExpenseSet = userExpenseSet;
-	}
+    public ExpenseEntity() {
+    }
 
-	public String getPaidBy() {
-		return paidBy;
-	}
+    public ExpenseEntity(ExpenseDetail ed) {
 
-	public void setPaidBy(String paidBy) {
-		this.paidBy = paidBy;
-	}
+        this.setAmount(ed.getAmount());
+        this.setCategory(ed.getCategory());
+        this.setDate(ed.getDate());
+        this.setPaidBy(ed.getPaidBy());
+        this.setDescription(ed.getDescription());
+        this.setCreatedBy(ed.getCreatedBy());
+        // userExpenseSet = new HashSet<UserExpenseEntity>();
+        // for (UserShare us : ed.getUserShares()) {
+        // UserExpenseEntity uee = new UserExpenseEntity();
+        // uee.setUsername(us.getName());
+        // uee.setPercent(us.getSharePercentage());
+        // userExpenseSet.add(uee);
+        // }
+    }
 
-	public Long getSettlementId() {
-		return settlementId;
-	}
+    public Set<UserExpenseEntity> getUserExpenseSet()
+    {
+        return userExpenseSet;
+    }
 
-	public void setSettlementId(Long settlementId) {
-		this.settlementId = settlementId;
-	}
+    public void setUserExpenseSet(Set<UserExpenseEntity> userExpenseSet)
+    {
+        this.userExpenseSet = userExpenseSet;
+    }
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+    public String getPaidBy()
+    {
+        return paidBy;
+    }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public void setPaidBy(String paidBy)
+    {
+        this.paidBy = paidBy;
+    }
 
-	public SettlementEntity getSettlement() {
-		return settlement;
-	}
+    public Long getSettlementId()
+    {
+        return settlementId;
+    }
 
-	public void setSettlement(SettlementEntity settlement) {
-		this.settlement = settlement;
-	}
+    public void setSettlementId(Long settlementId)
+    {
+        this.settlementId = settlementId;
+    }
+
+    public String getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy)
+    {
+        this.createdBy = createdBy;
+    }
+
+    public SettlementEntity getSettlement()
+    {
+        return settlement;
+    }
+
+    public void setSettlement(SettlementEntity settlement)
+    {
+        this.settlement = settlement;
+    }
 
 }

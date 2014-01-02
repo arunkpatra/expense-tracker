@@ -134,13 +134,12 @@ public class JasperReportGenerationService implements ReportGenerationService
             saveSettlementPdfToDataBase(sid, pdfBytes);
 
         } catch (JRException e) {
-            System.out.println("Jasper Error... while creating expense report");
-            e.printStackTrace();
+            logger.error("Jasper Error while creating expense report.", e);
         } catch (FileNotFoundException fnfe) {
-            System.out.println("File not found...");
+            logger.error("Report file not found.", fnfe);
         }
 
-        System.out.println("Settlement PDF created and save to DB");
+        logger.info("Settlement PDF created and save to DB");
         return pdfBytes;
     }
 
@@ -180,12 +179,11 @@ public class JasperReportGenerationService implements ReportGenerationService
             saveExpensePdfToDataBase(sid, pdfBytes);
 
         } catch (JRException e) {
-            System.out.println("Jasper Error... while creating expense report");
-            e.printStackTrace();
+            logger.error("Jasper Error while creating expense report.", e);           
         } catch (FileNotFoundException fnfe) {
-            System.out.println("Expense Report File not found...");
+            logger.error("Expense Report File not found.", fnfe);               
         }
-        System.out.println("*** Expense report generated and saved to DB");
+        logger.info("Expense report generated and saved to DB");      
         return pdfBytes;
     }
 
@@ -206,7 +204,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         re.setCreatedDate(calendar.getTime());
         em.persist(re);
 
-        System.out.println("Settlement Report PDF saved to database");
+        logger.info("Settlement Report PDF saved to database");      
     }
 
     private void saveExpensePdfToDataBase(Long sid, byte[] pdfBytes)
@@ -219,7 +217,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         Calendar calendar = Calendar.getInstance();
         re.setCreatedDate(calendar.getTime());
         em.persist(re);
-        System.out.println("Expense Report PDF saved to database");
+        logger.info("Expense Report PDF saved to database"); 
     }
 
     private Map<String, Object> getSettlementReportParamMap(Long sid)

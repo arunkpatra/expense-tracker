@@ -29,80 +29,92 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="et_user_expense")
-@NamedQueries( {
-		@NamedQuery(name = "deleteUserExpenseEntitiesForExpense", query = "DELETE UserExpenseEntity uee " +
-				"WHERE uee.expense_id = :expense_id")})
-public class UserExpenseEntity implements Serializable{
-	
-	private static final long serialVersionUID = -1980648185432872922L;
+@Table(name = "et_user_expense")
+@NamedQueries({ @NamedQuery(name = "deleteUserExpenseEntitiesForExpense", query = "DELETE UserExpenseEntity uee "
+        + "WHERE uee.expense_id = :expense_id") })
+public class UserExpenseEntity implements Serializable
+{
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;	
-	
-	private String username;
-	
-	@Column(name="amount")
-	private float shareAmount;	
-	
-	@Column(name="discountpercent")
-	private float discountPercent;	
-	
-	private Long expense_id;
-	
-	@ManyToOne (cascade=CascadeType.REMOVE)
-	@JoinColumn(name="expense_id", referencedColumnName="id", insertable=false, updatable=false)
-	private ExpenseEntity expense;
+    private static final long serialVersionUID = -1980648185432872922L;
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private String username;
 
-	public String getUsername() {
-		return username;
-	}
+    @Column(name = "amount")
+    private float shareAmount;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Column(name = "discountpercent")
+    private float discountPercent;
 
-	public ExpenseEntity getExpense() {
-		return expense;
-	}
+    private Long expense_id;
 
-	public void setExpense(ExpenseEntity expense) {
-		this.expense = expense;
-	}
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "expense_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private ExpenseEntity expense;
 
-	public Long getExpense_id() {
-		return expense_id;
-		//return getExpense().getId();
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setExpense_id(Long expenseId) {
-		expense_id = expenseId;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public float getShareAmount() {
-		return shareAmount;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public void setShareAmount(float shareAmount) {
-		this.shareAmount = shareAmount;
-	}
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
-	public float getDiscountPercent() {
-		return discountPercent;
-	}
+    public ExpenseEntity getExpense()
+    {
+        return expense;
+    }
 
-	public void setDiscountPercent(float discountPercent) {
-		this.discountPercent = discountPercent;
-	}
+    public void setExpense(ExpenseEntity expense)
+    {
+        this.expense = expense;
+    }
+
+    public Long getExpense_id()
+    {
+        return expense_id;
+        // return getExpense().getId();
+    }
+
+    public void setExpense_id(Long expenseId)
+    {
+        expense_id = expenseId;
+    }
+
+    public float getShareAmount()
+    {
+        return shareAmount;
+    }
+
+    public void setShareAmount(float shareAmount)
+    {
+        this.shareAmount = shareAmount;
+    }
+
+    public float getDiscountPercent()
+    {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(float discountPercent)
+    {
+        this.discountPercent = discountPercent;
+    }
 
 }

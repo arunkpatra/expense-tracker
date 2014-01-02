@@ -29,264 +29,326 @@ import org.springframework.binding.validation.ValidationContext;
 import com.exp.tracker.data.entities.AuthEntity;
 import com.exp.tracker.data.entities.UserEntity;
 
-public class UserBean implements Serializable {
+/**
+ * Models a user of this system.
+ * 
+ * @author Arun Patra
+ * 
+ */
+public class UserBean implements Serializable
+{
 
-	private static final long serialVersionUID = 2025298387662418996L;
-	private Long id;
-	private String username;
-	private String password;
-	private boolean enabled;
-	private boolean passwordChangeNeeded;
-	private String emailId;
-	private String firstName;
-	private String lastName;
-	private String middleInit;
-	private Date createdDate;
-	private Date lastUpdatedDate;
+    private static final long serialVersionUID = 2025298387662418996L;
+    /**
+     * The unique record id.
+     */
+    private Long id;
+    /**
+     * The user name.
+     */
+    private String username;
+    /**
+     * The user password.
+     */
+    private String password;
+    /**
+     * Is the user enabled in the system?.
+     */
+    private boolean enabled;
+    /**
+     * Has this user neen marked for a pasword reset?.
+     */
+    private boolean passwordChangeNeeded;
+    /**
+     * EMail ID of the user.
+     */
+    private String emailId;
+    /**
+     * First name of the user.
+     */
+    private String firstName;
+    /**
+     * Last name of the user.
+     */
+    private String lastName;
+    /**
+     * Middle initial of the user.
+     */
+    private String middleInit;
+    /**
+     * The user creation date.
+     */
+    private Date createdDate;
+    /**
+     * The last update date.
+     */
+    private Date lastUpdatedDate;
 
-	private AuthBean authToBeAdded;
+    /**
+     * The authorization to be added.
+     */
+    private AuthBean authToBeAdded;
 
-	private List<AuthBean> authSet;
+    /**
+     * A list of authorities for this user.
+     */
+    private List<AuthBean> authSet;
 
-	public void clearUserData() {
-		id = null;
-		username = null;
-		password = null;
-		enabled = true;
-		passwordChangeNeeded = false;
-		emailId = null;
-		firstName = null;
-		lastName = null;
-		middleInit = null;
-		createdDate = null;
-		lastUpdatedDate = null;
-		authSet = new ArrayList<AuthBean>();
-		authToBeAdded = null;
-	}
-	public String getUsername() {
-		return username;
-	}
+    /**
+     * Clears user entered data.
+     */
+    public void clearUserData()
+    {
+        id = null;
+        username = null;
+        password = null;
+        enabled = true;
+        passwordChangeNeeded = false;
+        emailId = null;
+        firstName = null;
+        lastName = null;
+        middleInit = null;
+        createdDate = null;
+        lastUpdatedDate = null;
+        authSet = new ArrayList<AuthBean>();
+        authToBeAdded = null;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword()
+    {
+        return password;
+    }
 
-	public boolean getEnabled() {
-		return enabled;
-	}
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    public boolean getEnabled()
+    {
+        return enabled;
+    }
 
-	public UserBean() {
-		setEnabled(true);
-		authSet = new ArrayList<AuthBean>();
-	}
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
 
-	/**
-	 * Constructor
-	 * 
-	 * @param ue
-	 */
-	public UserBean(UserEntity ue) {
-		if (ue.getEnabled() == 1) {
-			this.setEnabled(true);
-		} else {
-			this.setEnabled(false);
-		}
-		this.id = ue.getId();
-		this.setUsername(ue.getUsername());
-		this.setPassword(ue.getPassword());
-		this.setCreatedDate(ue.getCreatedDate());
-		this.setEmailId(ue.getEmailId());
-		this.setFirstName(ue.getFirstName());
-		this.setLastName(ue.getLastName());
-		this.setLastUpdatedDate(ue.getLastUpdatedDate());
-		this.setMiddleInit(ue.getMiddleInit());
-		if (ue.getPasswordChangeNeeded() == 1) {
-			this.setPasswordChangeNeeded(true);
-		} else {
-			this.setPasswordChangeNeeded(false);
-		}
-		List<AuthBean> abl = new ArrayList<AuthBean>();
-		for (AuthEntity ae : ue.getAuthSet()) {
-			AuthBean ab = new AuthBean(ae);
-			abl.add(ab);
-		}
-		this.setAuthSet(abl);
-	}
+    public UserBean() {
+        setEnabled(true);
+        authSet = new ArrayList<AuthBean>();
+    }
 
-	public UserEntity getUserEntity() {
-		UserEntity ue = new UserEntity();
-		ue.setId(this.id);
-		ue.setUsername(this.getUsername());
-		ue.setPassword(this.getPassword());
-		if (this.getEnabled()) {
-			ue.setEnabled(1);
-		} else {
-			ue.setEnabled(0);
-		}
-		ue.setCreatedDate(this.getCreatedDate());
-		ue.setEmailId(this.getEmailId());
-		ue.setFirstName(this.getFirstName());
-		ue.setLastName(this.getLastName());
-		ue.setMiddleInit(this.getMiddleInit());
-		ue.setLastUpdatedDate(this.getLastUpdatedDate());
-		ue.setCreatedDate(this.getCreatedDate());
-		if (this.isPasswordChangeNeeded()) {
-			ue.setPasswordChangeNeeded(1);
-		}
-		List<AuthEntity> ael = new ArrayList<AuthEntity>();
-		for (AuthBean ab : getAuthSet()) {
-			AuthEntity ae = ab.getAuthEntity();
-			ael.add(ae);
-		}
-		ue.setAuthSet(ael);
-		return ue;
-	}
+    /**
+     * Constructor
+     * 
+     * @param ue
+     */
+    public UserBean(UserEntity ue) {
+        if (ue.getEnabled() == 1) {
+            this.setEnabled(true);
+        } else {
+            this.setEnabled(false);
+        }
+        this.id = ue.getId();
+        this.setUsername(ue.getUsername());
+        this.setPassword(ue.getPassword());
+        this.setCreatedDate(ue.getCreatedDate());
+        this.setEmailId(ue.getEmailId());
+        this.setFirstName(ue.getFirstName());
+        this.setLastName(ue.getLastName());
+        this.setLastUpdatedDate(ue.getLastUpdatedDate());
+        this.setMiddleInit(ue.getMiddleInit());
+        if (ue.getPasswordChangeNeeded() == 1) {
+            this.setPasswordChangeNeeded(true);
+        } else {
+            this.setPasswordChangeNeeded(false);
+        }
+        List<AuthBean> abl = new ArrayList<AuthBean>();
+        for (AuthEntity ae : ue.getAuthSet()) {
+            AuthBean ab = new AuthBean(ae);
+            abl.add(ab);
+        }
+        this.setAuthSet(abl);
+    }
 
-	public List<AuthBean> getAuthSet() {
-		return authSet;
-	}
+    public UserEntity getUserEntity()
+    {
+        UserEntity ue = new UserEntity();
+        ue.setId(this.id);
+        ue.setUsername(this.getUsername());
+        ue.setPassword(this.getPassword());
+        if (this.getEnabled()) {
+            ue.setEnabled(1);
+        } else {
+            ue.setEnabled(0);
+        }
+        ue.setCreatedDate(this.getCreatedDate());
+        ue.setEmailId(this.getEmailId());
+        ue.setFirstName(this.getFirstName());
+        ue.setLastName(this.getLastName());
+        ue.setMiddleInit(this.getMiddleInit());
+        ue.setLastUpdatedDate(this.getLastUpdatedDate());
+        ue.setCreatedDate(this.getCreatedDate());
+        if (this.isPasswordChangeNeeded()) {
+            ue.setPasswordChangeNeeded(1);
+        }
+        List<AuthEntity> ael = new ArrayList<AuthEntity>();
+        for (AuthBean ab : getAuthSet()) {
+            AuthEntity ae = ab.getAuthEntity();
+            ael.add(ae);
+        }
+        ue.setAuthSet(ael);
+        return ue;
+    }
 
-	public void setAuthSet(List<AuthBean> authSet) {
-		this.authSet = authSet;
-	}
+    public List<AuthBean> getAuthSet()
+    {
+        return authSet;
+    }
 
-	public void removeAuth() {
-		//
-	}
+    public void setAuthSet(List<AuthBean> authSet)
+    {
+        this.authSet = authSet;
+    }
 
-	public void addAuth(String auth) {
-		Map<String, AuthBean> aMap = new HashMap<String, AuthBean>();
-		for (AuthBean ab : getAuthSet()) {
-			aMap.put(ab.getAuthority(), ab);
-		}
-		if (!aMap.containsKey(auth)) {
-			AuthBean ab = new AuthBean();
-			ab.setAuthority(auth);
-			ab.setUsername(username);
-			this.authSet.add(ab);
-		}
-	}
+    public void removeAuth()
+    {
+        //
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void addAuth(String auth)
+    {
+        Map<String, AuthBean> aMap = new HashMap<String, AuthBean>();
+        for (AuthBean ab : getAuthSet()) {
+            aMap.put(ab.getAuthority(), ab);
+        }
+        if (!aMap.containsKey(auth)) {
+            AuthBean ab = new AuthBean();
+            ab.setAuthority(auth);
+            ab.setUsername(username);
+            this.authSet.add(ab);
+        }
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void validateAddNewAuth(ValidationContext context) {
-		MessageContext messages = context.getMessageContext();
-		messages.addMessage(new MessageBuilder().error().code(
-				"role.allready.exists").build());
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public String getEmailId() {
-		return emailId;
-	}
+    public void validateAddNewAuth(ValidationContext context)
+    {
+        MessageContext messages = context.getMessageContext();
+        messages.addMessage(new MessageBuilder().error()
+                .code("role.allready.exists").build());
+    }
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+    public String getEmailId()
+    {
+        return emailId;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setEmailId(String emailId)
+    {
+        this.emailId = emailId;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName()
+    {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName()
+    {
+        return lastName;
+    }
 
-	public boolean isPasswordChangeNeeded() {
-		return passwordChangeNeeded;
-	}
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
 
-	public void setPasswordChangeNeeded(boolean passwordChangeNeeded) {
-		this.passwordChangeNeeded = passwordChangeNeeded;
-	}
+    public boolean isPasswordChangeNeeded()
+    {
+        return passwordChangeNeeded;
+    }
 
-	public String getMiddleInit() {
-		return middleInit;
-	}
+    public void setPasswordChangeNeeded(boolean passwordChangeNeeded)
+    {
+        this.passwordChangeNeeded = passwordChangeNeeded;
+    }
 
-	public void setMiddleInit(String middleInit) {
-		this.middleInit = middleInit;
-	}
+    public String getMiddleInit()
+    {
+        return middleInit;
+    }
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
+    public void setMiddleInit(String middleInit)
+    {
+        this.middleInit = middleInit;
+    }
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
 
-	public AuthBean getAuthToBeAdded() {
-		return authToBeAdded;
-	}
+    public void setCreatedDate(Date createdDate)
+    {
+        this.createdDate = createdDate;
+    }
 
-	public void setAuthToBeAdded(AuthBean authToBeAdded) {
-		this.authToBeAdded = authToBeAdded;
-	}
+    public AuthBean getAuthToBeAdded()
+    {
+        return authToBeAdded;
+    }
 
-	public Date getLastUpdatedDate() {
-		return lastUpdatedDate;
-	}
+    public void setAuthToBeAdded(AuthBean authToBeAdded)
+    {
+        this.authToBeAdded = authToBeAdded;
+    }
 
-	public void setLastUpdatedDate(Date lastUpdatedDate) {
-		this.lastUpdatedDate = lastUpdatedDate;
-	}
+    public Date getLastUpdatedDate()
+    {
+        return lastUpdatedDate;
+    }
 
-	public void validateUserModificationScreen(ValidationContext context) {
-		String userEventName = context.getUserEvent();
-		if (("addAuth".equalsIgnoreCase(userEventName))
-				|| ("deleteAuth".equalsIgnoreCase(userEventName))) {
-			if (getUsername().equalsIgnoreCase(
-					context.getUserPrincipal().getName())) {
-				MessageContext messages = context.getMessageContext();
-				messages.addMessage(new MessageBuilder().error().code(
-						"cannot.modify.selfauths").build());
-			}
-		}
-//		if ("addAuth".equalsIgnoreCase(userEventName)) {
-//			// handle very carefuly with the site admin role
-//			if (getAuthToBeAdded().getAuthority().equalsIgnoreCase(
-//					RoleEntity.ROLE_SITE_ADMIN)) {
-//				boolean isSiteAdmin = false;
-//				Collection<GrantedAuthority> grantedAuths = SecurityContextHolder
-//						.getContext().getAuthentication().getAuthorities();
-//				for (GrantedAuthority auth : grantedAuths) {
-//					if (auth.getAuthority().equalsIgnoreCase(RoleEntity.ROLE_SITE_ADMIN)) {
-//						isSiteAdmin = true;
-//					}
-//				}
-//				if (!isSiteAdmin) {
-//					MessageContext messages = context.getMessageContext();
-//					messages.addMessage(new MessageBuilder().error().code(
-//							"cannot.grant.siteadmin").build());
-//				}
-//			}
-//		}
+    public void setLastUpdatedDate(Date lastUpdatedDate)
+    {
+        this.lastUpdatedDate = lastUpdatedDate;
+    }
 
-	}
+    public void validateUserModificationScreen(ValidationContext context)
+    {
+        String userEventName = context.getUserEvent();
+        if (("addAuth".equalsIgnoreCase(userEventName))
+                || ("deleteAuth".equalsIgnoreCase(userEventName))) {
+            if (getUsername().equalsIgnoreCase(
+                    context.getUserPrincipal().getName())) {
+                MessageContext messages = context.getMessageContext();
+                messages.addMessage(new MessageBuilder().error()
+                        .code("cannot.modify.selfauths").build());
+            }
+        }
+    }
 }
