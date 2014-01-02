@@ -100,9 +100,7 @@ public class JavaMailEmailService implements EmailService
             if (!"".equalsIgnoreCase(ub.getEmailId())) {
                 emailMessageSender.sendPasswordResetEmail(ub);
             }
-
         }
-
     }
 
     public IEmailMessageSender getEmailMessageSender()
