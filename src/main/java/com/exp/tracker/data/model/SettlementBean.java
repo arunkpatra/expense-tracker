@@ -121,9 +121,9 @@ public class SettlementBean implements Serializable
     public void validateSettlementGenerationEntry(ValidationContext context)
     {
         String userEventName = context.getUserEvent();
-        if (!(userEventName.equalsIgnoreCase("completeSettlement"))
-                || (userEventName.equalsIgnoreCase("delete"))
-                || (userEventName.equalsIgnoreCase("closeSettlementOk"))) {
+        if (!((userEventName.equalsIgnoreCase("completeSettlement"))
+                || (userEventName.equalsIgnoreCase("delete")) || (userEventName
+                    .equalsIgnoreCase("closeSettlementOk")))) {
             if (getStartDate().after(getEndDate())) {
                 MessageContext messages = context.getMessageContext();
                 messages.addMessage(new MessageBuilder().error()
