@@ -240,7 +240,7 @@ public class EmailMessageHelper implements IEmailMessageSender
             transport.connect(_smtpHost, _user, _password);
             transport.sendMessage(msg, toListArray);
             //
-            System.out.println("\nPassword Rest Mail was sent successfully.");
+            logger.info("Password Rest Mail was sent successfully.");
         } catch (AddressException ae) {
             logger.error("Error occured while sending password reset email.", ae);           
             result = 1;
@@ -294,7 +294,7 @@ public class EmailMessageHelper implements IEmailMessageSender
             transport.connect(_smtpHost, _user, _password);
             transport.sendMessage(msg, toListArray);
             //
-            System.out.println("\nMail was sent successfully.");
+            logger.info("Mail was sent successfully.");
         } catch (AddressException ae) {
             logger.error("Error occured while sending welcome email.", ae);
             result = 1;

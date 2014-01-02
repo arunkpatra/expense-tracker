@@ -95,7 +95,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         // chain email send
         emailService.sendSettlementEmail(sid, settlementPdfBytes,
                 expensePdfBytes);
-        System.out.println("Settlement process ended...");
+        logger.info("Settlement process ended");
     }
 
     private byte[] genSettlementReportInternal(Long sid, RequestContext ctx)

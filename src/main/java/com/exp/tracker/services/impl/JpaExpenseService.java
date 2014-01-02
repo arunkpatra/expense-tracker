@@ -183,7 +183,6 @@ public class JpaExpenseService implements ExpenseService
             newExpense = true;
 
         } else {
-            // System.out.println("Pulling record to edt : " + id);
             ExpenseEntity ee = em.find(ExpenseEntity.class, id);
             ed = new ExpenseDetail(ee);
             // now add those non participating users as well.
