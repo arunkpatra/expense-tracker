@@ -34,15 +34,15 @@
 	<bean id="settlementService" class="com.exp.tracker.services.impl.JpaSettlementService"/>
 	<!-- Email Service -->
 	<bean id="emailService" class="com.exp.tracker.services.impl.JavaMailEmailService">
-		<property name="emailMessageSender" ref="emailMessageSender"/>
+		<property name="emailUtility" ref="emailUtility"/>
 	</bean>
-	<!-- Email message Sender -->
-	<bean id="emailMessageSender" class="com.exp.tracker.utils.EmailMessageHelper">
-		<property name="_smtpHost" value="${email.host.server}"/>
-		<property name="_user" value="${email.user.name}"/>
-		<property name="_password" value="${email.user.password}"/>
-		<property name="_from" value="${email.from.emailid}"/>
-		<property name="_fromName" value="${email.from.displayname}"/>
+	<!-- Email utility -->
+	<bean id="emailUtility" class="com.exp.tracker.utils.EmailUtility">
+		<property name="smtpHost" value="${email.host.server}"/>
+		<property name="userAccount" value="${email.user.name}"/>
+		<property name="userPassword" value="${email.user.password}"/>
+		<property name="fromAccount" value="${email.from.emailid}"/>
+		<property name="fromName" value="${email.from.displayname}"/>
 	</bean>
 	<!-- Report Generation Service -->
 	<bean id="reportService"

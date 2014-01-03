@@ -118,7 +118,14 @@ public class ExpenseDetail implements Serializable
 
     public ExpenseEntity getExpenseEntity()
     {
-        return new ExpenseEntity(this);
+        ExpenseEntity ee = new ExpenseEntity();
+        ee.setAmount(getAmount());
+        ee.setCategory(getCategory());
+        ee.setDate(getDate());
+        ee.setPaidBy(getPaidBy());
+        ee.setDescription(getDescription());
+        ee.setCreatedBy(getCreatedBy());
+        return ee;
     }
 
     public List<UserShare> getUserShares()

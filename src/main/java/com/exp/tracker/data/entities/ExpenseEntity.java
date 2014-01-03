@@ -33,8 +33,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.exp.tracker.data.model.ExpenseDetail;
-
 @Entity
 @Table(name = "et_expense")
 @NamedQueries({
@@ -166,23 +164,6 @@ public class ExpenseEntity implements Serializable
     }
 
     public ExpenseEntity() {
-    }
-
-    public ExpenseEntity(ExpenseDetail ed) {
-
-        this.setAmount(ed.getAmount());
-        this.setCategory(ed.getCategory());
-        this.setDate(ed.getDate());
-        this.setPaidBy(ed.getPaidBy());
-        this.setDescription(ed.getDescription());
-        this.setCreatedBy(ed.getCreatedBy());
-        // userExpenseSet = new HashSet<UserExpenseEntity>();
-        // for (UserShare us : ed.getUserShares()) {
-        // UserExpenseEntity uee = new UserExpenseEntity();
-        // uee.setUsername(us.getName());
-        // uee.setPercent(us.getSharePercentage());
-        // userExpenseSet.add(uee);
-        // }
     }
 
     public Set<UserExpenseEntity> getUserExpenseSet()

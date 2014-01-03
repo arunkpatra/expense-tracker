@@ -95,7 +95,7 @@ public class JpaExpenseService implements ExpenseService
                 ex.setUserExpenseSet(null);
                 em.merge(ex);
             } else {
-                ex = new ExpenseEntity(ed);
+                ex = ed.getExpenseEntity();
                 em.persist(ex);
                 // em.flush();
             }

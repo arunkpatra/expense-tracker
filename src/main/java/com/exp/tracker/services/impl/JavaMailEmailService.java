@@ -25,6 +25,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,17 @@ import com.exp.tracker.data.entities.UserEntity;
 import com.exp.tracker.data.model.SettlementBean;
 import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.services.api.EmailService;
-import com.exp.tracker.utils.IEmailMessageSender;
 
+/**
+ * Provides email services for the application.
+ * 
+ * @author Arun Patra
+ *
+ */
 @Service("emailService")
 @Repository
-public class JavaMailEmailService implements EmailService
+public class JavaMailEmailService extends EmailServicesHelper implements
+        EmailService
 {
 
     /**
@@ -47,7 +54,6 @@ public class JavaMailEmailService implements EmailService
             .getLog(JavaMailEmailService.class);
 
     private EntityManager em;
-    private IEmailMessageSender emailMessageSender;
 
     @PersistenceContext
     public void setEntityManager(EntityManager em)
@@ -55,7 +61,11 @@ public class JavaMailEmailService implements EmailService
         this.em = em;
     }
 
+    /**
+     * Sends the settlement email.
+     */
     @SuppressWarnings("unchecked")
+    @Async
     public int sendSettlementEmail(Long sid, byte[] settlementReport,
             byte[] expenseReport)
     {
@@ -80,10 +90,8 @@ public class JavaMailEmailService implements EmailService
                     }
                 }
             }
-            // EmailMessageHelper emh = new EmailMessageHelper();
             // send email
-            emailMessageSender.sendSettlementNotice(sb, ubl, settlementReport,
-                    expenseReport);
+            sendSettlementNotice(sb, ubl, settlementReport, expenseReport);
         }
         if (emailSendResult == 0) {
             logger.info("Email was sent succesfuly.");
@@ -93,40 +101,35 @@ public class JavaMailEmailService implements EmailService
         return emailSendResult;
     }
 
+    /**
+     * Send the welcome email.
+     */
+    @Async
     public void sendWelcomeEmail(UserBean ub)
     {
-        // EmailMessageHelper emh = new EmailMessageHelper();
         @SuppressWarnings("unused")
         int result = 0;
         if (null != ub) {
             if (null != ub.getEmailId()) {
                 if (!"".equalsIgnoreCase(ub.getEmailId())) {
-                    emailMessageSender.sendWelcomeEmail(ub);
+                    sendWelcomeEmail0(ub);
                 }
             }
         }
     }
 
+    /**
+     * Sends the password reset email.
+     */
+    @Async
     public void sendPasswordResetEmail(UserBean ub)
     {
-        // EmailMessageHelper emh = new EmailMessageHelper();
         @SuppressWarnings("unused")
         int result = 0;
         if (null != ub.getEmailId()) {
             if (!"".equalsIgnoreCase(ub.getEmailId())) {
-                emailMessageSender.sendPasswordResetEmail(ub);
+                sendPasswordResetEmail0(ub);
             }
         }
     }
-
-    public IEmailMessageSender getEmailMessageSender()
-    {
-        return emailMessageSender;
-    }
-
-    public void setEmailMessageSender(IEmailMessageSender emailMessageSender)
-    {
-        this.emailMessageSender = emailMessageSender;
-    }
-
 }
