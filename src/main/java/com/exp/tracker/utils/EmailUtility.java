@@ -16,10 +16,13 @@
 
 package com.exp.tracker.utils;
 
-public class ETUtils
+/**
+ * An utility class that can send emails.
+ * 
+ * @author Arun Patra
+ *
+ */
+public class EmailUtility
 {
 
-    public static final boolean areFloatsEqual(float f1, float f2) {        
-        return (Math.abs(f1 - f2) < 0.0000001);       
-    }
 }
