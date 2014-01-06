@@ -185,6 +185,7 @@ public class JpaUserService implements UserService
         Query queryGetUser = em.createNamedQuery("getUser");
         queryGetUser.setParameter("username", userName);
         UserEntity ue = (UserEntity) queryGetUser.getSingleResult();
+//        System.out.println("**** CC Number is" + ue.getCreditCardNumber());
         return new UserBean(ue);
     }
 

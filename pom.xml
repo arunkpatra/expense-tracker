@@ -24,7 +24,7 @@
 		<apache.dbcp.version>1.2.2</apache.dbcp.version>
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
-
+		<hibernate.version>3.6.10.Final</hibernate.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -129,7 +129,8 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.0-Final</version>
+<!-- 			<version>3.5.0-Final</version> -->
+			<version>${hibernate.version}</version>
 		</dependency>
 		<!-- JSF: Mojarra, PrimeFaces -->
 		<dependency>

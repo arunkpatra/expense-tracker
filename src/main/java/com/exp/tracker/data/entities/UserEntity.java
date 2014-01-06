@@ -39,7 +39,7 @@ import javax.persistence.Table;
         @NamedQuery(name = "getAllUserNames", query = "SELECT u.username FROM UserEntity u"),
         @NamedQuery(name = "getUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
         @NamedQuery(name = "findUserMatch", query = "SELECT u FROM UserEntity u WHERE (u.username = :username)") })
-public class UserEntity implements Serializable
+public class UserEntity extends EncryptionHelper implements Serializable
 {
 
     private static final long serialVersionUID = -6352029652777390448L;
@@ -83,6 +83,8 @@ public class UserEntity implements Serializable
     @Column(name = "lastupdateddate")
     private Date lastUpdatedDate;
 
+    private String creditCardNumber;
+
     @OneToMany(targetEntity = AuthEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<AuthEntity> authSet;
 
@@ -115,20 +117,6 @@ public class UserEntity implements Serializable
     {
         this.enabled = enabled;
     }
-
-    // public UserBean getUserBean() {
-    // UserBean ub = new UserBean();
-    // ub.setUsername(this.username);
-    // ub.setPassword(this.getPassword());
-    // UISelectBoolean usb = new UISelectBoolean();
-    // ub.setEnabled(usb);
-    // if (this.getEnabled() == UserEntity.USER_ENABLED) {
-    // usb.setSelected(true);
-    // } else {
-    // usb.setSelected(false);
-    // }
-    // return ub;
-    // }
 
     public List<AuthEntity> getAuthSet()
     {
@@ -218,5 +206,16 @@ public class UserEntity implements Serializable
     public void setPasswordChangeNeeded(int passwordChangeNeeded)
     {
         this.passwordChangeNeeded = passwordChangeNeeded;
+    }
+
+    public String getCreditCardNumber()
+    {
+        return decryptString(creditCardNumber);
+    }
+
+    @Column(name = "creditcardnumber")
+    public void setCreditCardNumber(String creditCardNumber)
+    {
+        this.creditCardNumber = encryptString(creditCardNumber);
     }
 }
