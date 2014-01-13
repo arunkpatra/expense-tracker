@@ -1,15 +1,43 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  	<!--                               INFORMATION                               -->
+  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<groupId>com.expense.tracker</groupId>
 	<artifactId>expense-tracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Expense Tracker Web Application</name>
 	<description>Multi User Expense Tracker Web Application</description>
-
+	<url>https://github.com/arunkpatra/expense-tracker</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>arunkpatra</id>
+			<name>Arun Patra</name>
+			<email>arunkpatra at gmail.com</email>
+			<timezone>+5:30</timezone>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git://github.com/arunkpatra/expense-tracker</connection>
+		<developerConnection>scm:git:git://github.com/arunkpatra/expense-tracker</developerConnection>
+		<url>https://github.com/arunkpatra/expense-tracker</url>
+	</scm>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  	<!--                                PROPERTIES                               -->
+  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<properties>
-<!-- 		<springframework-version>3.2.1.RELEASE</springframework-version> -->
+		<!-- <springframework-version>3.2.1.RELEASE</springframework-version> -->
 		<springframework-version>3.2.6.RELEASE</springframework-version>
 		<!-- <springsecurity-version>3.1.3.RELEASE</springsecurity-version> -->
 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
@@ -26,6 +54,10 @@
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
 	</properties>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  	<!--                               REPOSITORIES                              -->
+  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<repositories>
 		<repository>
 			<id>spring-repository</id>
@@ -40,6 +72,9 @@
 		</repository>
 	</repositories>
 
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  	<!--                               DEPENDENCIES                              -->
+  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -129,7 +164,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-<!-- 			<version>3.5.0-Final</version> -->
+			<!-- <version>3.5.0-Final</version> -->
 			<version>${hibernate.version}</version>
 		</dependency>
 		<!-- JSF: Mojarra, PrimeFaces -->
@@ -237,7 +272,9 @@
 		</dependency>
 	</dependencies>
 
-
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  	<!--                                  BUILD                                  -->
+  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<build>
 		<finalName>expense-tracker</finalName>
 		<plugins>
