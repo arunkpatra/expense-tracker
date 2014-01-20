@@ -17,26 +17,18 @@
 package com.exp.tracker.utils;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Set;
 
-import javax.activation.DataHandler;
-import javax.mail.Address;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 /**
  * An utility class that can send emails.
@@ -52,18 +44,6 @@ public class EmailUtility
     private static final Log logger = LogFactory.getLog(EmailUtility.class);
 
     /**
-     * The SMTP host server of the email provider.
-     */
-    private String smtpHost;
-    /**
-     * The email account to be used to send emails.
-     */
-    private String userAccount;
-    /**
-     * The account password for the account used to send emails.
-     */
-    private String userPassword;
-    /**
      * The account to display in the from field.
      */
     private String fromAccount;
@@ -71,12 +51,8 @@ public class EmailUtility
      * The display name to be used.
      */
     private String fromName;
-
-    /**
-     * The transport type.
-     * 
-     */
-    public static final String TRANSPORT_TYPE = "smtp";
+    
+    private JavaMailSender javaMailSender;
 
     /**
      * Sends an email.
@@ -109,97 +85,39 @@ public class EmailUtility
         if (logger.isDebugEnabled()) {
             logger.debug("About to send an email.");
         }
+        
+    	MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", smtpHost);
-        props.put("mail.smtp.starttls.enable", "true");
-
-        try {
-
-            Address[] toListArray = new Address[emailIdStrings.length];
+			helper.setFrom(fromAccount, fromName);
+			InternetAddress[] toListArray = new InternetAddress[emailIdStrings.length];
             for (int i = 0; i < emailIdStrings.length; i++) {
                 toListArray[i] = new InternetAddress(emailIdStrings[i]);
             }
+            //To
+			helper.setTo(toListArray);
+			//Subject
+			helper.setSubject(emailSubject);
+			//Body
+			helper.setText(messageContent);
+			//Attachments
+			if (null != emailAttachments) {
+				Set<String> attachmentFileNames = emailAttachments.keySet();				
+				for (String fileName : attachmentFileNames) {
+					helper.addAttachment(fileName, new ByteArrayDataSource(emailAttachments
+                            .get(fileName),
+                            "application/octet-stream"));
+				}
+			}
 
-            // Get a Session object
-            Session session = Session.getInstance(props, null);
-            session.setDebug(false);
-            // Will handle multi part message.
-            Multipart mp = new MimeMultipart();
-            // create message
-            Message msg = new MimeMessage(session);
-            msg.setRecipients(Message.RecipientType.TO, toListArray);
-            msg.setFrom(new InternetAddress(fromAccount, fromName));
-            msg.setSubject(emailSubject);
-            Calendar calendar = Calendar.getInstance();
-            msg.setSentDate(calendar.getTime());
-            //
-            // set contents.
-            // create and fill the first message part
-            MimeBodyPart mailMessagePart = new MimeBodyPart();
-            mailMessagePart.setContent(messageContent, "text/html");
-            //
-            mp.addBodyPart(mailMessagePart);
-
-            // Handle attachments now
-            if (null != emailAttachments) {
-                for (String fileNameString : emailAttachments.keySet()) {
-                    MimeBodyPart attachmentPart = new MimeBodyPart();
-                    attachmentPart.setFileName(fileNameString);
-                    attachmentPart.setDataHandler(new DataHandler(
-                            new ByteArrayDataSource(emailAttachments
-                                    .get(fileNameString),
-                                    "application/octet-stream")));
-                    mp.addBodyPart(attachmentPart);
-                }
-            }
-            // add the Multi-part to the message
-            msg.setContent(mp);
-            // Create transport
-            Transport transport = session.getTransport(TRANSPORT_TYPE);
-            transport.connect(smtpHost, userAccount, userPassword);
-            transport.sendMessage(msg, toListArray);
-            //
-            logger.info("Mail was sent succesfuly.");
-        } catch (AddressException ae) {
-            throw new EmailCommunicationException("Email address was invalid",
-                    ae);
-        } catch (MessagingException me) {
-            throw new EmailCommunicationException("Error sending email.", me);
-        } catch (UnsupportedEncodingException uee) {
-            throw new EmailCommunicationException(
-                    "Error sending email, unsupported encoding.", uee);
-        }
-    }
-
-    /**
-     * Sets the smtp host.
-     * 
-     * @param smtpHost
-     */
-    public void setSmtpHost(String smtpHost)
-    {
-        this.smtpHost = smtpHost;
-    }
-
-    /**
-     * Sets the user account.
-     * 
-     * @param userAccount
-     */
-    public void setUserAccount(String userAccount)
-    {
-        this.userAccount = userAccount;
-    }
-
-    /**
-     * Sets the user password.
-     * 
-     * @param userPassword
-     */
-    public void setUserPassword(String userPassword)
-    {
-        this.userPassword = userPassword;
+			javaMailSender.send(mimeMessage);
+			System.out.println("Mail sent successfully.");
+		} catch (MessagingException e) {
+			throw new EmailCommunicationException("Error sending email.", e);
+		} catch (UnsupportedEncodingException e) {
+			throw new EmailCommunicationException("Error sending email. Unsupported encoding.", e);
+		}
     }
 
     /**
@@ -221,4 +139,8 @@ public class EmailUtility
     {
         this.fromName = fromName;
     }
+
+	public void setJavaMailSender(JavaMailSender javaMailSender) {
+		this.javaMailSender = javaMailSender;
+	}
 }

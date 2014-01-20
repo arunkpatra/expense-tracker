@@ -39,11 +39,23 @@
 	</bean>
 	<!-- Email utility -->
 	<bean id="emailUtility" class="com.exp.tracker.utils.EmailUtility">
-		<property name="smtpHost" value="${email.host.server}" />
-		<property name="userAccount" value="${email.user.name}" />
-		<property name="userPassword" value="${email.user.password}" />
+		<property name="javaMailSender" ref="javaMailSender" />
 		<property name="fromAccount" value="${email.from.emailid}" />
 		<property name="fromName" value="${email.from.displayname}" />
+	</bean>
+
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.server.host}" />
+		<property name="port" value="${email.server.port}" />
+		<property name="username" value="${email.user.name}" />
+		<property name="password" value="${email.user.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
 	</bean>
 	<!-- Report Generation Service -->
 	<bean id="reportService"
