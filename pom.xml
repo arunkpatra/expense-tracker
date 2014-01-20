@@ -1,10 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  	<!--                               INFORMATION                               -->
-  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
+	<!-- INFORMATION -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
 	<groupId>com.expense.tracker</groupId>
 	<artifactId>expense-tracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -32,10 +34,12 @@
 		<developerConnection>scm:git:git://github.com/arunkpatra/expense-tracker</developerConnection>
 		<url>https://github.com/arunkpatra/expense-tracker</url>
 	</scm>
-	
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  	<!--                                PROPERTIES                               -->
-  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
+	<!-- PROPERTIES -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
 	<properties>
 		<!-- <springframework-version>3.2.1.RELEASE</springframework-version> -->
 		<springframework-version>3.2.6.RELEASE</springframework-version>
@@ -53,11 +57,15 @@
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
+		<velocity.version>1.5</velocity.version>
+		<jasperreports.version>5.5.0</jasperreports.version>
 	</properties>
-	
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  	<!--                               REPOSITORIES                              -->
-  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
+	<!-- REPOSITORIES -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
 	<repositories>
 		<repository>
 			<id>spring-repository</id>
@@ -72,9 +80,11 @@
 		</repository>
 	</repositories>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  	<!--                               DEPENDENCIES                              -->
-  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
+	<!-- DEPENDENCIES -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -186,9 +196,17 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>5.5.0</version>
+			<version>${jasperreports.version}</version>
 		</dependency>
 
+		<!-- Velocity -->
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>${velocity.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -272,9 +290,11 @@
 		</dependency>
 	</dependencies>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-  	<!--                                  BUILD                                  -->
-  	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
+	<!-- BUILD -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		- - -->
 	<build>
 		<finalName>expense-tracker</finalName>
 		<plugins>

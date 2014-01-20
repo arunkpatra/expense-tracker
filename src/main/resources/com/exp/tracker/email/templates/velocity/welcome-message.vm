@@ -1,0 +1,17 @@
+<html>
+<body>
+<h3>Dear ${(user.firstName},</h3>
+
+<div>
+   <p>Warm Greetings! Your new Expense Tracker user id has been created. 
+   It is recommended that you change your password after you logon for the first time.</p>
+   
+   <p>User Id: ${(user.username}</p>    
+   <p>Password: ${(user.password}</p>    
+   
+   <p>Thank You,</p>    
+   <p>Expense Tracker Admin</p>   
+</div>
+</body>
+
+</html>

@@ -31,29 +31,42 @@
 	<task:scheduler id="settlementTaskScheduler" pool-size="5" />
 
 	<!-- Settlement Service -->
-	<bean id="settlementService" class="com.exp.tracker.services.impl.JpaSettlementService"/>
+	<bean id="settlementService" class="com.exp.tracker.services.impl.JpaSettlementService" />
 	<!-- Email Service -->
 	<bean id="emailService" class="com.exp.tracker.services.impl.JavaMailEmailService">
-		<property name="emailUtility" ref="emailUtility"/>
+		<property name="emailUtility" ref="emailUtility" />
+		<property name="velocityEngine" ref="velocityEngine" />
 	</bean>
 	<!-- Email utility -->
 	<bean id="emailUtility" class="com.exp.tracker.utils.EmailUtility">
-		<property name="smtpHost" value="${email.host.server}"/>
-		<property name="userAccount" value="${email.user.name}"/>
-		<property name="userPassword" value="${email.user.password}"/>
-		<property name="fromAccount" value="${email.from.emailid}"/>
-		<property name="fromName" value="${email.from.displayname}"/>
+		<property name="smtpHost" value="${email.host.server}" />
+		<property name="userAccount" value="${email.user.name}" />
+		<property name="userPassword" value="${email.user.password}" />
+		<property name="fromAccount" value="${email.from.emailid}" />
+		<property name="fromName" value="${email.from.displayname}" />
 	</bean>
 	<!-- Report Generation Service -->
 	<bean id="reportService"
 		class="com.exp.tracker.services.impl.JasperReportGenerationService">
-		<property name="emailService" ref="emailService"/>
-	</bean>
-	
-	<bean id="userService"
-		class="com.exp.tracker.services.impl.JpaUserService">
-		<property name="passwordEncoder" ref="passwordEncoder"/>
+		<property name="emailService" ref="emailService" />
 	</bean>
 
-	<bean id="passwordEncoder" class="com.exp.tracker.utils.PasswordEncoder"/>	
+	<bean id="userService" class="com.exp.tracker.services.impl.JpaUserService">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+
+	<bean id="passwordEncoder" class="com.exp.tracker.utils.PasswordEncoder" />
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<props>
+				<prop key="resource.loader">class</prop>
+				<prop key="class.resource.loader.class">
+					org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+				</prop>
+			</props>
+		</property>
+	</bean>
+
 </beans>

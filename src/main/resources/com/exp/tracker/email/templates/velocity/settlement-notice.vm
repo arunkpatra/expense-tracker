@@ -1,0 +1,18 @@
+<html>
+<body>
+<h3>Dear ${(user.firstName},</h3>
+
+<div>
+   <p>Warm Greetings! A new settlement has been created for the following period:</p>
+   
+   <p>Start Date: ${(startDate}</p>    
+   <p>End Date: ${(endDate}</p>    
+   
+   <p>Please logon to Expense Tracker to see your payables/recievables.</p> 
+
+   <p>Thank You,</p>    
+   <p>Expense Tracker Admin</p>   
+</div>
+</body>
+
+</html>

@@ -56,7 +56,7 @@ public class UserBean implements Serializable
      */
     private boolean enabled;
     /**
-     * Has this user neen marked for a pasword reset?.
+     * Has this user been marked for a password reset?.
      */
     private boolean passwordChangeNeeded;
     /**
