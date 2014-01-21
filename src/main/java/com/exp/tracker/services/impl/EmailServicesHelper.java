@@ -140,7 +140,6 @@ public abstract class EmailServicesHelper
             String emailSubject, String emailTemplate,
             Map<String, Object> model, Map<String, byte[]> emailAttachments)
     {
-        System.out.println("Sending email now");
         StringWriter sWriter = new StringWriter();
         VelocityEngineUtils.mergeTemplate(velocityEngine, emailTemplate, "UTF-8",
                 model, sWriter);

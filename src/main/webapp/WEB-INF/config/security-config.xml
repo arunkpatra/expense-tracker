@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
            http://www.springframework.org/schema/beans 
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -9,44 +8,49 @@
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<!-- Configure Spring Security -->
-	<security:http security="none" pattern="/et/layouts/standard.xhtml"/>
-	<security:http security="none" pattern="/et/logoutSuccess"/>
-	<security:http security="none" pattern="/et/concurrentuser"/>
-	
+	<security:http security="none" pattern="/et/layouts/standard.xhtml" />
+	<security:http security="none" pattern="/et/logoutSuccess" />
+	<security:http security="none" pattern="/et/concurrentuser" />
+
 	<security:http auto-config="false" once-per-request="false">
-		<security:form-login login-page="/et/login" login-processing-url="/et/loginProcess" 
-			default-target-url="/et/welcome" authentication-failure-url="/et/login?login_error=1" />
-		<security:logout logout-url="/et/logout" logout-success-url="/et/logoutSuccess" />
+		<security:form-login login-page="/et/login"
+			login-processing-url="/et/loginProcess" default-target-url="/et/welcome"
+			authentication-failure-url="/et/login?login_error=1" />
+		<security:logout logout-url="/et/logout"
+			logout-success-url="/et/logoutSuccess" />
 		<security:access-denied-handler ref="accessDeniedHandler" />
 	</security:http>
 
 	<!-- Provides method level security -->
-	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
+	<security:global-method-security
+		secured-annotations="enabled" pre-post-annotations="enabled" />
 	<bean id="accessDeniedHandler"
 		class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
 		<property name="errorPage" value="/et/accessdenied" />
 	</bean>
-	
+
 	<security:authentication-manager>
 		<security:authentication-provider
 			ref="myAuthenticationProvider" />
 	</security:authentication-manager>
-	
+
 	<bean id="myAuthenticationProvider"
 		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService" ref="myUserDetailsService" />
 		<property name="saltSource" ref="mySaltSource" />
 		<property name="passwordEncoder" ref="myPasswordEncoder" />
 	</bean>
-	
+
 	<bean id="myUserDetailsService"
 		class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
 		<property name="dataSource" ref="dataSource" />
+		<property name="usersByUsernameQuery"
+			value="select username,password,enabled from users where lower(username) = lower(?)"></property>
 	</bean>
-	
+
 	<bean id="myPasswordEncoder"
 		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
-	
+
 	<bean id="mySaltSource"
 		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
 		<property name="userPropertyToUse" value="getUsername" />
