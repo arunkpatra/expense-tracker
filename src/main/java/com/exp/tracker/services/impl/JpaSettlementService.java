@@ -152,7 +152,7 @@ public class JpaSettlementService implements SettlementService
                 use.setSettledDate(new Date());
             }
             use.setUserName(u.getUsername());
-            if (thisIsAnUser) {
+            if (thisIsAnUser || (expenseForUser > 0.0d)) {
                 usl.add(use);
             }
         }

@@ -64,10 +64,6 @@ import javax.persistence.Table;
         @NamedQuery(name = "getUnsettledExpenses", query = "SELECT e FROM ExpenseEntity e "
                 + "WHERE (e.date >= :startDate) AND "
                 + "(e.date <= :endDate) AND (e.settlementId = NULL) ORDER BY e.date DESC"),
-        // @NamedQuery(name = "getUnsettledExpenses", query =
-        // "SELECT e FROM ExpenseEntity e "
-        // + "WHERE (e.date >= :startDate) AND "
-        // + "(e.date <= :endDate) AND " + "(e.settlementId = NULL)"),
         @NamedQuery(name = "addSettlementId", query = "UPDATE ExpenseEntity e SET e.settlementId = :settlementId "
                 + "WHERE (e.date >= :startDate) AND "
                 + "(e.date <= :endDate) AND " + "e.settlementId = NULL"),
