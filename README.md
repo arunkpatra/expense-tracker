@@ -15,7 +15,7 @@ Consider a group of room-mates who live together and share common expenses. Such
 
 ## Working with Expense Tracker in Eclipse/STS
 
-### prerequisites
+### Prerequisites
 The following items should be installed in your system:
 * Maven 3 (http://www.sonatype.com/books/mvnref-book/reference/installation.html)
 * git command line tool (https://help.github.com/articles/set-up-git)
