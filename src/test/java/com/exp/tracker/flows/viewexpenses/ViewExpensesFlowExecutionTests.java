@@ -1,22 +1,15 @@
 package com.exp.tracker.flows.viewexpenses;
 
 import java.util.Date;
-import java.util.List;
 
 import org.easymock.EasyMock;
-import org.springframework.binding.mapping.Mapper;
-import org.springframework.binding.mapping.MappingResults;
 import org.springframework.faces.model.converter.FacesConversionService;
 import org.springframework.webflow.config.FlowDefinitionResource;
 import org.springframework.webflow.config.FlowDefinitionResourceFactory;
-import org.springframework.webflow.core.collection.AttributeMap;
-import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockFlowBuilderContext;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 
-import com.exp.tracker.data.entities.ExpenseEntity;
-import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.ExpenseSearchCriteria;
 import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.services.api.ExpenseService;
@@ -90,42 +83,6 @@ public class ViewExpensesFlowExecutionTests extends
         assertTrue(getRequiredFlowAttribute("expenseSearchCriteria") instanceof ExpenseSearchCriteria);
     }
 
-//    public void testEnterExpenseSearchResult_Viewdetail() {
-//        ExpenseSearchCriteria expenseSearchCriteria = createTestExpenseSearchCriteria();
-//        List<ExpenseEntity> expenses = createTestExpenses();
-//        EasyMock.expect(expenseService.getExpenses(expenseSearchCriteria)).andReturn(expenses);
-//        EasyMock.replay(expenseService);
-//        
-//        setCurrentState("expenseSearchResult");
-//        getFlowScope().put("expenses", createTestExpenses());
-//
-//        
-//        Flow mockViewexpensedetailFlow = new Flow("viewexpensedetail");
-//        
-//        mockViewexpensedetailFlow.setStartState("expenseDetail");
-//        getFlowScope().put("toBeViewedExpenseId", 1L);
-//        mockViewexpensedetailFlow.setInputMapper(new Mapper() {
-//            public MappingResults map(Object source, Object target) {
-//            assertEquals(new Long(1), ((AttributeMap<?>) source).get("toBeViewedExpenseId"));
-//            return null;
-//            }
-//        });
-//        getFlowDefinitionRegistry().registerFlowDefinition(mockViewexpensedetailFlow);
-//        
-//        MockExternalContext context = new MockExternalContext();
-//        context.setEventId("viewdetail");
-//        resumeFlow(context);
-//
-//        assertCurrentStateEquals("viewExpenseFlow");
-//        assertResponseWrittenEquals("viewExpenseFlow", context);
-//        assertTrue(getRequiredFlowAttribute("expenses") instanceof List<?>);
-//    }
-
-    private List<ExpenseEntity> createTestExpenses()
-    {
-
-        return null;
-    }
 
     private ExpenseSearchCriteria createTestExpenseSearchCriteria()
     {

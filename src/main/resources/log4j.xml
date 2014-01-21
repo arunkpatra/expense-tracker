@@ -48,7 +48,7 @@
 	</logger>
 	
 	<logger name="org.apache.velocity">
-		<level value="DEBUG"/>
+		<level value="WARN"/>
 	</logger>
 	
 	<!-- Root Logger -->

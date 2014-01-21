@@ -185,7 +185,6 @@ public class JpaUserService implements UserService
         Query queryGetUser = em.createNamedQuery("getUser");
         queryGetUser.setParameter("username", userName);
         UserEntity ue = (UserEntity) queryGetUser.getSingleResult();
-//        System.out.println("**** CC Number is" + ue.getCreditCardNumber());
         return new UserBean(ue);
     }
 
@@ -193,9 +192,7 @@ public class JpaUserService implements UserService
     public List<UserEntity> getUsers()
     {
         Query queryGetAllUsers = em.createNamedQuery("getAllUsers");
-        Collection<UserEntity> users = queryGetAllUsers.getResultList();
-        List<UserEntity> userEntitySet = new ArrayList<UserEntity>(users);
-        return userEntitySet;
+        return queryGetAllUsers.getResultList();
     }
 
     @Transactional
@@ -241,9 +238,7 @@ public class JpaUserService implements UserService
     public List<String> getUserNames()
     {
         Query queryGetAllUserNames = em.createNamedQuery("getAllUserNames");
-        Collection<String> users = queryGetAllUserNames.getResultList();
-        List<String> userNameList = new ArrayList<String>(users);
-        return userNameList;
+        return queryGetAllUserNames.getResultList();
     }
 
     public List<SelectItem> getUserNamesSelectItems()

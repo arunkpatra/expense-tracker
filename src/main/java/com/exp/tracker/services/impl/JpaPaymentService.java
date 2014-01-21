@@ -86,10 +86,7 @@ public class JpaPaymentService implements PaymentService {
 	}
 	@Transactional
 	public void applyUserPayment(Long usId) {
-//		Query queryGetUserSettlementById = em.createNamedQuery("getUserSettlementById");
-//		queryGetUserSettlementById.setParameter("userSettlementId", usId);
 		UserSettlementEntity use = new UserSettlementEntity();
-		//use.setId(usId);
 		use = em.find(UserSettlementEntity.class, usId);
 		use.setSettlementFlag(UserSettlementEntity.SETTLEMENT_COMPLETED);
 		Date today = new Date();

@@ -17,7 +17,6 @@
 package com.exp.tracker.services.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -45,9 +44,7 @@ public class JpaRoleService implements RoleService {
 	@SuppressWarnings("unchecked")
 	public List<RoleEntity> getRoles() {
 		Query queryGetRoles = em.createNamedQuery("getRoles");		
-		Collection roles = queryGetRoles.getResultList();
-		List<RoleEntity> roleList = new ArrayList<RoleEntity>(roles);
-		return roleList;
+		return queryGetRoles.getResultList();
 	}
 
 	public List<SelectItem> getRolesSelectItems() {

@@ -131,10 +131,7 @@ public class JpaExpenseService implements ExpenseService
         queryGetExpenses = em.createNamedQuery("getExpenses");
         queryGetExpenses.setParameter("startDate", esc.getStartDate());
         queryGetExpenses.setParameter("endDate", esc.getEndDate());
-        Collection<ExpenseEntity> expenses = queryGetExpenses.getResultList();
-        List<ExpenseEntity> expensesList = new ArrayList<ExpenseEntity>(
-                expenses);
-        return expensesList;
+        return queryGetExpenses.getResultList();
 
     }
 
@@ -260,9 +257,7 @@ public class JpaExpenseService implements ExpenseService
         queryGetUnsettledExpenses = em.createNamedQuery("getUnsettledExpenses");
         queryGetUnsettledExpenses.setParameter("startDate", sb.getStartDate());
         queryGetUnsettledExpenses.setParameter("endDate", sb.getEndDate());
-        Collection<ExpenseEntity> expenses = queryGetUnsettledExpenses.getResultList();
-        List<ExpenseEntity> expensesList = new ArrayList<ExpenseEntity>(
-                expenses);
+        List<ExpenseEntity> expensesList = queryGetUnsettledExpenses.getResultList();
         List<ExpenseDetail> edList = new ArrayList<ExpenseDetail>();
         for (ExpenseEntity ee : expensesList) {
             edList.add(new ExpenseDetail(ee));
