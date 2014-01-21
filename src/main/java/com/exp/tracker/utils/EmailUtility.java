@@ -100,7 +100,7 @@ public class EmailUtility
 			//Subject
 			helper.setSubject(emailSubject);
 			//Body
-			helper.setText(messageContent);
+			helper.setText(messageContent, true);
 			//Attachments
 			if (null != emailAttachments) {
 				Set<String> attachmentFileNames = emailAttachments.keySet();				
