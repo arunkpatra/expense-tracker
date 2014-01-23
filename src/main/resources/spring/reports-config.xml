@@ -4,6 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean class="org.springframework.web.servlet.view.XmlViewResolver" 
-		p:location="/WEB-INF/config/jasper-views.xml" p:order="0" />
+		p:location="classpath:spring/jasper-views.xml" p:order="0" />
 
 </beans>

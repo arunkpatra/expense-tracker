@@ -6,9 +6,7 @@
 	<!-- The master configuration file for this Spring web application -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			/WEB-INF/config/web-application-config.xml
-		</param-value>
+		<param-value>classpath:spring/root-applicationContext.xml</param-value>
 	</context-param>
 	
 	<!-- Use JSF view templates saved as *.xhtml, for use with Facelets -->

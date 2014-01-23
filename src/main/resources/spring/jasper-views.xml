@@ -6,9 +6,9 @@
   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="expenseReport"
 		class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
-		p:url="classpath:ExpenseReport.jrxml" p:reportDataKey="dataSource" />
+		p:url="classpath:reports/ExpenseReport.jrxml" p:reportDataKey="dataSource" />
 
 	<bean id="settlementSubReport"
 		class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
-		p:url="classpath:SettlementSubReport.jrxml" p:reportDataKey="dataSource" />
+		p:url="classpath:reports/SettlementSubReport.jrxml" p:reportDataKey="dataSource" />
 </beans>
