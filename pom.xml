@@ -2,11 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
-	<!-- INFORMATION -->
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - INFORMATION - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<groupId>com.expense.tracker</groupId>
 	<artifactId>expense-tracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -35,11 +33,9 @@
 		<url>https://github.com/arunkpatra/expense-tracker</url>
 	</scm>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
-	<!-- PROPERTIES -->
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - PROPERTIES - - - - - - - - - - - - -. -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<properties>
 		<!-- <springframework-version>3.2.1.RELEASE</springframework-version> -->
 		<springframework-version>3.2.6.RELEASE</springframework-version>
@@ -61,11 +57,9 @@
 		<jasperreports.version>5.5.0</jasperreports.version>
 	</properties>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
-	<!-- REPOSITORIES -->
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - REPOSITORIES - - - - - - - - - - - -. -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<repositories>
 		<repository>
 			<id>spring-repository</id>
@@ -80,11 +74,9 @@
 		</repository>
 	</repositories>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
-	<!-- DEPENDENCIES -->
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - DEPENDENCIES - - - - - - - - - - - -. -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -97,7 +89,7 @@
 			<artifactId>derby</artifactId>
 			<version>${derby.client.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -212,7 +204,7 @@
 			<version>${velocity.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -296,11 +288,9 @@
 		</dependency>
 	</dependencies>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
-	<!-- BUILD -->
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		- - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - BUILD - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<build>
 		<finalName>expense-tracker</finalName>
 		<plugins>

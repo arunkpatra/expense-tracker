@@ -44,7 +44,11 @@
 	</logger>
 	
 	<logger name="org.hibernate">
-		<level value="WARN" />
+		<level value="INFO" />
+	</logger>
+	
+	<logger name="org.apache.derby">
+		<level value="INFO" />
 	</logger>
 	
 	<logger name="org.apache.velocity">
