@@ -55,6 +55,7 @@
 		<hibernate.version>3.6.10.Final</hibernate.version>
 		<velocity.version>1.5</velocity.version>
 		<jasperreports.version>5.5.0</jasperreports.version>
+		<junit.version>4.11</junit.version>
 	</properties>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -277,9 +278,17 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.2</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
