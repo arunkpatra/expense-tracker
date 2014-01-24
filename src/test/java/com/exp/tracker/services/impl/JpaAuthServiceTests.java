@@ -20,7 +20,7 @@ import com.exp.tracker.services.api.UserService;
 @ContextConfiguration("classpath:spring/root-applicationContext.xml")
 @ActiveProfiles("demo")
 @WebAppConfiguration
-public class JpaAuthServiceTest
+public class JpaAuthServiceTests
 {
 
     @Autowired private AuthService authService;
