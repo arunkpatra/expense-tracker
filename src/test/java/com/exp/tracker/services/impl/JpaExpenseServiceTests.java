@@ -1,6 +1,8 @@
 package com.exp.tracker.services.impl;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.exp.tracker.data.entities.ExpenseEntity;
 import com.exp.tracker.data.model.ExpenseDetail;
+import com.exp.tracker.data.model.ExpenseSearchCriteria;
+import com.exp.tracker.data.model.SettlementBean;
 import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.data.model.UserShare;
 import com.exp.tracker.services.api.ExpenseService;
@@ -74,9 +79,51 @@ public class JpaExpenseServiceTests
 	}
 	
 	@Test
-    public void testSaveExpense() {
+	public void expenseRelatedTests() {
+		// Check if expense was saved earlier
 		Assert.assertNotNull("Expense detail is null",expenseDetail);
 		int result = expenseService.saveExpense(expenseDetail);
 		Assert.assertTrue("Failed to save expense.", result == 0);
+		
+		// Search for expenses in a date range
+		ExpenseSearchCriteria esc = new ExpenseSearchCriteria();
+		Date today = new Date();
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(today);
+		cal1.add(Calendar.DAY_OF_MONTH, -1);
+		Date yesterday = cal1.getTime();
+		//
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(today);
+		cal2.add(Calendar.DAY_OF_MONTH, 1);
+		Date tomorrow = cal2.getTime();
+		//
+		esc.setEndDate(tomorrow);
+		esc.setStartDate(yesterday);
+		List<ExpenseEntity> expenses =  expenseService.getExpenses(esc);
+		Assert.assertNotNull("Failed to get expenses", expenses);
+		int i = expenses.size();
+		Assert.assertTrue("Expected exactly 1 expense.", i == 1);
+		
+		// Locate a specific expense by id
+		ExpenseEntity ee = expenses.get(0);
+		ExpenseDetail ed = expenseService.getExpenseById(ee.getId());
+		Assert.assertNotNull("Failed to get expensedetail", ed);
+		
+		// Locate expense detail bean
+		ExpenseDetail ed1 = expenseService.getExpenseDetailBeanById(ee.getId());
+		Assert.assertNotNull("Failed to get expensedetailbean", ed1);
+		
+		// Get unsettled expenses
+		SettlementBean sb = new SettlementBean();
+		sb.setStartDate(yesterday);
+		sb.setEndDate(tomorrow);
+		List<ExpenseDetail> ex2 = expenseService.getUnsettledExpenses(sb);
+		Assert.assertNotNull("Failed to get unsettled expenses", ex2);
+		Assert.assertTrue("Expected exactly 1 expense to settle.", ex2.size() == 1);
+		
+		// Delete expense
+		int delresult = expenseService.deleteExpenseById(ee.getId());
+		Assert.assertTrue("Failed to delete expense", delresult == 0);
 	}
 }
