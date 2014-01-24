@@ -32,23 +32,23 @@
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="org.springframework.faces">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.springframework.webflow">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.hibernate">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.apache.derby">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.apache.velocity">

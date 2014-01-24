@@ -105,15 +105,3 @@ paymentdate date NOT NULL,
 amount float NOT NULL,
 username varchar(50) NOT NULL,
 constraint fk_payments_users foreign key(username) references users(username));
---
--- DATA LOAD
--- DEFAULT SYSTEM USER
--- User Id and passwords are case sensitive
--- Username : System
--- Password : admin
-insert into users (username, password, enabled, pwdchangeneeded, firstname, lastname, creditcardnumber) values 
-('System','6c198dea2a74c6b6921df18d847e5ca6',1,0,'System','Administrator', '1234567890123456');
---
-insert into roles (role) values ('ROLE_USER'), ('ROLE_SUPERVISOR'), ('ROLE_SITE_ADMIN');
-insert into authorities (username, authority, user_id) values 
-('System', 'ROLE_SUPERVISOR', 1), ('System', 'ROLE_SITE_ADMIN', 1);

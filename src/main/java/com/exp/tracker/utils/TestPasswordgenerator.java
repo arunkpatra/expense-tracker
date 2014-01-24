@@ -27,7 +27,7 @@ public class TestPasswordgenerator
     public static void main(String[] args)
     {
 
-        printHash("Tom", "password");
+        printHash("Admin", "password");
     }
 
     private static void printHash(String id, String pass)
