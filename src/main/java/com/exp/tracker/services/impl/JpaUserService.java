@@ -87,7 +87,11 @@ public class JpaUserService implements UserService
         if (!userExists) {
             UserEntity ue1 = ub.getUserEntity();
             Calendar calendar = Calendar.getInstance();
-            String newPassword = RandomStringUtils.random(8, true, true);
+            String newPassword = ub.getPassword();
+            if (null == newPassword) 
+            {
+            	newPassword = RandomStringUtils.random(8, true, true);
+            }
             // save hashed with salt
             ue1.setPassword(passwordEncoder.getHash(ub.getUsername(),
                     newPassword));
