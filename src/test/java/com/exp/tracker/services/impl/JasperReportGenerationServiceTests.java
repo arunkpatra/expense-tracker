@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 
+import net.sf.jasperreports.engine.util.JRFontNotFoundException;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.test.annotation.ExpectedException;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
@@ -139,16 +142,14 @@ public class JasperReportGenerationServiceTests extends
 		String expenseReportTemplatePath = context
 				.getRealPath(JasperReportGenerationService.EXPENSE_REPORT_FILE_NAME);
 		// get settlement report
-		byte[] srBytes = reportService
-				.genSettlementReportInternal(sid, settlementReportTemplatePath);
+		byte[] srBytes = reportService.genSettlementReportInternal(sid,
+				settlementReportTemplatePath);
 		Assert.assertNotNull("Failed to create settlement report", srBytes);
 		Assert.assertTrue("Empty settlement report", srBytes.length != 0);
-		byte[] erBytes = reportService
-				.genExpenseReportInternal(sid, expenseReportTemplatePath);
+		byte[] erBytes = reportService.genExpenseReportInternal(sid,
+				expenseReportTemplatePath);
 		Assert.assertNotNull("Failed to create expense report", erBytes);
 		Assert.assertTrue("Empty expense report", erBytes.length != 0);
-		
-		
-		
+
 	}
 }
