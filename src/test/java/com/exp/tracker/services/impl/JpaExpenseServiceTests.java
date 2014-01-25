@@ -46,7 +46,7 @@ public class JpaExpenseServiceTests
         ub1.setPassword("password");
         ub1.setUsername("testuser1");      
         UserBean userBean1 = userService.addUser(ub1);
-        Assert.assertNotNull("Failed to create user1", userBean1);
+        Assert.assertNotNull("Failed to create user1. Why?", userBean1);
         //
         // Add 1st user
         UserBean ub2 = new UserBean();
