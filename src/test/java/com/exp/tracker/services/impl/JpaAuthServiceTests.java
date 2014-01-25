@@ -3,12 +3,7 @@ package com.exp.tracker.services.impl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.exp.tracker.data.model.AuthBean;
 import com.exp.tracker.data.model.UserBean;
@@ -16,11 +11,7 @@ import com.exp.tracker.services.api.AuthService;
 import com.exp.tracker.services.api.UserService;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/root-applicationContext.xml")
-@ActiveProfiles("demo")
-@WebAppConfiguration
-public class JpaAuthServiceTests
+public class JpaAuthServiceTests extends ExpenseTrackerBaseTest
 {
 
     @Autowired private AuthService authService;

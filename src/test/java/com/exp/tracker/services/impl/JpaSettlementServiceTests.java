@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,10 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.SettlementBean;
@@ -30,11 +25,7 @@ import com.exp.tracker.services.api.PaymentService;
 import com.exp.tracker.services.api.SettlementService;
 import com.exp.tracker.services.api.UserService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/root-applicationContext.xml")
-@ActiveProfiles("demo")
-@WebAppConfiguration
-public class JpaSettlementServiceTests {
+public class JpaSettlementServiceTests extends ExpenseTrackerBaseTest {
 
 	static JdbcDaoImpl userDetailService;
 	
@@ -58,9 +49,9 @@ public class JpaSettlementServiceTests {
 		ub1.setLastName("User1");
 		ub1.setMiddleInit("1");
 		ub1.setPassword("password");
-		ub1.setUsername("testuser1");
+		ub1.setUsername("testuser3");
 		UserBean userBean1 = userService.addUser(ub1);
-		Assert.assertNotNull("Failed to create user1. Why Why?", userBean1);
+		Assert.assertNotNull("Failed to create user3. Why Why?", userBean1);
 		//
 		// Add 1st user
 		UserBean ub2 = new UserBean();
@@ -70,9 +61,9 @@ public class JpaSettlementServiceTests {
 		ub2.setLastName("User2");
 		ub2.setMiddleInit("2");
 		ub2.setPassword("password");
-		ub2.setUsername("testuser2");
+		ub2.setUsername("testuser4");
 		UserBean userBean2 = userService.addUser(ub2);
-		Assert.assertNotNull("Failed to create user2", userBean2);
+		Assert.assertNotNull("Failed to create user4", userBean2);
 		//
 		ExpenseDetail ed = new ExpenseDetail();
 		ed.setAmount(20.0F);
@@ -80,11 +71,11 @@ public class JpaSettlementServiceTests {
 		ed.setCreatedBy("Admin");
 		ed.setDate(new Date());
 		ed.setDescription("Some Expense");
-		ed.setPaidBy("testuser1");
+		ed.setPaidBy("testuser3");
 		ed.setSettlementId(null);
 		// now set shares
-		UserShare us1 = new UserShare("testuser1", 10.0F, 0.0F, true);
-		UserShare us2 = new UserShare("testuser2", 10.0F, 0.0F, true);
+		UserShare us1 = new UserShare("testuser3", 10.0F, 0.0F, true);
+		UserShare us2 = new UserShare("testuser4", 10.0F, 0.0F, true);
 		ed.getUserShares().add(us1);
 		ed.getUserShares().add(us2);
 		

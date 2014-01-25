@@ -7,12 +7,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.exp.tracker.data.entities.ExpenseEntity;
 import com.exp.tracker.data.model.ExpenseDetail;
@@ -23,11 +18,7 @@ import com.exp.tracker.data.model.UserShare;
 import com.exp.tracker.services.api.ExpenseService;
 import com.exp.tracker.services.api.UserService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/root-applicationContext.xml")
-@ActiveProfiles("demo")
-@WebAppConfiguration
-public class JpaExpenseServiceTests
+public class JpaExpenseServiceTests extends ExpenseTrackerBaseTest
 {
 
 	@Autowired private ExpenseService expenseService;

@@ -319,7 +319,7 @@
 				<configuration>
 					<junitArtifactName>junit:junit</junitArtifactName>
 					<includes>
-						<include>**/*Tests.java</include>
+						<include>**/*TestSuite.java</include>
 					</includes>
 				</configuration>
 			</plugin>
