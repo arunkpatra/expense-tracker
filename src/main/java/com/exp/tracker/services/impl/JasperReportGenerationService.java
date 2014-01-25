@@ -133,6 +133,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         try {
             // get the input file contents as a stream
             isJrxmlFile = new FileInputStream(reportTemplatePath);
+            
             JasperCompileManager.compileReportToStream(isJrxmlFile,
                     compilerOutputStream);
             // compile completed
