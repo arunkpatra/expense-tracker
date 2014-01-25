@@ -51,7 +51,7 @@ public class JpaSettlementServiceTests extends ExpenseTrackerBaseTest {
 		ub1.setPassword("password");
 		ub1.setUsername("testuser3");
 		UserBean userBean1 = userService.addUser(ub1);
-		Assert.assertNotNull("Failed to create user3. Why Why?", userBean1);
+		Assert.assertNotNull("Failed to create user3. Why Why", userBean1);
 		//
 		// Add 1st user
 		UserBean ub2 = new UserBean();
