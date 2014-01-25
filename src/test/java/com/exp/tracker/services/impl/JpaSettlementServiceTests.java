@@ -49,11 +49,6 @@ public class JpaSettlementServiceTests {
 
 	@Before
 	public void setup() {
-		
-		userDetailService = ctx.getBean(JdbcDaoImpl.class);
-		UserDetails userDetails = userDetailService.loadUserByUsername ("Admin");
-        Authentication authToken = new UsernamePasswordAuthenticationToken (userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
         
 		// Add 1st user
 		UserBean ub1 = new UserBean();
@@ -100,9 +95,10 @@ public class JpaSettlementServiceTests {
 
 	@Test
 	public void settlementServiceTests() {
-//		SecurityContext ctx = SecurityContextHolder.getContext();
-//		Authentication auth = new TestingAuthenticationToken("Admin","password");
-//		ctx.setAuthentication(auth);
+		userDetailService = ctx.getBean(JdbcDaoImpl.class);
+		UserDetails userDetails = userDetailService.loadUserByUsername ("Admin");
+        Authentication authToken = new UsernamePasswordAuthenticationToken (userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		// Create Settlement
 		Date today = new Date();
