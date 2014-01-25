@@ -58,5 +58,8 @@ public interface ReportGenerationService
      * @return byte[] the array of bytes representing the report data.
      */
     byte[] getReportForSettlement(Long sid, String reportName);
+    //TODO Fix this. get away with these two methods
+    public byte[] genExpenseReportInternal(Long sid, String reportTemplatePath);
+    public byte[] genSettlementReportInternal(Long sid, String reportTemplatePath);
 
 }

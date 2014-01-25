@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.exp.tracker.services.api.RoleService;
 
-public class JpaRoleServiceTests extends ExpenseTrackerBaseTest {
+public class JpaRoleServiceTests extends AbstractExpenseTrackerBaseTest {
 
 	@Autowired
 	private RoleService roleService;

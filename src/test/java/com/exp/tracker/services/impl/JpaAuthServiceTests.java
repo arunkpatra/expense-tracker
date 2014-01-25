@@ -11,7 +11,7 @@ import com.exp.tracker.services.api.AuthService;
 import com.exp.tracker.services.api.UserService;
 
 
-public class JpaAuthServiceTests extends ExpenseTrackerBaseTest
+public class JpaAuthServiceTests extends AbstractExpenseTrackerBaseTest
 {
 
     @Autowired private AuthService authService;

@@ -12,7 +12,7 @@ import com.exp.tracker.data.model.PasswordChangeBean;
 import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.services.api.UserService;
 
-public class JpaUserServiceTests extends ExpenseTrackerBaseTest {
+public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 
 	@Autowired
 	private UserService userService;

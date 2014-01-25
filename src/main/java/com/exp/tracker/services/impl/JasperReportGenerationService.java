@@ -76,11 +76,11 @@ public class JasperReportGenerationService implements ReportGenerationService
     /**
      * The settlement report file name.
      */
-    private static final String SETTLEMENT_REPORT_FILE_NAME = "/reports/SettlementSubReport.jrxml";
+    public static final String SETTLEMENT_REPORT_FILE_NAME = "/reports/SettlementSubReport.jrxml";
     /**
      * The expense report file name,
      */
-    private static final String EXPENSE_REPORT_FILE_NAME = "/reports/ExpenseReport.jrxml";
+    public static final String EXPENSE_REPORT_FILE_NAME = "/reports/ExpenseReport.jrxml";
     /**
      * The email service.
      */
@@ -104,22 +104,25 @@ public class JasperReportGenerationService implements ReportGenerationService
     @Async
     public void generateSettlementReport(Long sid, RequestContext ctx)
     {
-        byte[] settlementPdfBytes = genSettlementReportInternal(sid, ctx);
+    	// Get hold of the servlet context
+        ServletContext context = (ServletContext) ctx.getExternalContext()
+                .getNativeContext();
+        String settlementReportTemplatePath = context.getRealPath(SETTLEMENT_REPORT_FILE_NAME);
+        String expenseReportTemplatePath = context.getRealPath(EXPENSE_REPORT_FILE_NAME);
+        
+        byte[] settlementPdfBytes = genSettlementReportInternal(sid, settlementReportTemplatePath);
 
         // chain expense report
-        byte[] expensePdfBytes = genExpenseReportInternal(sid, ctx);
+        byte[] expensePdfBytes = genExpenseReportInternal(sid, expenseReportTemplatePath);
         // chain email send
         emailService.sendSettlementEmail(sid, settlementPdfBytes,
                 expensePdfBytes);
         logger.info("Settlement process ended");
     }
 
-    private byte[] genSettlementReportInternal(Long sid, RequestContext ctx)
+    public byte[] genSettlementReportInternal(Long sid, String reportTemplatePath)
     {
         byte[] pdfBytes = null;
-        // Get hold of the servlet context
-        ServletContext context = (ServletContext) ctx.getExternalContext()
-                .getNativeContext();
         // input file stream
         InputStream isJrxmlFile = null;
         // compiler output stream
@@ -129,8 +132,7 @@ public class JasperReportGenerationService implements ReportGenerationService
 
         try {
             // get the input file contents as a stream
-            isJrxmlFile = new FileInputStream(
-                    context.getRealPath(SETTLEMENT_REPORT_FILE_NAME));
+            isJrxmlFile = new FileInputStream(reportTemplatePath);
             JasperCompileManager.compileReportToStream(isJrxmlFile,
                     compilerOutputStream);
             // compile completed
@@ -159,12 +161,9 @@ public class JasperReportGenerationService implements ReportGenerationService
         return pdfBytes;
     }
 
-    private byte[] genExpenseReportInternal(Long sid, RequestContext ctx)
+    public byte[] genExpenseReportInternal(Long sid, String reportTemplatePath)
     {
         byte[] pdfBytes = null;
-        // Get hold of the servlet context
-        ServletContext context = (ServletContext) ctx.getExternalContext()
-                .getNativeContext();
         // input file stream
         InputStream isJrxmlFile = null;
         // compiler output stream
@@ -174,8 +173,7 @@ public class JasperReportGenerationService implements ReportGenerationService
 
         try {
             // get the input file contents as a stream
-            isJrxmlFile = new FileInputStream(
-                    context.getRealPath(EXPENSE_REPORT_FILE_NAME));
+            isJrxmlFile = new FileInputStream(reportTemplatePath);
             JasperCompileManager.compileReportToStream(isJrxmlFile,
                     compilerOutputStream);
             // compile completed
@@ -206,7 +204,12 @@ public class JasperReportGenerationService implements ReportGenerationService
     @Transactional
     public void generateExpenseReport(Long sid, RequestContext ctx)
     {
-        genExpenseReportInternal(sid, ctx);
+    	// Get hold of the servlet context
+        ServletContext context = (ServletContext) ctx.getExternalContext()
+                .getNativeContext();
+        String expenseReportTemplatePath = context.getRealPath(EXPENSE_REPORT_FILE_NAME);
+        
+        genExpenseReportInternal(sid, expenseReportTemplatePath);
     }
 
     private void saveSettlementPdfToDataBase(Long sid, byte[] pdfBytes)

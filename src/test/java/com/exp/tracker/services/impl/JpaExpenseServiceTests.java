@@ -18,7 +18,7 @@ import com.exp.tracker.data.model.UserShare;
 import com.exp.tracker.services.api.ExpenseService;
 import com.exp.tracker.services.api.UserService;
 
-public class JpaExpenseServiceTests extends ExpenseTrackerBaseTest
+public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 {
 
 	@Autowired private ExpenseService expenseService;
@@ -50,7 +50,7 @@ public class JpaExpenseServiceTests extends ExpenseTrackerBaseTest
         ub2.setUsername("testuser2");      
         UserBean userBean2 = userService.addUser(ub2);
         Assert.assertNotNull("Failed to create user2", userBean2);
-        //
+        // Setup an expense
 		ExpenseDetail ed = new ExpenseDetail();
 		ed.setAmount(20.0F);
 		ed.setCategory("Somecategory");

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
 import com.exp.tracker.data.model.ExpenseDetail;
+import com.exp.tracker.data.model.PaymentBean;
 import com.exp.tracker.data.model.SettlementBean;
 import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.data.model.UserSettlementBean;
@@ -25,22 +26,24 @@ import com.exp.tracker.services.api.PaymentService;
 import com.exp.tracker.services.api.SettlementService;
 import com.exp.tracker.services.api.UserService;
 
-public class JpaSettlementServiceTests extends ExpenseTrackerBaseTest {
+public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 
 	static JdbcDaoImpl userDetailService;
-	
-	@Autowired ApplicationContext ctx;
+
+	@Autowired
+	ApplicationContext ctx;
 	@Autowired
 	private ExpenseService expenseService;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private SettlementService settlementService;
-	@Autowired PaymentService paymentService;
+	@Autowired
+	PaymentService paymentService;
 
 	@Before
 	public void setup() {
-        
+
 		// Add 1st user
 		UserBean ub1 = new UserBean();
 		ub1.setEmailId("a@b.com");
@@ -78,8 +81,8 @@ public class JpaSettlementServiceTests extends ExpenseTrackerBaseTest {
 		UserShare us2 = new UserShare("testuser4", 10.0F, 0.0F, true);
 		ed.getUserShares().add(us1);
 		ed.getUserShares().add(us2);
-		
-		Assert.assertNotNull("Expense detail is null",ed);
+
+		Assert.assertNotNull("Expense detail is null", ed);
 		int result = expenseService.saveExpense(ed);
 		Assert.assertTrue("Failed to save expense.", result == 0);
 	}
@@ -87,9 +90,11 @@ public class JpaSettlementServiceTests extends ExpenseTrackerBaseTest {
 	@Test
 	public void settlementServiceTests() {
 		userDetailService = ctx.getBean(JdbcDaoImpl.class);
-		UserDetails userDetails = userDetailService.loadUserByUsername ("Admin");
-        Authentication authToken = new UsernamePasswordAuthenticationToken (userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+		UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
+		Authentication authToken = new UsernamePasswordAuthenticationToken(
+				userDetails.getUsername(), userDetails.getPassword(),
+				userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		// Create Settlement
 		Date today = new Date();
@@ -110,23 +115,32 @@ public class JpaSettlementServiceTests extends ExpenseTrackerBaseTest {
 		Assert.assertTrue("Failed to create settlement", result != 0L);
 		// get it back
 		SettlementBean slb = settlementService.getSettlementById(result);
-				Assert.assertNotNull("Failed to retrieve settlement",slb);
+		Assert.assertNotNull("Failed to retrieve settlement", slb);
 		// Find all settlements
 		List<SettlementBean> sList = settlementService.getSettlements();
 		Assert.assertTrue("Expected exactly 1 settlement.", sList.size() == 1);
 		// Try to close settlement, it should fail
 		int completionResult = settlementService.completeSettlement(result);
-		Assert.assertTrue("Expected settlement closure to fail.", completionResult == 1);
+		Assert.assertTrue("Expected settlement closure to fail.",
+				completionResult == 1);
 		// Try to delete it, it should fail
-//		int deletionResult = settlementService.deleteSettlement(result);
-//		Assert.assertTrue("Expected deletion to fail.", deletionResult == 1);
+		// int deletionResult = settlementService.deleteSettlement(result);
+		// Assert.assertTrue("Expected deletion to fail.", deletionResult == 1);
 		// try applying payments
 		for (UserSettlementBean usb : slb.getUserSettlementList()) {
 			paymentService.applyUserPayment(usb.getId());
 		}
+		// Get some payments
+		List<PaymentBean> pbList = paymentService.getAllPayments();
+		Assert.assertNotNull("Payments list", pbList);
+		// Get payment for user
+		List<PaymentBean> pbList2 = paymentService.getPaymnentsForUser("testuser3");
+		Assert.assertNotNull("Payments list for user testuser3 is null", pbList2);
+		
 		// Now try to close again
 		int completionResult2 = settlementService.completeSettlement(result);
-		Assert.assertTrue("Settlement closure should have succeded.", completionResult2 == 0);
+		Assert.assertTrue("Settlement closure should have succeded.",
+				completionResult2 == 0);
 		// now delete settlement
 		int deletionResult = settlementService.deleteSettlement(result);
 		Assert.assertTrue("Expected deletion to succeed.", deletionResult == 0);

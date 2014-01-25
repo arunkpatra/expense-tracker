@@ -10,6 +10,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration("classpath:spring/root-applicationContext.xml")
 @ActiveProfiles("demo")
 @WebAppConfiguration
-public class ExpenseTrackerBaseTest {
+public abstract class AbstractExpenseTrackerBaseTest {
 
 }
