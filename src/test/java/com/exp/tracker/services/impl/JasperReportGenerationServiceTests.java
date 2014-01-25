@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 
-import net.sf.jasperreports.engine.util.JRFontNotFoundException;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
-import org.springframework.test.annotation.ExpectedException;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
