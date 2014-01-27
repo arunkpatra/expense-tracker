@@ -95,7 +95,6 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		int result = expenseService.saveExpense(expenseDetail);
 		Assert.assertTrue("Failed to save expense.", result == 0);
 		
-		
 		// Search for expenses in a date range
 		ExpenseSearchCriteria esc = new ExpenseSearchCriteria();
 		Date today = new Date();
