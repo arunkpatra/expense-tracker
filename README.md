@@ -1,6 +1,6 @@
 # Expense Tracker Web App [![Build Status](https://travis-ci.org/arunkpatra/expense-tracker.png?branch=master)](https://travis-ci.org/arunkpatra/expense-tracker) [![Coverage Status](https://coveralls.io/repos/arunkpatra/expense-tracker/badge.png)](https://coveralls.io/r/arunkpatra/expense-tracker)
 
-Expense Tracker is a web application that allows a group of people to manage their expenses. 
+Expense Tracker is a web application that allows a group of people to manage their expenses. A live site for demonstration purposes is at http://etrack.arunkpatra.com
 
 ## What does it do?
 
