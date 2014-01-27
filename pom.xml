@@ -37,6 +37,7 @@
 	<!-- - - - - - - - - - - - - - PROPERTIES - - - - - - - - - - - - -. -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- <springframework-version>3.2.1.RELEASE</springframework-version> -->
 		<springframework-version>3.2.6.RELEASE</springframework-version>
 		<!-- <springsecurity-version>3.1.3.RELEASE</springsecurity-version> -->
@@ -84,12 +85,14 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
 			<version>${derby.client.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<version>${derby.client.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -108,6 +111,12 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>${javax.mail.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>activation</artifactId>
+					<groupId>javax.activation</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -152,6 +161,16 @@
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-faces</artifactId>
 			<version>${webflow-version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-js-resources</artifactId>
+					<groupId>org.springframework.webflow</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>ognl</artifactId>
+					<groupId>opensymphony</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -165,17 +184,27 @@
 			<version>${springsecurity-version}</version>
 		</dependency>
 		<!-- Database, JPA -->
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
-			<scope>runtime</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.hsqldb</groupId> -->
+<!-- 			<artifactId>hsqldb</artifactId> -->
+<!-- 			<version>1.8.0.10</version> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<!-- <version>3.5.0-Final</version> -->
 			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>asm</artifactId>
+					<groupId>asm</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>cglib</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- JSF: Mojarra, PrimeFaces -->
 		<dependency>
@@ -193,23 +222,51 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces-version}</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>net.sf.jasperreports</groupId> -->
+<!-- 			<artifactId>jasperreports</artifactId> -->
+<!-- 			<version>${jasperreports.version}</version> -->
+<!-- 		</dependency> -->
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
+			<groupId>jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>${jasperreports.version}</version>
+			<version>3.5.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jfreechart</artifactId>
+					<groupId>jfree</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jcommon</artifactId>
+					<groupId>jfree</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-fonts</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-
+            
 		<!-- Velocity -->
 		<dependency>
 			<groupId>velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<version>${velocity.version}</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>oro</artifactId>
+					<groupId>oro</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Logging -->
@@ -265,15 +322,25 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.0.2.GA</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jaxb-impl</artifactId>
+					<groupId>com.sun.xml.bind</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jaxb-api</artifactId>
+					<groupId>javax.xml.bind</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- JAXB is needed when running on Java 5. In this environment these dependencies 
 			have to be added (unless xml configuration is explicitly disabled via Configuration.ignoreXmlConfiguration) 
 			On Java 6 jaxb is part of the runtime environment. -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.1</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.xml.bind</groupId> -->
+<!-- 			<artifactId>jaxb-api</artifactId> -->
+<!-- 			<version>2.1</version> -->
+<!-- 		</dependency> -->
 		<!-- Test -->
 		<dependency>
 			<groupId>org.easymock</groupId>
