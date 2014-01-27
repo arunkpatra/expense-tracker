@@ -1,5 +1,6 @@
 package com.exp.tracker.services.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Assert;
@@ -8,8 +9,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.exp.tracker.data.entities.UserEntity;
+import com.exp.tracker.data.model.AuthBean;
 import com.exp.tracker.data.model.PasswordChangeBean;
 import com.exp.tracker.data.model.UserBean;
+import com.exp.tracker.services.api.EmailService;
 import com.exp.tracker.services.api.UserService;
 
 public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
@@ -17,6 +20,8 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 	@Autowired
 	private UserService userService;
 
+	@Autowired EmailService emailService;
+	
 	@Before
 	public void setup() {
 
@@ -34,8 +39,14 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		ub1.setMiddleInit("1");
 		ub1.setPassword("password");
 		ub1.setUsername("ustest1");
+		// add auth
+		//ub1.addAuth("ROLE_SITE_ADMIN");
+		// add again
+		//ub1.addAuth("ROLE_SITE_ADMIN");
 		UserBean userBean1 = userService.addUser(ub1);
 		Assert.assertNotNull("Failed to create ustest1. Why", userBean1);
+		// send mail
+		emailService.sendWelcomeEmail(userBean1);
 		// try to add again
 		UserBean userBean2 = userService.addUser(ub1);
 		Assert.assertNull("Should not have created duplicate user", userBean2);
@@ -59,8 +70,10 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		pcb.setNewPassword("catanddog");
 		pcb.setNewPasswordAgain("catanddog");
 		String result = userService.changePassword(pcb, myUser);
-		Assert.assertTrue("Password change failed",
+		Assert.assertTrue("Password change should have succeded",
 				"".equalsIgnoreCase(result));
+		// send email
+		emailService.sendPasswordResetEmail(myUser);
 		// Fail this time	
 		pcb.setOldPassword("catanddog");
 		pcb.setNewPassword("tiger");
@@ -92,5 +105,15 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		// delete user
 		int result2 = userService.deleteUser(myUser.getId(), "Admin");
 		Assert.assertTrue("Failed to delete user", result2 == 0);
+		// clear user data
+		userBean1.clearUserData();
+		// remove Auths
+		for (AuthBean ab : myUser.getAuthSet()) {
+			userService.removeAuthById(ab.getAuthEntity().getId());
+		}
+		myUser.getAuthSet();
+		// get user beans
+		Collection<UserBean> ubs = userService.getUserBeans();
+		Assert.assertNotNull("Failed to get user beans", ubs);
 	}
 }

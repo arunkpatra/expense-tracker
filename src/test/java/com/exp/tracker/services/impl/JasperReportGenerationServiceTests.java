@@ -21,6 +21,7 @@ import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.SettlementBean;
 import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.data.model.UserShare;
+import com.exp.tracker.services.api.EmailService;
 import com.exp.tracker.services.api.ExpenseService;
 import com.exp.tracker.services.api.ReportGenerationService;
 import com.exp.tracker.services.api.SettlementService;
@@ -47,6 +48,8 @@ public class JasperReportGenerationServiceTests extends
 	@Autowired
 	private SettlementService settlementService;
 
+	@Autowired EmailService emailService;
+	
 	private ServletContext context;
 
 	@Before
@@ -145,6 +148,8 @@ public class JasperReportGenerationServiceTests extends
 		Assert.assertTrue("Empty settlement report", srBytes.length != 0);
 		byte[] erBytes = reportService.genExpenseReportInternal(sid,
 				expenseReportTemplatePath);
+		emailService.sendSettlementEmail(sid, srBytes, erBytes);
+		
 		Assert.assertNotNull("Failed to create expense report", erBytes);
 		Assert.assertTrue("Empty expense report", erBytes.length != 0);
 

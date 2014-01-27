@@ -8,6 +8,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
 import com.exp.tracker.data.entities.ExpenseEntity;
 import com.exp.tracker.data.model.ExpenseDetail;
@@ -21,12 +27,25 @@ import com.exp.tracker.services.api.UserService;
 public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 {
 
+	static JdbcDaoImpl userDetailService;
+	
 	@Autowired private ExpenseService expenseService;
+	
 	@Autowired private UserService userService;
+	
+	@Autowired
+	ApplicationContext ctx;
 	
 	private ExpenseDetail expenseDetail;
 	@Before
     public void setup() {
+		userDetailService = ctx.getBean(JdbcDaoImpl.class);
+		UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
+		Authentication authToken = new UsernamePasswordAuthenticationToken(
+				userDetails.getUsername(), userDetails.getPassword(),
+				userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		
 		// Add 1st user
         UserBean ub1 = new UserBean();
         ub1.setEmailId("a@b.com");
@@ -76,6 +95,7 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		int result = expenseService.saveExpense(expenseDetail);
 		Assert.assertTrue("Failed to save expense.", result == 0);
 		
+		
 		// Search for expenses in a date range
 		ExpenseSearchCriteria esc = new ExpenseSearchCriteria();
 		Date today = new Date();
@@ -101,6 +121,12 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		ExpenseDetail ed = expenseService.getExpenseById(ee.getId());
 		Assert.assertNotNull("Failed to get expensedetail", ed);
 		
+		// Edit record
+		ed.setEditMode(true);
+		ed.setCategory("New category");
+		int resultR = expenseService.saveExpense(ed);
+		Assert.assertTrue("Failed to edit expense.", resultR == 0);
+				
 		// Locate expense detail bean
 		ExpenseDetail ed1 = expenseService.getExpenseDetailBeanById(ee.getId());
 		Assert.assertNotNull("Failed to get expensedetailbean", ed1);
@@ -116,5 +142,8 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		// Delete expense
 		int delresult = expenseService.deleteExpenseById(ee.getId());
 		Assert.assertTrue("Failed to delete expense", delresult == 0);
+		
+		// get expense for null user id
+		expenseService.getExpenseDetailBeanById(null);
 	}
 }

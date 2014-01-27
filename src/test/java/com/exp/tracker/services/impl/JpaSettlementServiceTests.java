@@ -95,7 +95,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 				userDetails.getUsername(), userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-
+		
 		// Create Settlement
 		Date today = new Date();
 		Calendar cal1 = Calendar.getInstance();
