@@ -133,13 +133,13 @@ public class ReportController extends MultiActionController
         return model;
     }
 
-    public SettlementService getSettlementService()
-    {
-        return settlementService;
-    }
-
-    public void setSettlementService(SettlementService settlementService)
-    {
-        this.settlementService = settlementService;
-    }
+//    public SettlementService getSettlementService()
+//    {
+//        return settlementService;
+//    }
+//
+//    public void setSettlementService(SettlementService settlementService)
+//    {
+//        this.settlementService = settlementService;
+//    }
 }

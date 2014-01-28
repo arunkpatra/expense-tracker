@@ -1,5 +1,6 @@
 package com.exp.tracker.services.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -7,13 +8,21 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+//import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.binding.mapping.MappingResult;
+import org.springframework.binding.mapping.MappingResults;
+import org.springframework.binding.mapping.impl.DefaultMappingResults;
+import org.springframework.binding.validation.ValidationContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.webflow.test.MockExternalContext;
+import org.springframework.webflow.test.MockRequestContext;
+import org.springframework.webflow.validation.DefaultValidationContext;
 
 import com.exp.tracker.data.entities.ExpenseEntity;
 import com.exp.tracker.data.model.ExpenseDetail;
@@ -24,6 +33,7 @@ import com.exp.tracker.data.model.UserShare;
 import com.exp.tracker.services.api.ExpenseService;
 import com.exp.tracker.services.api.UserService;
 
+import org.springframework.webflow.execution.RequestContext;
 public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 {
 
@@ -92,6 +102,23 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 	public void expenseRelatedTests() {
 		// Check if expense was saved earlier
 		Assert.assertNotNull("Expense detail is null",expenseDetail);
+		
+		// start
+		RequestContext requestContext = new MockRequestContext();//MockRequestContext();
+		//
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) requestContext).setExternalContext(ec);
+        
+		MappingResults mResults = new DefaultMappingResults(null, null, new ArrayList<MappingResult>());
+		ValidationContext vc = new DefaultValidationContext(requestContext, "calcShares", mResults);
+		expenseDetail.validateEnterExpenseDetail(vc);
+		// try with next
+		vc = new DefaultValidationContext(requestContext, "next", mResults);
+		expenseDetail.setOverrideSharesFlag(true);
+        expenseDetail.validateEnterExpenseDetail(vc);
+        
+		// end
 		int result = expenseService.saveExpense(expenseDetail);
 		Assert.assertTrue("Failed to save expense.", result == 0);
 		

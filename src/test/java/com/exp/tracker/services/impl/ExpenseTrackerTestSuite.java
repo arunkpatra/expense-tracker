@@ -6,8 +6,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ JpaAuthServiceTests.class, JpaExpenseServiceTests.class,
-		JpaRoleServiceTests.class, JpaSettlementServiceTests.class,
-		JpaUserServiceTests.class, JasperReportGenerationServiceTests.class })
-public class ExpenseTrackerTestSuite {
+        JpaRoleServiceTests.class, JpaSettlementServiceTests.class,
+        JpaUserServiceTests.class, JasperReportGenerationServiceTests.class,
+        ReportControllerTests.class, TestPasswordgeneratorTests.class })
+public class ExpenseTrackerTestSuite
+{
 
 }
