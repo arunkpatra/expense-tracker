@@ -50,6 +50,7 @@ public class JavaMailEmailService extends EmailServicesHelper implements
     /**
      * The logger.
      */
+    @SuppressWarnings("unused")
     private static final Log logger = LogFactory
             .getLog(JavaMailEmailService.class);
 
@@ -69,7 +70,6 @@ public class JavaMailEmailService extends EmailServicesHelper implements
     public void sendSettlementEmail(Long sid, byte[] settlementReport,
             byte[] expenseReport)
     {
-        //int emailSendResult = 0;
         // do not send email if sid is not valid
         if (sid != 0l) {
             Query queryGetSettlementForId = em
@@ -93,12 +93,6 @@ public class JavaMailEmailService extends EmailServicesHelper implements
             // send email
             sendSettlementNotice(sb, ubl, settlementReport, expenseReport);
         }
-//        if (emailSendResult == 0) {
-//            logger.info("Email was sent succesfuly.");
-//        } else {
-//            logger.error("Email not sent.");
-//        }
-       // return emailSendResult;
     }
 
     /**
@@ -107,8 +101,6 @@ public class JavaMailEmailService extends EmailServicesHelper implements
     @Async
     public void sendWelcomeEmail(UserBean ub)
     {
-       // @SuppressWarnings("unused")
-        //int result = 0;
         if (null != ub) {
             if (null != ub.getEmailId()) {
                 if (!"".equalsIgnoreCase(ub.getEmailId())) {
@@ -124,8 +116,6 @@ public class JavaMailEmailService extends EmailServicesHelper implements
     @Async
     public void sendPasswordResetEmail(UserBean ub)
     {
-       // @SuppressWarnings("unused")
-        //int result = 0;
         if (null != ub.getEmailId()) {
             if (!"".equalsIgnoreCase(ub.getEmailId())) {
                 sendPasswordResetEmail0(ub);
