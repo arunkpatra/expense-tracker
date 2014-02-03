@@ -1,6 +1,8 @@
 # Expense Tracker Web App 
 [![endorse](https://api.coderwall.com/arunkpatra/endorsecount.png)](https://coderwall.com/arunkpatra) [![Build Status](https://travis-ci.org/arunkpatra/expense-tracker.png?branch=master)](https://travis-ci.org/arunkpatra/expense-tracker) [![Coverage Status](https://coveralls.io/repos/arunkpatra/expense-tracker/badge.png)](https://coveralls.io/r/arunkpatra/expense-tracker)
 
+<script type="text/javascript" src="http://www.ohloh.net/p/712698/widgets/project_thin_badge.js"></script>
+ 
 Expense Tracker is a web application that allows a group of people to manage their expenses. A live site for demonstration purposes is at http://etrack.arunkpatra.com. (user: admin, password: password)
 
 ## What does it do?
