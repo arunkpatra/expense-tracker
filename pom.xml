@@ -434,15 +434,17 @@
 <!-- 									<uniqueVersions>false</uniqueVersions> -->
 <!-- 								</DependencyConvergence> -->
 								<requireMavenVersion>
-									<version>3.1.1</version>
+<!-- 									<version>3.1.1</version> -->
+									<version>3.0.1</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
 									<version>1.7</version>
 								</requireJavaVersion>
-								<requireOS>
-									<family>unix</family>
-									<family>windows</family>									
-								</requireOS>
+<!-- 								<requireOS> -->
+<!-- 									<family>unix</family> -->
+<!-- 									<family>windows</family>	 -->
+<!-- 									<family>mac</family>								 -->
+<!-- 								</requireOS> -->
 							</rules>
 						</configuration>
 					</execution>
