@@ -61,6 +61,11 @@ public class UserBean implements Serializable
      * EMail ID of the user.
      */
     private String emailId;
+    
+    /**
+     * The phone number
+     */
+    private String phoneNumber;
     /**
      * First name of the user.
      */
@@ -266,7 +271,15 @@ public class UserBean implements Serializable
         this.emailId = emailId;
     }
 
-    public String getFirstName()
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getFirstName()
     {
         return firstName;
     }

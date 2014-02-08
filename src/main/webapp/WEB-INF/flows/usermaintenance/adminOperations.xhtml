@@ -4,7 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" 
 	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:f="http://java.sun.com/jsf/core">	
+	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
 
 	<ui:define name="body">
@@ -34,39 +34,37 @@
 								oncomplete="confirmDialog.show()">
 								<f:param name="username" value="#{u.username}" />
 							</p:commandLink>
-							<p:tooltip for="viewUserDetail" value="Click to see details"
-								showEffect="fade" hideEffect="fade" />
 						</p:column>
 
 						<p:column>
 							<f:facet name="header">Modify</f:facet>
-							<p:commandButton id="modifyUser" value="Modify"
-								action="modifyuser">
+							<h:commandButton id="modifyUser" value="Modify"
+								action="modifyuser" styleClass="btn btn-default btn-xs">
 								<f:param name="usernameTobeModified" value="#{u.username}" />
-							</p:commandButton>
+							</h:commandButton>
 						</p:column>
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Reset Password">
 								</h:outputText>
 							</f:facet>
-							<p:commandButton id="reset" value="Reset Password"
-								action="resetpassword" oncomplete="resetPwdDialog.show()">
+							<h:commandButton id="reset" value="Reset Password"
+								action="resetpassword" oncomplete="resetPwdDialog.show()" styleClass="btn btn-default btn-xs">
 								<f:param name="passwordResetUserName" value="#{u.username}" />
-							</p:commandButton>
+							</h:commandButton>
 						</p:column>
 						<p:column>
 							<f:facet name="header">Delete</f:facet>
-							<p:commandButton id="deleteUser" value="Delete"
-								action="deleteuser">
+							<h:commandButton id="deleteUser" value="Delete"
+								action="deleteuser" styleClass="btn btn-danger btn-xs">
 								<f:param name="userIdToBeDeleted" value="#{u.id}"
 									update=":users" />
-							</p:commandButton>
+							</h:commandButton>
 						</p:column>
 					</p:dataTable>
 					<div class="buttonGroup">
-						<p:commandButton id="addNewUser" value="Add New User"
-							action="adduser" />
+						<h:commandButton id="addNewUser" value="Add New User"
+							action="adduser" styleClass="btn btn-primary"/>
 					</div>
 
 				</p:outputPanel>
