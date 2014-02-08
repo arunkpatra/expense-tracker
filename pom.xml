@@ -40,7 +40,8 @@
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
 		<apache.dbcp.version>1.2.2</apache.dbcp.version>	
 		<bootstrap.version>3.0.2</bootstrap.version>	
-		<commons.collections.version>3.2</commons.collections.version>		
+		<commons.collections.version>3.2</commons.collections.version>
+		<copyright.year>2014</copyright.year>		
 		<derby.client.version>10.10.1.1</derby.client.version>		
 		<hibernate.version>3.6.10.Final</hibernate.version>		
 		<java.version>1.7</java.version>		
@@ -250,6 +251,11 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap-datepicker</artifactId>
 			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-cookie</artifactId>
+			<version>1.3.1</version>
 		</dependency>
 		<!-- Downgrade jQuery so it works with HtmlUnit -->
 		<dependency>
