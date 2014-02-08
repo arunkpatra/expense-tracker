@@ -38,7 +38,8 @@
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<properties>
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
-		<apache.dbcp.version>1.2.2</apache.dbcp.version>		
+		<apache.dbcp.version>1.2.2</apache.dbcp.version>	
+		<bootstrap.version>3.0.2</bootstrap.version>	
 		<commons.collections.version>3.2</commons.collections.version>		
 		<derby.client.version>10.10.1.1</derby.client.version>		
 		<hibernate.version>3.6.10.Final</hibernate.version>		
@@ -49,10 +50,9 @@
 		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
 		<mojarra-version>2.1.7</mojarra-version>		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>				
-		<primefaces-version>3.1.1</primefaces-version>		
+		<primefaces-version>4.0</primefaces-version>		
 		<springframework-version>4.0.0.RELEASE</springframework-version>
 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>		
-<!-- 		<springsecurity-version>3.2.1.CI-SNAPSHOT</springsecurity-version>	 -->
 		<slf4j-version>1.5.10</slf4j-version>		
 		<velocity.version>1.7</velocity.version>
 		<webflow-version>2.4.0.BUILD-SNAPSHOT</webflow-version>
@@ -83,8 +83,18 @@
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - DEPENDENCIES - - - - - - - - - - - -. -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>bootstrap</artifactId>
+				<version>${bootstrap.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
-
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
@@ -226,7 +236,27 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces-version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<!-- Add Bootstrap via WebJars -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap-datepicker</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<!-- Downgrade jQuery so it works with HtmlUnit -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>1.8.3</version>
+		</dependency>
 		<dependency>
 			<groupId>jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
