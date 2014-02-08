@@ -36,6 +36,7 @@
 						</li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
+						<li><a href="${request.contextPath}/et/logout">Logout</a> </li>
 						<li><a href="${request.contextPath}/et/welcome">Home</a></li>
 						<li><a href="${request.contextPath}/et/myexpenses">My
 								Expenses</a></li>
