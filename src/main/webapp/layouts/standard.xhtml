@@ -12,64 +12,114 @@
 		<meta http-equiv="Pragma" content="no-cache" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- 		<link rel="icon" href="#{request.contextPath}/images/favicon.ico" /> -->
+		<!-- 		<link rel="icon" href="#{request.contextPath}/images/favicon.ico" /> -->
 		<ui:include src="/layouts/assets.xhtml" />
 		<title>Expense Tracker</title>
 	</h:head>
 
 	<body id="#{bodyId}">
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#navbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#{request.contextPath}">#{text['webapp.name']}</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<c:if test="${empty currentUser.name}">
+						<li class="active">
+						<a href="${request.contextPath}/et/login">#{text['login.title']}</a>
+						</li>
+					</c:if>
+					<c:if test="${not empty currentUser.name}">
+						<li><a href="${request.contextPath}/et/welcome">Home</a></li>
+						<li><a href="${request.contextPath}/et/myexpenses">My
+								Expenses</a></li>
+						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
+							<li><a href="${request.contextPath}/et/usermaintenance">User
+									Maintenance</a></li>
+						</sec:authorize>
+						<li><a href="${request.contextPath}/et/addexpense">Create
+								Expense</a></li>
+						<li><a href="${request.contextPath}/et/viewexpenses">View
+								Expenses</a></li>
+						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
+							<li><a href="${request.contextPath}/et/settlement">Settlement</a>
+							</li>
+						</sec:authorize>
+						<li><a href="${request.contextPath}/et/payments">Payments</a></li>
+					</c:if>
+
+					<!-- 					<menu:displayMenu name="Home" /> -->
+					<!-- 					<menu:displayMenu name="UserMenu" /> -->
+					<!-- 					<menu:displayMenu name="AdminMenu" /> -->
+					<!-- 					<menu:displayMenu name="Logout" /> -->
+				</ul>
+			</div>
+			<c:if test="${facesContext.externalContext.requestLocale ne 'en'}">
+				<div id="switchLocale">
+					<a href="#{request.contextPath}/?locale=en">
+						#{text['webapp.name']} in English</a>
+				</div>
+			</c:if>
+		</div>
+
 		<!-- Header starts -->
-<!-- 		<div> -->
-<!-- 			<h4 class="alt bottom"> -->
-<!-- 				<c:if test="${not empty etUser.lastName}"> -->
-<!-- 					Welcome, ${etUser.firstName} ${etUser.lastName} |  -->
-<!-- 					<a href="${request.contextPath}/et/changepassword">Change -->
-<!-- 						Password</a> |  -->
-<!-- 					<a href="${request.contextPath}/et/logout">Logout</a> -->
-<!-- 				</c:if> -->
-<!-- 				<c:if test="${empty currentUser.name}"> -->
-<!-- 					<a href="${request.contextPath}/et/login">Login</a> -->
-<!-- 				</c:if> -->
-<!-- 			</h4> -->
-<!-- 		</div> -->
-<!-- 		<div> -->
-<!-- 			<a href="${request.contextPath}/et/welcome"> <img -->
-<!-- 				src="${request.contextPath}/images/header.jpg" alt="Expense Tracker" /> -->
-<!-- 			</a> -->
-<!-- 		</div> -->
-<!-- 		<hr class="space" /> -->
+		<!-- 		<div> -->
+		<!-- 			<h4 class="alt bottom"> -->
+		<!-- 				<c:if test="${not empty etUser.lastName}"> -->
+		<!-- 					Welcome, ${etUser.firstName} ${etUser.lastName} |  -->
+		<!-- 					<a href="${request.contextPath}/et/changepassword">Change -->
+		<!-- 						Password</a> |  -->
+		<!-- 					<a href="${request.contextPath}/et/logout">Logout</a> -->
+		<!-- 				</c:if> -->
+		<!-- 				<c:if test="${empty currentUser.name}"> -->
+		<!-- 					<a href="${request.contextPath}/et/login">Login</a> -->
+		<!-- 				</c:if> -->
+		<!-- 			</h4> -->
+		<!-- 		</div> -->
+		<!-- 		<div> -->
+		<!-- 			<a href="${request.contextPath}/et/welcome"> <img -->
+		<!-- 				src="${request.contextPath}/images/header.jpg" alt="Expense Tracker" /> -->
+		<!-- 			</a> -->
+		<!-- 		</div> -->
+		<!-- 		<hr class="space" /> -->
 		<!-- Header over -->
 		<!-- Content Starts -->
 
-<!-- 		<div id="local" class="span-4 colborder"> -->
-<!-- 			<ul> -->
-<!-- 				<c:if test="${not empty currentUser.name}"> -->
-<!-- 					<li><a href="${request.contextPath}/et/welcome">Home</a></li> -->
-<!-- 					<li><a href="${request.contextPath}/et/myexpenses">My -->
-<!-- 							Expenses</a></li> -->
-<!-- 					<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
-<!-- 						<li><a href="${request.contextPath}/et/usermaintenance">User -->
-<!-- 								Maintenance</a></li> -->
-<!-- 					</sec:authorize> -->
-<!-- 					<li><a href="${request.contextPath}/et/addexpense">Create -->
-<!-- 							Expense</a></li> -->
-<!-- 					<li><a href="${request.contextPath}/et/viewexpenses">View -->
-<!-- 							Expenses</a></li> -->
-<!-- 					<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
-<!-- 						<li><a href="${request.contextPath}/et/settlement">Settlement</a> -->
-<!-- 						</li> -->
-<!-- 					</sec:authorize> -->
-<!-- 					<li><a href="${request.contextPath}/et/payments">Payments</a></li> -->
-<!-- 				</c:if> -->
-<!-- 			</ul> -->
-<!-- 		</div> -->
+		<!-- 		<div id="local" class="span-4 colborder"> -->
+		<!-- 			<ul> -->
+		<!-- 				<c:if test="${not empty currentUser.name}"> -->
+		<!-- 					<li><a href="${request.contextPath}/et/welcome">Home</a></li> -->
+		<!-- 					<li><a href="${request.contextPath}/et/myexpenses">My -->
+		<!-- 							Expenses</a></li> -->
+		<!-- 					<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
+		<!-- 						<li><a href="${request.contextPath}/et/usermaintenance">User -->
+		<!-- 								Maintenance</a></li> -->
+		<!-- 					</sec:authorize> -->
+		<!-- 					<li><a href="${request.contextPath}/et/addexpense">Create -->
+		<!-- 							Expense</a></li> -->
+		<!-- 					<li><a href="${request.contextPath}/et/viewexpenses">View -->
+		<!-- 							Expenses</a></li> -->
+		<!-- 					<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
+		<!-- 						<li><a href="${request.contextPath}/et/settlement">Settlement</a> -->
+		<!-- 						</li> -->
+		<!-- 					</sec:authorize> -->
+		<!-- 					<li><a href="${request.contextPath}/et/payments">Payments</a></li> -->
+		<!-- 				</c:if> -->
+		<!-- 			</ul> -->
+		<!-- 		</div> -->
 		<div class="container" id="content">
 			<div class="row">
 				<ui:insert name="body" />
 			</div>
 		</div>
-		
-<!-- 		<ui:insert name="scripts"/> -->
+
+		<!-- 		<ui:insert name="scripts"/> -->
 		<!-- Content ends -->
 	</body>
 </f:view>
