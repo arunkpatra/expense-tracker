@@ -1,137 +1,169 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:f="http://java.sun.com/jsf/core">	
+	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
-
+	<ui:define name="title">Edit User</ui:define>
 	<ui:define name="body">
-		<h:form id="modifyUser">
-			<h2>Modify User</h2>
-			<div id="messagesInsertionPoint">
-				<h:messages errorClass="errors" />
-			</div>
-			<p:fieldset>
-				<div class="field">
-					<div class="label">
-						<h:outputLabel for="userName">User Name:</h:outputLabel>
-					</div>
-					<div class="output">
-						<h:outputText id="userName"
-							value="#{selectedUserToBeModified.username}" required="true" />
-					</div>
+
+		<div class="col-sm-2">
+			<h2>#{text['userProfile.heading']}</h2>
+
+			<h:outputText value="#{text['userProfile.message']}" />
+		</div>
+		<div class="col-sm-7">
+			<h:form id="modifyUser" styleClass="well" autocomplete="off">
+				<div id="messagesInsertionPoint">
+					<h:messages errorClass="errors" />
 				</div>
-				<div class="field">
-					<div class="label">
-						<h:outputLabel for="emailId">Email Id:</h:outputLabel>
-					</div>
-					<div class="input">
-						<h:inputText id="emailId"
-							value="#{selectedUserToBeModified.emailId}" required="false"
-							maxlength="32" />
-					</div>
+
+				<div class="form-group">
+					<h:outputLabel styleClass="control-label" for="username"
+						value="#{text['user.username']}" />
+					<h:outputText styleClass="form-control"
+						value="#{selectedUserToBeModified.username}" id="username"
+						required="true" />
+					<p:message for="username" />
 				</div>
-				<div class="field">
-					<div class="label">
-						<h:outputLabel for="firstName">First Name:</h:outputLabel>
+
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="firstName"
+							value="#{text['user.firstName']}" />
+						<h:inputText styleClass="form-control" id="firstName"
+							value="#{selectedUserToBeModified.firstName}" maxlength="50"
+							required="true" />
+						<p:message for="firstName" />
 					</div>
-					<div class="input">
-						<h:inputText id="firstName"
-							value="#{selectedUserToBeModified.firstName}" required="true"
-							maxlength="16" />
+
+					<div class="col-sm-4 form-group">
+						<h:outputLabel styleClass="control-label" for="lastName"
+							value="#{text['user.lastName']}" />
+						<h:inputText styleClass="form-control"
+							value="#{selectedUserToBeModified.lastName}" id="lastName"
+							maxlength="50" required="true" />
+						<p:message for="lastName" />
 					</div>
-				</div>
-				<div class="field">
-					<div class="label">
-						<h:outputLabel for="lastName">Last Name:</h:outputLabel>
-					</div>
-					<div class="input">
-						<h:inputText id="lastName"
-							value="#{selectedUserToBeModified.lastName}" required="true"
-							maxlength="16" />
-					</div>
-				</div>
-				<div class="field">
-					<div class="label">
-						<h:outputLabel for="middleInit">Middle Init:</h:outputLabel>
-					</div>
-					<div class="input">
-						<h:inputText id="middleInit"
+
+					<div class="col-sm-2 form-group">
+						<h:outputLabel styleClass="control-label" for="mInit"
+							value="#{text['user.middle.int']}" />
+						<h:inputText id="mInit"
 							value="#{selectedUserToBeModified.middleInit}" required="false"
-							maxlength="1" size="2" />
+							maxlength="1" styleClass="form-control" />
+						<p:message for="mInit" />
 					</div>
 				</div>
-				<div class="field">
-					<div class="label">
-						<h:outputLabel for="enabled"
-							rendered="#{selectedUserToBeModified.username ne currentUser.name}">Enabled:</h:outputLabel>
+
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="email"
+							value="#{text['user.email']}" />
+						<h:inputText styleClass="form-control"
+							value="#{selectedUserToBeModified.emailId}" id="email"
+							required="true" validatorMessage="Invalid email Id.">
+							<f:validateRegex
+								pattern="^([a-zA-Z]+(([a-zA-Z0-9]*)|((([^@]{0,}?)[a-zA-Z0-9]+){0,}))([@]{1})[a-zA-Z0-9]+(([.]{1})([a-zA-Z0-9]+)){1,2})$" />
+						</h:inputText>
+						<p:message for="email" />
 					</div>
-					<div class="input">
-						<h:selectBooleanCheckbox id="enabled"
-							value="#{selectedUserToBeModified.enabled}"
-							rendered="#{selectedUserToBeModified.username ne currentUser.name}" />
+
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="phoneNumber"
+							value="#{text['user.phoneNumber']}" />
+						<h:inputText styleClass="form-control"
+							value="#{selectedUserToBeModified.phoneNumber}" id="phoneNumber"
+							validatorMessage="Invalid phone number">
+							<f:validateRegex
+								pattern="^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$" />
+						</h:inputText>
+						<p:message for="phoneNumber" />
 					</div>
 				</div>
-				<div class="buttonGroup">
-					<p:commandButton id="back" value="Back" action="back"
-						process="@form" />
-					<p:commandButton id="updateUser" value="Save" process="@form"
-						action="updateUser" oncomplete="saveConfirmDialog.show()"/>
-					<p:commandButton id="cancel" value="Cancel" process="@form"
-						action="cancel" />
+				<h:outputLabel styleClass="checkbox" for="enabled"
+					value="#{text['user.enabled']}"
+					rendered="#{selectedUserToBeModified.username ne currentUser.name}">
+					<h:selectBooleanCheckbox
+						value="#{selectedUserToBeModified.enabled}" id="enabled"
+						styleClass="checkbox"
+						rendered="#{selectedUserToBeModified.username ne currentUser.name}" />
+				</h:outputLabel>
+
+				<div class="form-group form-actions">
+					<h:commandButton value="#{text['button.save']}" action="updateUser"
+						styleClass="btn btn-primary" />
+
+					<h:commandButton value="#{text['button.cancel']}" action="cancel"
+						immediate="true" styleClass="btn btn-default" />
 				</div>
-			</p:fieldset>
-			<p:dialog widgetVar="saveConfirmDialog" 
-				header="User Modification" modal="true" width="300">
-				<p:outputPanel id="updateContent">
-					<span class="errors"> <h:messages globalOnly="true" />
-					</span>
-					<p>The user was updated successfully.</p>
-					<p:commandButton id="updateOk" value="Ok" action="updateOk"/>
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
-		<h:form id="modifyAuths">
-			<p:fieldset id="roleList">
-				<h:outputText id="noRolesText" value="No roles found for this user"
-					rendered="#{userAuths.rowCount == 0}" />
-				<h:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-					var="a" rendered="#{userAuths.rowCount > 0}">
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Authorization" />
-						</f:facet>
+
+				<!-- 				<p:fieldset> -->
+
+
+
+				<!-- 					<div class="buttonGroup"> -->
+				<!-- 						<p:commandButton id="back" value="Back" action="back" -->
+				<!-- 							process="@form" /> -->
+				<!-- 						<p:commandButton id="updateUser" value="Save" process="@form" -->
+				<!-- 							action="updateUser" oncomplete="saveConfirmDialog.show()" /> -->
+				<!-- 						<p:commandButton id="cancel" value="Cancel" process="@form" -->
+				<!-- 							action="cancel" /> -->
+				<!-- 					</div> -->
+				<!-- 				</p:fieldset> -->
+				<p:dialog widgetVar="saveConfirmDialog" header="User Modification"
+					modal="true" width="300">
+					<p:outputPanel id="updateContent">
+						<span class="errors"> <h:messages globalOnly="true" />
+						</span>
+						<p>The user was updated successfully.</p>
+						<p:commandButton id="updateOk" value="Ok" action="updateOk" />
+					</p:outputPanel>
+				</p:dialog>
+
+			</h:form>
+			<h:form id="modifyAuths">
+				<p:fieldset id="roleList">
+					<h:outputText id="noRolesText" value="No roles found for this user"
+						rendered="#{userAuths.rowCount == 0}" />
+					<h:dataTable id="auths" styleClass="summary" value="#{userAuths}"
+						var="a" rendered="#{userAuths.rowCount > 0}">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Authorization" />
+							</f:facet>
 									#{a.authority}			
 								</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Action">
-							</h:outputText>
-						</f:facet>
-						<p:commandButton id="deleteAuth" value="Delete"
-							action="deleteAuth" oncomplete="confirmDialog.show()">
-							<f:param name="authIdToDelete" value="#{a.id}" />
-						</p:commandButton>
-					</h:column>
-				</h:dataTable>
-				<p:commandButton id="addAuth" value="Add New Role" process="@form"
-					action="addAuth">
-					<f:param name="selectedUserName" value="#{selectedUser.username}"></f:param>
-				</p:commandButton>
-			</p:fieldset>
-			<p:dialog widgetVar="confirmDialog" id="dlg1"
-				header="Authorization deletion result" modal="true" width="300">
-				<p:outputPanel id="confirmContent">
-					<span class="errors"> <h:messages globalOnly="true" />
-					</span>
-					<p>The role was deleted successfully.</p>
-					<p:commandButton id="ok" value="Ok" action="deleteAuthOk"
-						update="roleList" />
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Action">
+								</h:outputText>
+							</f:facet>
+							<p:commandButton id="deleteAuth" value="Delete"
+								action="deleteAuth" oncomplete="confirmDialog.show()">
+								<f:param name="authIdToDelete" value="#{a.id}" />
+							</p:commandButton>
+						</h:column>
+					</h:dataTable>
+					<p:commandButton id="addAuth" value="Add New Role" process="@form"
+						action="addAuth">
+						<f:param name="selectedUserName" value="#{selectedUser.username}"></f:param>
+					</p:commandButton>
+				</p:fieldset>
+				<p:dialog widgetVar="confirmDialog" id="dlg1"
+					header="Authorization deletion result" modal="true" width="300">
+					<p:outputPanel id="confirmContent">
+						<span class="errors"> <h:messages globalOnly="true" />
+						</span>
+						<p>The role was deleted successfully.</p>
+						<p:commandButton id="ok" value="Ok" action="deleteAuthOk"
+							update="roleList" />
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

@@ -1,20 +1,34 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
-
+	<ui:define name="title">#{text['userList.title']}</ui:define>
 	<ui:define name="body">
-		<!-- 	<ui:fragment id="usersFragment"> -->
-		<h:form id="mainForm">
-			<p:panel id="users" header="Users" toggleable="true"
-				toggleSpeed="100" style="margin-top: 10px">
-				<h:outputText value="No Users Found" rendered="#{users.rowCount==0}" />
 
-				<h:outputText value="Click on a user name to see details." />
+		<div class="col-sm-2">
+			<h2>Users</h2>
+			<h:outputText value="Add, modify or delete users." />
+		</div>
+
+		<div class="col-sm-8">
+			<h:form id="mainForm">
+				<div id="actions" class="btn-group">
+					<!-- <script> shows up here and causes square corners on the Add button below -->
+					<h:commandButton action="adduser" value="#{text['button.add']}"
+						id="adduser" styleClass="btn btn-primary">
+					</h:commandButton>
+
+				</div>
+
+				<!-- 			<p:panel id="users" header="Users" toggleable="true" -->
+				<!-- 				toggleSpeed="100" style="margin-top: 10px"> -->
+				<!-- 				<h:outputText value="No Users Found" rendered="#{users.rowCount==0}" /> -->
+
+				<!-- 				<h:outputText value="Click on a user name to see details." /> -->
 				<p:outputPanel id="usersContent">
 					<p:dataTable value="#{users}" var="u">
 						<p:column>
@@ -38,89 +52,97 @@
 
 						<p:column>
 							<f:facet name="header">Modify</f:facet>
-							<h:commandButton id="modifyUser" value="Modify"
-								action="modifyuser" styleClass="btn btn-default btn-xs">
-								<f:param name="usernameTobeModified" value="#{u.username}" />
-							</h:commandButton>
+							<div align="center">
+								<h:commandButton id="modifyUser" value="Modify"
+									action="modifyuser" styleClass="btn btn-default btn-xs">
+									<f:param name="usernameTobeModified" value="#{u.username}" />
+								</h:commandButton>
+							</div>
 						</p:column>
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Reset Password">
 								</h:outputText>
 							</f:facet>
-							<h:commandButton id="reset" value="Reset Password"
-								action="resetpassword" oncomplete="resetPwdDialog.show()" styleClass="btn btn-default btn-xs">
-								<f:param name="passwordResetUserName" value="#{u.username}" />
-							</h:commandButton>
+							<div align="center">
+								<h:commandButton id="reset" value="Reset Password"
+									action="resetpassword" oncomplete="resetPwdDialog.show()"
+									styleClass="btn btn-default btn-xs">
+									<f:param name="passwordResetUserName" value="#{u.username}" />
+								</h:commandButton>
+							</div>
 						</p:column>
 						<p:column>
 							<f:facet name="header">Delete</f:facet>
-							<h:commandButton id="deleteUser" value="Delete"
-								action="deleteuser" styleClass="btn btn-danger btn-xs">
-								<f:param name="userIdToBeDeleted" value="#{u.id}"
-									update=":users" />
-							</h:commandButton>
+							<div align="center">
+								<h:commandButton id="deleteUser" value="Delete"
+									action="deleteuser" styleClass="btn btn-danger btn-xs">
+									<f:param name="userIdToBeDeleted" value="#{u.id}"
+										update=":users" />
+								</h:commandButton>
+							</div>
 						</p:column>
 					</p:dataTable>
-					<div class="buttonGroup">
-						<h:commandButton id="addNewUser" value="Add New User"
-							action="adduser" styleClass="btn btn-primary"/>
-					</div>
+					<!-- 					<div class="buttonGroup"> -->
+					<!-- 						<h:commandButton id="addNewUser" value="Add New User" -->
+					<!-- 							action="adduser" styleClass="btn btn-primary"/> -->
+					<!-- 					</div> -->
 
 				</p:outputPanel>
-			</p:panel>
-			<p:dialog widgetVar="resetPwdDialog" header="Password rest"
-				modal="true" width="300">
-				<p:outputPanel id="passwordResetContent">
-					<span class="errors"> <h:messages globalOnly="true" />
-					</span>
-					<p>Password was reset successfully. An email has been sent.</p>	
-				
-					<div class="buttonGroup">
-						<p:commandButton id="ok" value="Ok" process="@form" 
-						update="@form" action="passwordResetOk" />
-					</div>
-				</p:outputPanel>
-			</p:dialog>
-			<p:dialog widgetVar="confirmDialog" header="User Details"
-				modal="true" width="300">
+				<!-- 			</p:panel> -->
+				<p:dialog widgetVar="resetPwdDialog" header="Password rest"
+					modal="true" width="300">
+					<p:outputPanel id="passwordResetContent">
+						<span class="errors"> <h:messages globalOnly="true" />
+						</span>
+						<p>Password was reset successfully. An email has been sent.</p>
 
-				<p:fieldset legend="User Details">
-					<h:panelGrid columns="2">
-						<h:outputLabel>User Id:</h:outputLabel>
-						<h:outputText value="#{selectedUser.username}" />
+						<div class="buttonGroup">
+							<p:commandButton id="ok" value="Ok" process="@form"
+								update="@form" action="passwordResetOk" />
+						</div>
+					</p:outputPanel>
+				</p:dialog>
+				<p:dialog widgetVar="confirmDialog" header="User Details"
+					modal="true" width="300">
 
-						<h:outputLabel>Name:</h:outputLabel>
-						<h:outputText
-							value="#{selectedUser.firstName} #{selectedUser.middleInit} #{selectedUser.lastName}" />
+					<p:fieldset legend="User Details">
+						<h:panelGrid columns="2">
+							<h:outputLabel>User Id:</h:outputLabel>
+							<h:outputText value="#{selectedUser.username}" />
 
-						<h:outputLabel>Email Id:</h:outputLabel>
-						<h:outputText value="#{selectedUser.emailId}" />
+							<h:outputLabel>Name:</h:outputLabel>
+							<h:outputText
+								value="#{selectedUser.firstName} #{selectedUser.middleInit} #{selectedUser.lastName}" />
 
-						<h:outputLabel>Enabled:</h:outputLabel>
-						<h:outputText value="Yes"
-							rendered="#{selectedUser.enabled == true}" />
-						<h:outputText value="No"
-							rendered="#{selectedUser.enabled == false}" />
+							<h:outputLabel>Email Id:</h:outputLabel>
+							<h:outputText value="#{selectedUser.emailId}" />
 
-						<h:outputText id="noRolesText"
-							value="No roles found for this user"
-							rendered="#{userAuths.rowCount == 0}" />
-					</h:panelGrid>
-				</p:fieldset>
+							<h:outputLabel>Enabled:</h:outputLabel>
+							<h:outputText value="Yes"
+								rendered="#{selectedUser.enabled == true}" />
+							<h:outputText value="No"
+								rendered="#{selectedUser.enabled == false}" />
 
-				<p:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-					var="a" rendered="#{userAuths.rowCount > 0}">
+							<h:outputText id="noRolesText"
+								value="No roles found for this user"
+								rendered="#{userAuths.rowCount == 0}" />
+						</h:panelGrid>
+					</p:fieldset>
 
-					<p:column colspan="2">
-						<f:facet name="header">
-							<h:outputText value="Authorization(s)" />
-						</f:facet>
+					<p:dataTable id="auths" styleClass="summary" value="#{userAuths}"
+						var="a" rendered="#{userAuths.rowCount > 0}">
+
+						<p:column colspan="2">
+							<f:facet name="header">
+								<h:outputText value="Authorization(s)" />
+							</f:facet>
 						#{a.authority}			
 						</p:column>
-				</p:dataTable>
-			</p:dialog>
-		</h:form>
+					</p:dataTable>
+				</p:dialog>
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>
