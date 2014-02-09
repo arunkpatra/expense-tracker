@@ -40,7 +40,7 @@ public class ExpenseDetail implements Serializable
 
     public ExpenseDetail() {
         Calendar calendar = Calendar.getInstance();
-        setDate(calendar.getTime());
+        //setDate(calendar.getTime());
         setUserShares(new ArrayList<UserShare>());
     }
 

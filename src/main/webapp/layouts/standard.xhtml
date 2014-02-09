@@ -13,7 +13,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!-- 		<link rel="icon" href="#{request.contextPath}/images/favicon.ico" /> -->
-		<title><ui:insert name="title">Home</ui:insert> | #{text['webapp.name']}</title>
+		<title><ui:insert name="title">Home</ui:insert> |
+			#{text['webapp.name']}</title>
 		<ui:include src="/layouts/assets.xhtml" />
 	</h:head>
 
@@ -31,12 +32,11 @@
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
 					<c:if test="${empty currentUser.name}">
-						<li class="active">
-						<a href="${request.contextPath}/et/login">#{text['login.title']}</a>
+						<li class="active"><a href="${request.contextPath}/et/login">#{text['login.title']}</a>
 						</li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
-						<li><a href="${request.contextPath}/et/logout">Logout</a> </li>
+						<li><a href="${request.contextPath}/et/logout">Logout</a></li>
 						<li><a href="${request.contextPath}/et/welcome">Home</a></li>
 						<li><a href="${request.contextPath}/et/myexpenses">My
 								Expenses</a></li>
@@ -61,12 +61,14 @@
 					<!-- 					<menu:displayMenu name="Logout" /> -->
 				</ul>
 			</div>
+			<!-- 
 			<c:if test="${facesContext.externalContext.requestLocale ne 'en'}">
 				<div id="switchLocale">
 					<a href="#{request.contextPath}/?locale=en">
 						#{text['webapp.name']} in English</a>
 				</div>
 			</c:if>
+			 -->
 		</div>
 
 		<!-- Header starts -->
@@ -118,6 +120,16 @@
 			<div class="row">
 				<ui:insert name="body" />
 			</div>
+		</div>
+<!-- 		<div id="footer" class="container navbar-fixed-bottom"> -->
+		<div id="footer" class="container navbar-fixed-bottom">
+			<span class="col-sm-6 text-left">#{text['webapp.version']} <c:if
+					test="${not empty currentUser.name}">
+                | #{text['user.status']} ${currentUser.name}
+            </c:if>
+			</span> <span class="col-sm-6 text-right"> <c:set var="companyLink">#{text['company.url']}</c:set>
+				&#169; #{text['copyright.year']} <a href="${companyLink}">#{text['company.name']}</a>
+			</span>
 		</div>
 
 		<!-- 		<ui:insert name="scripts"/> -->
