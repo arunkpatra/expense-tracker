@@ -39,7 +39,8 @@
 	<properties>
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
 		<apache.dbcp.version>1.2.2</apache.dbcp.version>	
-		<bootstrap.version>3.0.2</bootstrap.version>	
+		<bootstrap.version>3.1.0</bootstrap.version>
+<!-- 		<bootstrap.version>3.0.2</bootstrap.version>	 -->
 		<commons.collections.version>3.2</commons.collections.version>
 		<copyright.year>2014</copyright.year>		
 		<derby.client.version>10.10.1.1</derby.client.version>		

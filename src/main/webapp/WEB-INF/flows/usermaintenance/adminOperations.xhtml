@@ -64,12 +64,12 @@
 								<h:outputText value="Reset Password">
 								</h:outputText>
 							</f:facet>
-							<div align="center">
-								<h:commandButton id="reset" value="Reset Password"
+							<div align="center" >
+								<p:commandButton id="reset" value="Reset Password" immediate="true"
 									action="resetpassword" oncomplete="resetPwdDialog.show()"
-									styleClass="btn btn-default btn-xs">
+									process="@form" update="@form" styleClass="btn btn-default btn-xs">
 									<f:param name="passwordResetUserName" value="#{u.username}" />
-								</h:commandButton>
+								</p:commandButton>
 							</div>
 						</p:column>
 						<p:column>

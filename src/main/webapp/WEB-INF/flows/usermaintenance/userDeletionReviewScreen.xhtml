@@ -18,9 +18,9 @@
 			<div class="form-group form-actions">
 				<h:commandButton value="No" action="no"
 					id="no" styleClass="btn btn-primary" processIds="*" />
-				<h:commandButton value="Yes" action="yes"
+				<p:commandButton value="Yes" action="yes"
 					immediate="true" id="yes" styleClass="btn btn-default"
-					processIds="*" />
+					process="@form" update="@form" oncomplete="deleteConfirmDialog.show()"/>
 			</div>
 
 <!-- 			<div class="buttonGroup"> -->
