@@ -29,13 +29,20 @@
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" value="Expense Date" />
 						<div class="input-group date">
-							<input data-provide="datepicker" class="form-control"
-								data-date-autoclose="true" id="expenseDate"
-								value="#{expenseDetail.date}" data-date-format="mm-dd-yyyy"
-								required="required" data-date-today-highlight="true" /> <span
-								class="input-group-addon"> <i
+							<p:calendar value="#{expenseDetail.date}" id="expenseDate"
+								pattern="MM/dd/yyyy" timeZone="EST" data-date-autoclose="true"
+								data-date-today-highlight="true" data-provide="datepicker" />
+							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-th"></i></span>
 						</div>
+						<!-- 						<div class="input-group date"> -->
+						<!-- 							<input data-provide="datepicker" class="form-control" -->
+						<!-- 								data-date-autoclose="true" id="expenseDate" -->
+						<!-- 								value="#{expenseDetail.date}" data-date-format="mm-dd-yyyy" -->
+						<!-- 								required="required" data-date-today-highlight="true" /> <span -->
+						<!-- 								class="input-group-addon"> <i -->
+						<!-- 								class="glyphicon glyphicon-th"></i></span> -->
+						<!-- 						</div> -->
 					</div>
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="expenseAmount"

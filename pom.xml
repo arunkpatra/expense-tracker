@@ -48,6 +48,8 @@
 		<java.version>1.7</java.version>
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<jasperreports.version>5.5.0</jasperreports.version>
+		<jquery.version>2.1.0</jquery.version>
+<!-- 		<jquery.version>1.8.3</jquery.version> -->
 		<junit.version>4.11</junit.version>
 		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
 		<mojarra-version>2.1.7</mojarra-version>
@@ -256,7 +258,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>2.1.0</version>
+			<version>${jquery.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
