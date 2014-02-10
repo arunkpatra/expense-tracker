@@ -29,8 +29,9 @@
 				<!-- 				<h:outputText value="No Users Found" rendered="#{users.rowCount==0}" /> -->
 
 				<!-- 				<h:outputText value="Click on a user name to see details." /> -->
-				<p:outputPanel id="usersContent">
-					<p:dataTable value="#{users}" var="u">
+<!-- 				<p:outputPanel id="usersContent"> -->
+			
+					<p:dataTable value="#{users}" var="u" >
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="-" />
@@ -88,7 +89,7 @@
 					<!-- 							action="adduser" styleClass="btn btn-primary"/> -->
 					<!-- 					</div> -->
 
-				</p:outputPanel>
+<!-- 				</p:outputPanel> -->
 				<!-- 			</p:panel> -->
 				<p:dialog widgetVar="resetPwdDialog" header="Password rest"
 					modal="true" width="300">

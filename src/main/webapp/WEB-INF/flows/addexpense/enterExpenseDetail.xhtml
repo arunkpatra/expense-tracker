@@ -25,13 +25,27 @@
 					<p:message for="expenseDescription" />
 				</div>
 
-				<div class="form-group">
-					<h:outputLabel styleClass="control-label" value="Expense Date" />
-					<input data-provide="datepicker" class="form-control"
-						value="#{expenseDetail.date}" data-date-format="mm/dd/yyyy"
-						required="required" />
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" value="Expense Date" />
+						<div class="input-group date">
+							<input data-provide="datepicker" class="form-control"
+								data-date-autoclose="true" id="expenseDate"
+								value="#{expenseDetail.date}" data-date-format="mm-dd-yyyy"
+								required="required" data-date-today-highlight="true" /> <span
+								class="input-group-addon"> <i
+								class="glyphicon glyphicon-th"></i></span>
+						</div>
+					</div>
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="expenseAmount"
+							value="Expense Amount" />
+						<h:inputText styleClass="form-control"
+							value="#{expenseDetail.amount}" id="expenseAmount"
+							required="true" maxlength="7" />
+						<p:message for="expenseAmount" />
+					</div>
 				</div>
-
 				<div class="row">
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="paidBy"
@@ -43,12 +57,12 @@
 						<p:message for="paidBy" />
 					</div>
 					<div class="col-sm-6 form-group">
-						<h:outputLabel styleClass="control-label" for="expenseAmount"
-							value="Expense Amount" />
+						<h:outputLabel styleClass="control-label" for="expenseCategory"
+							value="Expense Category" />
 						<h:inputText styleClass="form-control"
-							value="#{expenseDetail.amount}" id="expenseAmount"
-							required="true" maxlength="7" />
-						<p:message for="expenseAmount" />
+							value="#{expenseDetail.category}" id="expenseCategory"
+							required="false" maxlength="32" />
+						<p:message for="expenseCategory" />
 					</div>
 				</div>
 
@@ -71,14 +85,7 @@
 				<!-- 					<p:message for="expenseAmount" /> -->
 				<!-- 				</div> -->
 
-				<div class="form-group">
-					<h:outputLabel styleClass="control-label" for="expenseCategory"
-						value="Expense Category" />
-					<h:inputText styleClass="form-control"
-						value="#{expenseDetail.category}" id="expenseCategory"
-						required="false" maxlength="32" />
-					<p:message for="expenseCategory" />
-				</div>
+
 				<fieldset>
 					<legend class="accordion-heading">
 						<a data-toggle="collapse" href="#collapse-shares"><h:outputText
