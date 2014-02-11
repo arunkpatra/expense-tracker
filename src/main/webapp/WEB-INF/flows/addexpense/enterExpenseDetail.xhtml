@@ -57,8 +57,10 @@
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="paidBy"
 							value="Paid By" />
+<!-- 						<h:selectOneMenu value="#{expenseDetail.paidBy}" id="paidBy" -->
+<!-- 							styleClass="form-control" style="height: 38px"> -->
 						<h:selectOneMenu value="#{expenseDetail.paidBy}" id="paidBy"
-							styleClass="form-control" style="height: 38px">
+							styleClass="form-control" >
 							<f:selectItems value="#{userService.userNamesSelectItems}" />
 						</h:selectOneMenu>
 						<p:message for="paidBy" />
@@ -108,7 +110,8 @@
 						</div>
 						<h:panelGroup styleClass="form-group" layout="block">
 							<p:dataTable id="userShares" value="#{expenseDetail.userShares}"
-								var="us">
+								var="us" >
+
 								<p:column headerText="-">
 									<h:selectBooleanCheckbox id="participationFlag"
 										value="#{us.participationFlag}" />
