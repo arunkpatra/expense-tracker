@@ -18,7 +18,9 @@ package com.exp.tracker.data.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -229,7 +231,7 @@ public class UserBean implements Serializable
     {
         //
     }
-/*
+
     public void addAuth(String auth)
     {
         Map<String, AuthBean> aMap = new HashMap<String, AuthBean>();
@@ -243,7 +245,6 @@ public class UserBean implements Serializable
             this.authSet.add(ab);
         }
     }
-*/
     public Long getId()
     {
         return id;

@@ -8,7 +8,6 @@
 <ui:composition template="/layouts/standard.xhtml">
 	<ui:define name="title">Edit User</ui:define>
 	<ui:define name="body">
-
 		<div class="col-sm-2">
 			<h2>#{text['userProfile.heading']}</h2>
 
@@ -124,34 +123,40 @@
 				</p:dialog>
 
 			</h:form>
-			<h:form id="modifyAuths">
-				<p:fieldset id="roleList">
-					<h:outputText id="noRolesText" value="No roles found for this user"
-						rendered="#{userAuths.rowCount == 0}" />
-					<h:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-						var="a" rendered="#{userAuths.rowCount > 0}">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Authorization" />
-							</f:facet>
+			<h:form id="modifyAuths" styleClass="well" autocomplete="off">
+				<!-- 				<p:fieldset id="roleList"> -->
+				<h:outputText id="noRolesText" value="No roles found for this user"
+					rendered="#{userAuths.rowCount == 0}" />
+				<div class="form-group form-actions">
+					<h:commandButton id="addAuth" value="Add New Role" process="@form"
+						action="addAuth" styleClass="btn btn-primary btn-xs">
+						<f:param name="selectedUserName" value="#{selectedUser.username}" />
+					</h:commandButton>
+
+				</div>
+				<p:dataTable id="auths" styleClass="summary" value="#{userAuths}"
+					var="a" rendered="#{userAuths.rowCount > 0}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Authorization" />
+						</f:facet>
 									#{a.authority}			
-								</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Action">
-								</h:outputText>
-							</f:facet>
-							<p:commandButton id="deleteAuth" value="Delete"
-								action="deleteAuth" oncomplete="confirmDialog.show()">
+								</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Action">
+							</h:outputText>
+						</f:facet>
+						<div align="center">
+							<h:commandButton id="deleteAuth" value="Delete"
+								action="deleteAuth" styleClass="btn btn-danger btn-xs">
 								<f:param name="authIdToDelete" value="#{a.id}" />
-							</p:commandButton>
-						</h:column>
-					</h:dataTable>
-					<p:commandButton id="addAuth" value="Add New Role" process="@form"
-						action="addAuth">
-						<f:param name="selectedUserName" value="#{selectedUser.username}"></f:param>
-					</p:commandButton>
-				</p:fieldset>
+							</h:commandButton>
+						</div>
+					</p:column>
+				</p:dataTable>
+
+				<!-- 				</p:fieldset> -->
 				<p:dialog widgetVar="confirmDialog" id="dlg1"
 					header="Authorization deletion result" modal="true" width="300">
 					<p:outputPanel id="confirmContent">
@@ -159,7 +164,7 @@
 						</span>
 						<p>The role was deleted successfully.</p>
 						<p:commandButton id="ok" value="Ok" action="deleteAuthOk"
-							update="roleList" />
+							update="auths" />
 					</p:outputPanel>
 				</p:dialog>
 			</h:form>
