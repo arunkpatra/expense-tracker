@@ -15,10 +15,6 @@
 		</div>
 		<div class="col-sm-7">
 			<h:form id="modifyUser" styleClass="well" autocomplete="off">
-				<div id="messagesInsertionPoint">
-					<h:messages errorClass="errors" />
-				</div>
-
 				<div class="form-group">
 					<h:outputLabel styleClass="control-label" for="username"
 						value="#{text['user.username']}" />
@@ -115,8 +111,6 @@
 				<p:dialog widgetVar="saveConfirmDialog" header="User Modification"
 					modal="true" width="300">
 					<p:outputPanel id="updateContent">
-						<span class="errors"> <h:messages globalOnly="true" />
-						</span>
 						<p>The user was updated successfully.</p>
 						<p:commandButton id="updateOk" value="Ok" action="updateOk" />
 					</p:outputPanel>
@@ -160,8 +154,7 @@
 				<p:dialog widgetVar="confirmDialog" id="dlg1"
 					header="Authorization deletion result" modal="true" width="300">
 					<p:outputPanel id="confirmContent">
-						<span class="errors"> <h:messages globalOnly="true" />
-						</span>
+
 						<p>The role was deleted successfully.</p>
 						<p:commandButton id="ok" value="Ok" action="deleteAuthOk"
 							update="auths" />

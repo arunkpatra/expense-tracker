@@ -28,100 +28,23 @@
 				</button>
 				<a class="navbar-brand" href="#{request.contextPath}">#{text['webapp.name']}</a>
 			</div>
-
-			<div class="collapse navbar-collapse" id="navbar">
-				<ul class="nav navbar-nav">
-					<c:if test="${empty currentUser.name}">
-						<li class="active"><a href="${request.contextPath}/et/login">#{text['login.title']}</a>
-						</li>
-					</c:if>
-					<c:if test="${not empty currentUser.name}">
-						<li><a href="${request.contextPath}/et/logout">Logout</a></li>
-						<li><a href="${request.contextPath}/et/welcome">Home</a></li>
-						<li><a href="${request.contextPath}/et/myexpenses">My
-								Expenses</a></li>
-						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
-							<li><a href="${request.contextPath}/et/usermaintenance">User
-									Maintenance</a></li>
-						</sec:authorize>
-						<li><a href="${request.contextPath}/et/addexpense">Create
-								Expense</a></li>
-						<li><a href="${request.contextPath}/et/viewexpenses">View
-								Expenses</a></li>
-						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
-							<li><a href="${request.contextPath}/et/settlement">Settlement</a>
-							</li>
-						</sec:authorize>
-						<li><a href="${request.contextPath}/et/payments">Payments</a></li>
-					</c:if>
-
-					<!-- 					<menu:displayMenu name="Home" /> -->
-					<!-- 					<menu:displayMenu name="UserMenu" /> -->
-					<!-- 					<menu:displayMenu name="AdminMenu" /> -->
-					<!-- 					<menu:displayMenu name="Logout" /> -->
-				</ul>
-			</div>
-			<!-- 
-			<c:if test="${facesContext.externalContext.requestLocale ne 'en'}">
-				<div id="switchLocale">
-					<a href="#{request.contextPath}/?locale=en">
-						#{text['webapp.name']} in English</a>
-				</div>
-			</c:if>
-			 -->
+			<ui:include src="/layouts/menu.xhtml" />
 		</div>
 
-		<!-- Header starts -->
-		<!-- 		<div> -->
-		<!-- 			<h4 class="alt bottom"> -->
-		<!-- 				<c:if test="${not empty etUser.lastName}"> -->
-		<!-- 					Welcome, ${etUser.firstName} ${etUser.lastName} |  -->
-		<!-- 					<a href="${request.contextPath}/et/changepassword">Change -->
-		<!-- 						Password</a> |  -->
-		<!-- 					<a href="${request.contextPath}/et/logout">Logout</a> -->
-		<!-- 				</c:if> -->
-		<!-- 				<c:if test="${empty currentUser.name}"> -->
-		<!-- 					<a href="${request.contextPath}/et/login">Login</a> -->
-		<!-- 				</c:if> -->
-		<!-- 			</h4> -->
-		<!-- 		</div> -->
-		<!-- 		<div> -->
-		<!-- 			<a href="${request.contextPath}/et/welcome"> <img -->
-		<!-- 				src="${request.contextPath}/images/header.jpg" alt="Expense Tracker" /> -->
-		<!-- 			</a> -->
-		<!-- 		</div> -->
-		<!-- 		<hr class="space" /> -->
-		<!-- Header over -->
-		<!-- Content Starts -->
-
-		<!-- 		<div id="local" class="span-4 colborder"> -->
-		<!-- 			<ul> -->
-		<!-- 				<c:if test="${not empty currentUser.name}"> -->
-		<!-- 					<li><a href="${request.contextPath}/et/welcome">Home</a></li> -->
-		<!-- 					<li><a href="${request.contextPath}/et/myexpenses">My -->
-		<!-- 							Expenses</a></li> -->
-		<!-- 					<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
-		<!-- 						<li><a href="${request.contextPath}/et/usermaintenance">User -->
-		<!-- 								Maintenance</a></li> -->
-		<!-- 					</sec:authorize> -->
-		<!-- 					<li><a href="${request.contextPath}/et/addexpense">Create -->
-		<!-- 							Expense</a></li> -->
-		<!-- 					<li><a href="${request.contextPath}/et/viewexpenses">View -->
-		<!-- 							Expenses</a></li> -->
-		<!-- 					<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
-		<!-- 						<li><a href="${request.contextPath}/et/settlement">Settlement</a> -->
-		<!-- 						</li> -->
-		<!-- 					</sec:authorize> -->
-		<!-- 					<li><a href="${request.contextPath}/et/payments">Payments</a></li> -->
-		<!-- 				</c:if> -->
-		<!-- 			</ul> -->
-		<!-- 		</div> -->
 		<div class="container" id="content">
+			<div>
+				<h:messages id="appMessages"
+					infoClass="alert alert-success alert-dismissable"
+					errorClass="alert alert-danger alert-dismissable">
+<!-- 					<a href="#appMessages" data-dismiss="alert" class="close">&#215;</a> -->
+				</h:messages>
+			</div>
+
 			<div class="row">
 				<ui:insert name="body" />
 			</div>
 		</div>
-<!-- 		<div id="footer" class="container navbar-fixed-bottom"> -->
+		<!-- 		<div id="footer" class="container navbar-fixed-bottom"> -->
 		<div id="footer" class="container navbar-fixed-bottom">
 			<span class="col-sm-6 text-left">#{text['webapp.version']} <c:if
 					test="${not empty currentUser.name}">
