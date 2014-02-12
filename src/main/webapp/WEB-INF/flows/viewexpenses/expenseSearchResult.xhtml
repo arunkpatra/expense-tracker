@@ -6,10 +6,14 @@
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">	
 <ui:composition template="/layouts/standard.xhtml">
-
+	<ui:define name="title">Expenses</ui:define>
 	<ui:define name="body">
-		<h:form id="expenses">
-			<h2>Expense Search Results</h2>
+		<div class="col-sm-2">
+			<h2>Expenses</h2>
+			<h:outputText value="Click on an expense to see details." />
+		</div>
+		<div class="col-sm-8">
+		<h:form id="expenses" >
 			<h:outputText id="noExpensesText" value="No Expenses Found"
 				rendered="#{expenses.rowCount == 0}" />
 			<p:dataTable id="expenses" value="#{expenses}" var="e"
@@ -53,6 +57,7 @@
 				</p:column>
 			</p:dataTable>
 		</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

@@ -32,13 +32,14 @@
 		</div>
 
 		<div class="container" id="content">
-			<div>
-				<h:messages id="appMessages"
-					infoClass="alert alert-success alert-dismissable"
-					errorClass="alert alert-danger alert-dismissable">
-<!-- 					<a href="#appMessages" data-dismiss="alert" class="close">&#215;</a> -->
-				</h:messages>
-			</div>
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+<!-- 			<div> -->
+<!-- 				<h:messages id="appMessages" -->
+<!-- 					infoClass="alert alert-success alert-dismissable" -->
+<!-- 					errorClass="alert alert-danger alert-dismissable"> -->
+<!--  					<a href="#appMessages" data-dismiss="alert" class="close">&#215;</a>  -->
+<!-- 				</h:messages> -->
+<!-- 			</div> -->
 
 			<div class="row">
 				<ui:insert name="body" />
