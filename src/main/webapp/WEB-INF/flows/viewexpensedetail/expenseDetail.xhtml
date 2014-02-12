@@ -72,23 +72,10 @@
 						</h:panelGroup>
 					</div>
 				</fieldset>
-				
-<!-- 				<h:outputText id="noShareText" -->
-<!-- 					value="No record of any contributions" -->
-<!-- 					rendered="#{userShares.rowCount == 0}" /> -->
-<!-- 				<p:dataTable id="shares" styleClass="summary" value="#{userShares}" -->
-<!-- 					var="us" rendered="#{userShares.rowCount > 0}"> -->
-<!-- 					<p:column headerText="Name"> -->
-<!-- 						<h:outputText value="#{us.name}" /> -->
-<!-- 					</p:column> -->
-<!-- 					<p:column headerText="Share Amount"> -->
-<!-- 						<h:outputText value="#{us.shareAmount}"> -->
-<!-- 							<f:convertNumber minFractionDigits="2" maxFractionDigits="2" /> -->
-<!-- 						</h:outputText> -->
-<!-- 					</p:column> -->
-<!-- 				</p:dataTable> -->
-				<div class="buttonGroup">
-					<p:commandButton id="Ok" value="Ok" processIds="*" action="ok" />
+								
+				<div class="form-group form-actions">
+					<h:commandButton value="Ok" action="ok"
+						styleClass="btn btn-primary" processIds="*"/>
 				</div>
 			</h:form>
 		</div>
