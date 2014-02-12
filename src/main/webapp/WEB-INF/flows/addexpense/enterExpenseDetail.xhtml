@@ -30,21 +30,20 @@
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" value="Expense Date" />
 						<div class="input-append date">
-<!-- 							<table style="width: 100%"> -->
-<!-- 								<tr> -->
-<!-- 									<td width="85%"> -->
-									<h:inputText id="expenseDate"
-											data-date="#{expenseDetail.date}" styleClass="form-control"
-											value="#{expenseDetail.date}" required="true"
-											requiredMessage="Please select a date.">
-											<f:convertDateTime pattern="mm/dd/yyyy" timeZone="EST" />
-										</h:inputText>
-<!-- 										</td> -->
-<!-- 									<td><span class="btn input-group-addon form-control" -->
-<!-- 										onclick="$('#expenseDate').datepicker('show')"><i -->
-<!-- 											class="glyphicon glyphicon-th"></i></span></td> -->
-<!-- 								</tr> -->
-<!-- 							</table> -->
+							<!-- 							<table style="width: 100%"> -->
+							<!-- 								<tr> -->
+							<!-- 									<td width="85%"> -->
+							<h:inputText id="expenseDate" data-date="#{expenseDetail.date}"
+								styleClass="form-control" value="#{expenseDetail.date}"
+								required="true" requiredMessage="Please select a date.">
+								<f:convertDateTime pattern="mm/dd/yyyy" timeZone="EST" />
+							</h:inputText>
+							<!-- 										</td> -->
+							<!-- 									<td><span class="btn input-group-addon form-control" -->
+							<!-- 										onclick="$('#expenseDate').datepicker('show')"><i -->
+							<!-- 											class="glyphicon glyphicon-th"></i></span></td> -->
+							<!-- 								</tr> -->
+							<!-- 							</table> -->
 						</div>
 					</div>
 					<div class="col-sm-6 form-group">
@@ -52,7 +51,10 @@
 							value="Expense Amount" />
 						<h:inputText styleClass="form-control"
 							value="#{expenseDetail.amount}" id="expenseAmount"
-							required="true" maxlength="7" />
+							required="true" maxlength="7">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+								minIntegerDigits="1"></f:convertNumber>
+						</h:inputText>
 						<p:message for="expenseAmount" />
 					</div>
 				</div>
