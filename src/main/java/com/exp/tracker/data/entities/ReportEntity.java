@@ -27,6 +27,8 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "et_reports")
@@ -47,6 +49,7 @@ public class ReportEntity implements Serializable
     private Long id;
 
     @Column(name = "createddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Column(name = "reportcontent")

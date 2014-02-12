@@ -47,7 +47,7 @@
 		<!-- Reset Password -->
 		<transition on="resetpassword" >
 			<set name="flowScope.passwordResetUserName" value="(requestParameters.passwordResetUserName)" />
-			<evaluate expression="userService.resetPassword(passwordResetUserName)" result="viewScope.resetUser" />
+			<evaluate expression="userService.resetPassword(passwordResetUserName, flowRequestContext)" result="viewScope.resetUser" />
 			<evaluate expression="emailService.sendPasswordResetEmail(resetUser)"
 				result="viewScope.emailSendResult" />
 		</transition>

@@ -7,6 +7,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.webflow.execution.RequestContext;
+import org.springframework.webflow.test.MockExternalContext;
+import org.springframework.webflow.test.MockRequestContext;
 
 import com.exp.tracker.data.entities.UserEntity;
 import com.exp.tracker.data.model.AuthBean;
@@ -22,6 +31,11 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 
 	@Autowired EmailService emailService;
 	
+	@Autowired
+	ApplicationContext ctx;
+	
+	static JdbcDaoImpl userDetailService;
+	
 	@Before
 	public void setup() {
 
@@ -30,6 +44,17 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 	@Test
 	public void userServiceTests() {
 
+		userDetailService = ctx.getBean(JdbcDaoImpl.class);
+		UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
+		Authentication authToken = new UsernamePasswordAuthenticationToken(
+				userDetails.getUsername(), userDetails.getPassword(),
+				userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		RequestContext rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
+        
 		// add a user
 		UserBean ub1 = new UserBean();
 		ub1.setEmailId("a@b.com");
@@ -90,7 +115,9 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 						.changePassword(pcb, myUser)));
 		
 		// reset password of the user
-		userService.resetPassword("ustest1");
+		
+        
+		userService.resetPassword("ustest1", rCtx);
 		// Is password change needed
 		Assert.assertTrue(
 				"User is supposed to change password after reset by admin",

@@ -73,7 +73,7 @@ public class ExpenseSearchCriteria implements Serializable
         if (getStartDate().after(getEndDate())) {
             MessageContext messages = context.getMessageContext();
             messages.addMessage(new MessageBuilder().error()
-                    .code("startdate.lessthan.enddate").build());
+                    .code("enddate.lessthan.startdate").build());
         }
     }
 

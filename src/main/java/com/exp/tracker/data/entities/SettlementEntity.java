@@ -30,6 +30,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "et_settlement")
@@ -83,18 +85,22 @@ public class SettlementEntity implements Serializable
     private Long id;
 
     @Column(name = "cyclestartdate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
     @Column(name = "cycleenddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     @Column(name = "volume")
     private float volume;
 
     @Column(name = "createddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Column(name = "closeddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date closedDate;
 
     // @Column(name="reportpdf")

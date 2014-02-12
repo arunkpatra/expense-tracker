@@ -30,10 +30,13 @@ import javax.persistence.Query;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.webflow.context.ExternalContext;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.AuthEntity;
 import com.exp.tracker.data.entities.RoleEntity;
@@ -330,7 +333,7 @@ public class JpaUserService implements UserService
     }
 
     @Transactional
-    public UserBean resetPassword(String userName)
+    public UserBean resetPassword(String userName, RequestContext ctx)
     {
         UserBean ub = null;
         Query queryGetUser = em.createNamedQuery("getUser");
@@ -344,6 +347,11 @@ public class JpaUserService implements UserService
         em.merge(ue1);
         ub = new UserBean(ue1);
         ub.setPassword(newPassword);
+        //
+        MessageContext messages = ctx.getMessageContext();
+        messages.addMessage(new MessageBuilder().info().defaultText("Password was reset succesfuly.").build());
+//        messages.addMessage(new MessageBuilder().error()
+//                .code("total.amount.incorrect").build());
         return ub;
     }
 

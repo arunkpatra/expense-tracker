@@ -38,22 +38,27 @@
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<properties>
 		<apache.commons.lang3.version>3.1</apache.commons.lang3.version>
-		<apache.dbcp.version>1.2.2</apache.dbcp.version>		
-		<commons.collections.version>3.2</commons.collections.version>		
-		<derby.client.version>10.10.1.1</derby.client.version>		
-		<hibernate.version>3.6.10.Final</hibernate.version>		
-		<java.version>1.7</java.version>		
+		<apache.dbcp.version>1.2.2</apache.dbcp.version>
+		<bootstrap.version>3.1.0</bootstrap.version>
+		<!-- <bootstrap.version>3.0.2</bootstrap.version> -->
+		<commons.collections.version>3.2</commons.collections.version>
+		<copyright.year>2014</copyright.year>
+		<derby.client.version>10.10.1.1</derby.client.version>
+		<hibernate.version>3.6.10.Final</hibernate.version>
+		<java.version>1.7</java.version>
 		<javax.mail.version>1.4.3</javax.mail.version>
-		<jasperreports.version>5.5.0</jasperreports.version>		
-		<junit.version>4.11</junit.version>		
+		<jasperreports.version>5.5.0</jasperreports.version>
+		<jquery.version>2.1.0</jquery.version>
+<!-- 		<jquery.version>1.8.3</jquery.version> -->
+		<junit.version>4.11</junit.version>
 		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
-		<mojarra-version>2.1.7</mojarra-version>		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>				
-		<primefaces-version>3.1.1</primefaces-version>		
+		<mojarra-version>2.1.7</mojarra-version>
+		<omnifaces.version>1.6.3</omnifaces.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<primefaces-version>4.0</primefaces-version>
 		<springframework-version>4.0.0.RELEASE</springframework-version>
-		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>		
-<!-- 		<springsecurity-version>3.2.1.CI-SNAPSHOT</springsecurity-version>	 -->
-		<slf4j-version>1.5.10</slf4j-version>		
+		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
+		<slf4j-version>1.5.10</slf4j-version>
 		<velocity.version>1.7</velocity.version>
 		<webflow-version>2.4.0.BUILD-SNAPSHOT</webflow-version>
 	</properties>
@@ -83,8 +88,28 @@
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - DEPENDENCIES - - - - - - - - - - - -. -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-	<dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>bootstrap</artifactId>
+				<version>${bootstrap.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>${omnifaces.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+  			<artifactId>jstl</artifactId>
+  			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
@@ -226,7 +251,48 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces-version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<!-- Add Bootstrap via WebJars -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap-datepicker</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>${jquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootswatch-spacelab</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootswatch-flatly</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-cookie</artifactId>
+<!-- 			<version>1.3.1</version> -->
+			<version>1.4.0</version>
+		</dependency>
+		<!-- Downgrade jQuery so it works with HtmlUnit -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.webjars</groupId> -->
+<!-- 			<artifactId>jquery</artifactId> -->
+<!-- 			<version>1.8.3</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
@@ -353,6 +419,12 @@
 	<!-- - - - - - - - - - - - - - BUILD - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<finalName>expense-tracker</finalName>
 		<plugins>
 			<plugin>
@@ -430,21 +502,21 @@
 						</goals>
 						<configuration>
 							<rules>
-<!-- 								<DependencyConvergence> -->
-<!-- 									<uniqueVersions>false</uniqueVersions> -->
-<!-- 								</DependencyConvergence> -->
+								<!-- <DependencyConvergence> -->
+								<!-- <uniqueVersions>false</uniqueVersions> -->
+								<!-- </DependencyConvergence> -->
 								<requireMavenVersion>
-<!-- 									<version>3.1.1</version> -->
+									<!-- <version>3.1.1</version> -->
 									<version>3.0.1</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
 									<version>1.7</version>
 								</requireJavaVersion>
-<!-- 								<requireOS> -->
-<!-- 									<family>unix</family> -->
-<!-- 									<family>windows</family>	 -->
-<!-- 									<family>mac</family>								 -->
-<!-- 								</requireOS> -->
+								<!-- <requireOS> -->
+								<!-- <family>unix</family> -->
+								<!-- <family>windows</family> -->
+								<!-- <family>mac</family> -->
+								<!-- </requireOS> -->
 							</rules>
 						</configuration>
 					</execution>

@@ -30,6 +30,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "users")
@@ -78,9 +80,11 @@ public class UserEntity extends EncryptionHelper implements Serializable
     private String middleInit;
 
     @Column(name = "createddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Column(name = "lastupdateddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdatedDate;
 
     private String creditCardNumber;

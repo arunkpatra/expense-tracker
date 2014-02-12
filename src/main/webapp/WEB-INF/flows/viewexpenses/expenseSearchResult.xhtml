@@ -1,57 +1,84 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
-	template="/WEB-INF/layouts/standard.xhtml">
-
-	<ui:define name="content">
-		<h:form id="expenses">
-			<h2>Expense Search Results</h2>
-			<h:outputText id="noExpensesText" value="No Expenses Found"
-				rendered="#{expenses.rowCount == 0}" />
-			<p:dataTable id="expenses" value="#{expenses}" var="e"
-				rendered="#{expenses.rowCount > 0}">
-				<p:column headerText="Description">
-					<p:commandLink id="viewExpenseDetail" action="viewdetail"
-						value="#{e.description}" processIds="*">
-						<f:param name="expenseId" value="#{e.id}" />
-					</p:commandLink>
-				</p:column>
-				<p:column headerText="Paid By">
-					<h:outputText value="#{e.paidBy}" />
-				</p:column>
-				<p:column headerText="Amount">
-					<h:outputText value="#{e.amount}" />
-				</p:column>
-				<p:column headerText="Date">
-					<h:outputText value="#{e.date}">
-						<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy" />
-					</h:outputText>
-				</p:column>
-				<p:column headerText="Settl. Id">
-					<a
-						href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
-						target="blank">#{e.settlementId}</a>
-				</p:column>
-				<p:column headerText="Edit">
-					<p:commandButton id="editExpense" value="Edit" processIds="*"
-						action="editExpense"
-						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
-						<f:param name="toBeEditedExpenseId" value="#{e.id}" />
-					</p:commandButton>
-				</p:column>
-				<p:column headerText="Delete">
-					<p:commandButton id="deleteExpense" value="Delete" processIds="*"
-						action="deleteExpense"
-						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
-						<f:param name="expenseId" value="#{e.id}" />
-					</p:commandButton>
-
-				</p:column>
-			</p:dataTable>
-		</h:form>
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Expenses</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>Expenses</h2>
+			<h:outputText value="Click on an expense to see details." />
+		</div>
+		<div class="col-sm-8">
+			<h:form id="expenses">
+				<h:outputText id="noExpensesText" value="No Expenses Found"
+					rendered="#{expenses.rowCount == 0}" />
+				<h:dataTable id="expenses" value="#{expenses}" var="e"
+					rendered="#{expenses.rowCount > 0}" 
+					styleClass="table table-striped table-bordered table-condensed">
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Description" />
+						</f:facet>
+						<h:commandLink id="viewExpenseDetail" action="viewdetail"
+							value="#{e.description}" processIds="*">
+							<f:param name="expenseId" value="#{e.id}" />
+						</h:commandLink>
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Paid By" />
+						</f:facet>
+						<h:outputText value="#{e.paidBy}" />
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Amount" />
+						</f:facet>
+						<h:outputText value="#{e.amount}" />
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Date" />
+						</f:facet>
+						<h:outputText value="#{e.date}">
+							<f:convertDateTime  pattern="MM/dd/yyyy" timeZone="EST"/>
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Settl. Id" />
+						</f:facet>
+						<a
+							href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
+							target="blank">#{e.settlementId}</a>
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Actions" />
+						</f:facet>
+						<div class="form-group form-actions" >
+							<h:commandButton id="editExpense" value="Edit"
+								action="editExpense" styleClass="btn btn-primary btn-xs"
+								processIds="*"
+								rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+								<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+							</h:commandButton>
+							
+							<h:commandButton id="deleteExpense" value="Delete" processIds="*"
+								action="deleteExpense" styleClass="btn btn-danger btn-xs"
+								rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+								<f:param name="expenseId" value="#{e.id}" />
+							</h:commandButton>
+						
+						</div>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
+</html>

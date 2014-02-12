@@ -18,7 +18,9 @@ package com.exp.tracker.data.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -61,6 +63,11 @@ public class UserBean implements Serializable
      * EMail ID of the user.
      */
     private String emailId;
+    
+    /**
+     * The phone number
+     */
+    private String phoneNumber;
     /**
      * First name of the user.
      */
@@ -224,7 +231,7 @@ public class UserBean implements Serializable
     {
         //
     }
-/*
+
     public void addAuth(String auth)
     {
         Map<String, AuthBean> aMap = new HashMap<String, AuthBean>();
@@ -238,7 +245,6 @@ public class UserBean implements Serializable
             this.authSet.add(ab);
         }
     }
-*/
     public Long getId()
     {
         return id;
@@ -266,7 +272,15 @@ public class UserBean implements Serializable
         this.emailId = emailId;
     }
 
-    public String getFirstName()
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getFirstName()
     {
         return firstName;
     }
