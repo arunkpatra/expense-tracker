@@ -22,10 +22,10 @@
 						<h:outputLabel styleClass="control-label" value="Start Date"
 							for="startDate" />
 						<div class="input-append date">
-							<h:inputText id="startDate" data-date="#{expenseSearchCriteria.startDate}"
+							<h:inputText id="startDate" 
 								styleClass="form-control" value="#{expenseSearchCriteria.startDate}"
 								required="true" requiredMessage="Please select start date.">
-								<f:convertDateTime pattern="mm/dd/yyyy"  timeZone="EST" />
+								<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy"  timeZone="EST" />
 							</h:inputText>
 						</div>
 					</div>
@@ -33,19 +33,12 @@
 						<h:outputLabel styleClass="control-label" value="End Date"
 							for="endDate" />
 						<div class="input-append date">
-							<h:inputText id="endDate" data-date="#{expenseSearchCriteria.endDate}"
+							<h:inputText id="endDate" 
 								styleClass="form-control" value="#{expenseSearchCriteria.endDate}"
 								required="true" requiredMessage="Please select end date.">
-								<f:convertDateTime pattern="mm/dd/yyyy" timeZone="EST" />
+								<f:convertDateTime  pattern="MM/dd/yyyy" timeZone="EST" />
 							</h:inputText>
 						</div>
-						
-<!-- 						<div class="input-group date"> -->
-<!-- 							<p:calendar value="#{expenseSearchCriteria.endDate}" id="endDate" -->
-<!-- 								pattern="MM/dd/yyyy" timeZone="EST" data-date-autoclose="true" -->
-<!-- 								data-date-today-highlight="true" data-provide="datepicker" -->
-<!-- 								required="true" requiredMessage="Please enter end date." /> -->
-<!-- 						</div> -->
 					</div>
 				</div>
 				<div class="form-group form-actions">
@@ -60,13 +53,13 @@
 			$(document).ready(function() {
 				$('#startDate').datepicker({
 					format : "mm/dd/yyyy",
-					autoclose : "true",
-					todayHighlight : "true"
+					autoclose : true,
+					todayHighlight : true
 				});
 				$('#endDate').datepicker({
 					format : "mm/dd/yyyy",
-					autoclose : "true",
-					todayHighlight : "true"
+					autoclose : true,
+					todayHighlight : true
 				});
 			});
 		</script>

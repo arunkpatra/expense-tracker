@@ -32,6 +32,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "et_expense")
@@ -85,6 +87,7 @@ public class ExpenseEntity implements Serializable
 
     private float amount;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     private String description;

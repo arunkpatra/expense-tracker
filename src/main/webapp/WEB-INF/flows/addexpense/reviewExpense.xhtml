@@ -15,29 +15,64 @@
 		</div>
 
 		<div class="col-sm-8">
-			<h:form id="expenseReview">
+			<h:form id="expenseReview" styleClass="well">
 
-<!-- 				<p:fieldset id="reviewDetailsTable" legend="Review Expense Details"> -->
-					<p:panelGrid columns="2">
-						<h:outputLabel for="expenseDescription">Description:</h:outputLabel>
-						<h:outputText id="expenseDescription"
-							value="#{expenseDetail.description}" />
-
-						<h:outputLabel for="expenseAmount">Amount:</h:outputLabel>
-						<h:outputText id="expenseAmount" value="#{expenseDetail.amount}">
-							<f:convertNumber maxFractionDigits="2" />
-						</h:outputText>
-
-						<h:outputLabel for="expensePaidBy">Paid by:</h:outputLabel>
-						<h:outputText id="expensePaidBy" value="#{expenseDetail.paidBy}" />
-
-						<h:outputLabel for="expenseDate">Date:</h:outputLabel>
-						<h:outputText id="expenseDate" value="#{expenseDetail.date}">
-							<f:convertDateTime dateStyle="short" timeZone="EST"
+				<div class="form-group">
+					<h:outputLabel styleClass="control-label" for="expenseDescription"
+						value="Description" />
+					<h:outputText styleClass="form-control"
+						value="#{expenseDetail.description}" id="expenseDescription"/>
+				</div>
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<h:outputLabel styleClass="control-label" value="Expense Date"
+							for="expenseDate" />
+						<h:outputText value="#{expenseDetail.date}" id="expenseDate"
+							styleClass="form-control">
+							<f:convertDateTime  timeZone="EST"
 								pattern="MM/dd/yyyy" />
 						</h:outputText>
 
-					</p:panelGrid>
+					</div>
+					<div class="col-sm-4 form-group">
+						<h:outputLabel styleClass="control-label" value="Amount"
+							for="expenseAmount" />
+						<h:outputText value="#{expenseDetail.amount}" id="expenseAmount"
+							styleClass="form-control">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+								minIntegerDigits="1" />
+						</h:outputText>
+					</div>
+
+					<div class="col-sm-4 form-group">
+						<h:outputLabel styleClass="control-label" value="Paid By"
+							for="paidBy" />
+						<h:outputText value="#{expenseDetail.paidBy}" id="paidBy"
+							styleClass="form-control" />
+					</div>
+
+				</div>
+<!-- 				<p:fieldset id="reviewDetailsTable" legend="Review Expense Details"> -->
+<!-- 					<p:panelGrid columns="2"> -->
+<!-- 						<h:outputLabel for="expenseDescription">Description:</h:outputLabel> -->
+<!-- 						<h:outputText id="expenseDescription" -->
+<!-- 							value="#{expenseDetail.description}" /> -->
+
+<!-- 						<h:outputLabel for="expenseAmount">Amount:</h:outputLabel> -->
+<!-- 						<h:outputText id="expenseAmount" value="#{expenseDetail.amount}"> -->
+<!-- 							<f:convertNumber maxFractionDigits="2" /> -->
+<!-- 						</h:outputText> -->
+
+<!-- 						<h:outputLabel for="expensePaidBy">Paid by:</h:outputLabel> -->
+<!-- 						<h:outputText id="expensePaidBy" value="#{expenseDetail.paidBy}" /> -->
+
+<!-- 						<h:outputLabel for="expenseDate">Date:</h:outputLabel> -->
+<!-- 						<h:outputText id="expenseDate" value="#{expenseDetail.date}"> -->
+<!-- 							<f:convertDateTime timeZone="EST" -->
+<!-- 								pattern="MM/dd/yyyy" /> -->
+<!-- 						</h:outputText> -->
+
+<!-- 					</p:panelGrid> -->
 					<h:outputText id="noShareText"
 						value="No record of any contributions"
 						rendered="#{userShares.rowCount == 0}" />
@@ -59,27 +94,14 @@
 							</h:outputText>
 						</h:column>
 					</h:dataTable>
-
-					<!-- 					<p:dataTable id="shares" styleClass="summary" value="#{userShares}" -->
-					<!-- 						var="us" rendered="#{userShares.rowCount > 0}"> -->
-					<!-- 						<p:column headerText="Name"> -->
-					<!-- 							<h:outputText value="#{us.name}" /> -->
-					<!-- 						</p:column> -->
-					<!-- 						<p:column headerText="Share Amount"> -->
-					<!-- 							<h:outputText value="#{us.shareAmount}"> -->
-					<!-- 								<f:convertNumber minFractionDigits="2" maxFractionDigits="2" /> -->
-					<!-- 							</h:outputText> -->
-					<!-- 						</p:column> -->
-					<!-- 					</p:dataTable> -->
-					<div class="buttonGroup">
-						<p:commandButton id="cancel" value="Cancel" action="cancel" />
-						<p:commandButton id="back" value="Back" action="back" />
-
-						<p:commandButton id="saveExpense" value="Save" processIds="*"
-							action="saveExpense" />
-
+					<div class="form-group form-actions">
+						<h:commandButton value="Cancel" action="cancel" immediate="true"
+							styleClass="btn btn-default" />
+						<h:commandButton value="Back" action="back" 
+							styleClass="btn btn-default" />
+						<h:commandButton value="Save" action="saveExpense"
+							styleClass="btn btn-primary" />
 					</div>
-<!-- 				</p:fieldset> -->
 			</h:form>
 		</div>
 	</ui:define>
