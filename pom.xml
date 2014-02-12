@@ -53,6 +53,7 @@
 		<junit.version>4.11</junit.version>
 		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
 		<mojarra-version>2.1.7</mojarra-version>
+		<omnifaces.version>1.6.3</omnifaces.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<primefaces-version>4.0</primefaces-version>
 		<springframework-version>4.0.0.RELEASE</springframework-version>
@@ -99,6 +100,16 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>${omnifaces.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+  			<artifactId>jstl</artifactId>
+  			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>

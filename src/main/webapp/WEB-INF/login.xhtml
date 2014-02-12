@@ -9,32 +9,33 @@
 	<ui:define name="body">
 		<form id="loginForm" action="${request.contextPath}/et/loginProcess"
 			method="post" class="form-signin">
-			<h2 class="form-signin-heading">Login Required</h2>
-			
-				
+			<h2 class="form-signin-heading">Sign In</h2>
+							
 				<c:if test="${not empty param.login_error}">
-					<c:set var="username"
-						value="${sessionScope.SPRING_SECURITY_LAST_USERNAME}" />
+				<div class="alert alert-warning alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert">&#215;</button>
+                    #{text['errors.password.mismatch']}
+                </div>
+<!-- 				<div class="errors"> -->
+<!-- 			Your login attempt was not successful, try again.<br /> -->
+<!-- 			Reason: #{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message} -->
+<!-- 		</div> -->
+<!-- 					<c:set var="username" -->
+<!-- 						value="${sessionScope.SPRING_SECURITY_LAST_USERNAME}" /> -->
 				</c:if>
 				<input type="text" name="j_username" id="j_username"
 					class="input-block-level form-control"
 					placeholder="#{text['label.username']}" required="required"
-					tabindex="1" />
-				<!-- 						<h:inputText id="j_username" value="#{username}" /> -->
-			
+					tabindex="1" />			
 			
 				 <input type="password"
 					class="input-block-level form-control" name="j_password"
 					id="j_password" tabindex="2"
 					placeholder="#{text['label.password']}" required="required" />
-				<!-- 						<h:inputSecret id="j_password" /> -->
-			
-		
+
 				<button type="submit" id="submit" value="Login"
 					class="btn btn-lg btn-primary btn-block" name="login" tabindex="3">
 					Login</button>
-				<!-- 						<h:commandButton id="submit" value="Login" /> -->
-			
 		</form>
 	</ui:define>
 	
