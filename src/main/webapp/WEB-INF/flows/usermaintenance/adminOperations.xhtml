@@ -31,60 +31,83 @@
 				<!-- 				<h:outputText value="Click on a user name to see details." /> -->
 <!-- 				<p:outputPanel id="usersContent"> -->
 			
-					<p:dataTable value="#{users}" var="u" >
-						<p:column>
+					<h:dataTable value="#{users}" var="u" styleClass="table table-striped table-bordered table-condensed">
+						<h:column>
 							<f:facet name="header">
 								<h:outputText value="-" />
 							</f:facet>
-							<div class="output">
+				
 								<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
 									disabled="true" />
-							</div>
-						</p:column>
+						
+						</h:column>
 
-						<p:column>
+						<h:column>
 							<f:facet name="header">UserId</f:facet>
 							
-							<p:commandLink id="viewUserDetail" action="viewuserdetail"
+							<h:commandLink id="viewUserDetail" action="viewuserdetail"
 								value="#{u.username}" update="@form"
 								oncomplete="confirmDialog.show()" >
 								<f:param name="username" value="#{u.username}" />
-							</p:commandLink>
-						</p:column>
-
-						<p:column>
-							<f:facet name="header">Modify</f:facet>
-							<div align="center">
+							</h:commandLink>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Actions</f:facet>
+							<div class="form-group form-actions" align="center">
 								<h:commandButton id="modifyUser" value="Modify"
 									action="modifyuser" styleClass="btn btn-default btn-xs">
 									<f:param name="usernameTobeModified" value="#{u.username}" />
 								</h:commandButton>
-							</div>
-						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="Reset Password">
-								</h:outputText>
-							</f:facet>
-							<div align="center" >
-								<p:commandButton id="reset" value="Reset Password" immediate="true"
+								
+								<h:commandButton id="reset" value="Reset Password" immediate="true"
 									action="resetpassword" oncomplete="resetPwdDialog.show()"
 									process="@form" update="@form" styleClass="btn btn-default btn-xs">
 									<f:param name="passwordResetUserName" value="#{u.username}" />
-								</p:commandButton>
-							</div>
-						</p:column>
-						<p:column>
-							<f:facet name="header">Delete</f:facet>
-							<div align="center">
+								</h:commandButton>
+								
 								<h:commandButton id="deleteUser" value="Delete"
 									action="deleteuser" styleClass="btn btn-danger btn-xs">
 									<f:param name="userIdToBeDeleted" value="#{u.id}"
 										update=":users" />
 								</h:commandButton>
+								
 							</div>
-						</p:column>
-					</p:dataTable>
+						</h:column>
+						
+<!-- 						<h:column> -->
+<!-- 							<f:facet name="header">Modify</f:facet> -->
+<!-- 							<div align="center"> -->
+<!-- 								<h:commandButton id="modifyUser" value="Modify" -->
+<!-- 									action="modifyuser" styleClass="btn btn-default btn-xs"> -->
+<!-- 									<f:param name="usernameTobeModified" value="#{u.username}" /> -->
+<!-- 								</h:commandButton> -->
+<!-- 							</div> -->
+<!-- 						</h:column> -->
+<!-- 						<h:column> -->
+<!-- 							<f:facet name="header"> -->
+<!-- 								<h:outputText value="Reset Password"> -->
+<!-- 								</h:outputText> -->
+<!-- 							</f:facet> -->
+<!-- 							<div align="center" > -->
+<!-- 								<h:commandButton id="reset" value="Reset Password" immediate="true" -->
+<!-- 									action="resetpassword" oncomplete="resetPwdDialog.show()" -->
+<!-- 									process="@form" update="@form" styleClass="btn btn-default btn-xs"> -->
+<!-- 									<f:param name="passwordResetUserName" value="#{u.username}" /> -->
+<!-- 								</h:commandButton> -->
+<!-- 							</div> -->
+<!-- 						</h:column> -->
+<!-- 						<h:column> -->
+<!-- 							<f:facet name="header">Delete</f:facet> -->
+<!-- 							<div align="center"> -->
+<!-- 								<h:commandButton id="deleteUser" value="Delete" -->
+<!-- 									action="deleteuser" styleClass="btn btn-danger btn-xs"> -->
+<!-- 									<f:param name="userIdToBeDeleted" value="#{u.id}" -->
+<!-- 										update=":users" /> -->
+<!-- 								</h:commandButton> -->
+<!-- 							</div> -->
+<!-- 						</h:column> -->
+					</h:dataTable>
 					<!-- 					<div class="buttonGroup"> -->
 					<!-- 						<h:commandButton id="addNewUser" value="Add New User" -->
 					<!-- 							action="adduser" styleClass="btn btn-primary"/> -->

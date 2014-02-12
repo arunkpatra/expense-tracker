@@ -94,19 +94,32 @@
 							<h:commandButton value="Override Shares" action="overrideShares"
 								styleClass="btn btn-default btn-xs" />
 						</div>
-						<h:panelGroup styleClass="form-group" layout="block">
-							<p:dataTable id="userShares" value="#{expenseDetail.userShares}"
-								var="us">
+<!-- 						<h:panelGroup styleClass="form-group" layout="block"> -->
+							<h:dataTable id="userShares" value="#{expenseDetail.userShares}"
+								var="us" styleClass="table table-striped table-bordered table-condensed">
 
-								<p:column headerText="-">
+								<h:column >
+									<f:facet name="header">
+										<h:outputText value="-" />
+									</f:facet>
 									<h:selectBooleanCheckbox id="participationFlag"
 										value="#{us.participationFlag}" />
-								</p:column>
-								<p:column headerText="Name">
+								</h:column>
+								
+								
+								<h:column headerText="Name">
+									<f:facet name="header">
+										<h:outputText value="Name" />
+									</f:facet>
+								
 									<h:outputText value="#{us.name}" />
-								</p:column>
+								</h:column>
 
-								<p:column headerText="Share Amount">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Share Amount" />
+									</f:facet>
+									
 									<h:outputText value="#{us.shareAmount}"
 										rendered="#{expenseDetail.overrideSharesFlag == false}">
 										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
@@ -117,9 +130,9 @@
 										rendered="#{expenseDetail.overrideSharesFlag == true}">
 										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
 									</h:inputText>
-								</p:column>
-							</p:dataTable>
-						</h:panelGroup>
+								</h:column>
+							</h:dataTable>
+<!-- 						</h:panelGroup> -->
 					</div>
 				</fieldset>
 
