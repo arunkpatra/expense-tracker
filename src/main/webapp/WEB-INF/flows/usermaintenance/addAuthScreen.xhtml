@@ -17,12 +17,6 @@
 
 		<div class="col-sm-8">
 			<h:form id="addAuth" styleClass="well" autocomplete="off">
-<!-- 				<ui:fragment id="messages"> -->
-<!-- 					<div id="messagesInsertionPoint"> -->
-<!-- 						<h:messages errorClass="errors" /> -->
-<!-- 					</div> -->
-<!-- 				</ui:fragment> -->
-
 				<div class="row">
 					<div class=" col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="userName"
@@ -47,30 +41,6 @@
 					<h:commandButton value="Add Role" action="addNewAuth"
 						styleClass="btn btn-primary" />
 				</div>
-
-				<!-- 				<div id="addAuthScreen"> -->
-				<!-- 					<fieldset> -->
-				<!-- 						<div class="field"> -->
-				<!-- 							<div class="label">Name:</div> -->
-				<!-- 							<div class="output">#{selectedUser.username}</div> -->
-				<!-- 						</div> -->
-				<!-- 						<div class="field"> -->
-				<!-- 							<div class="label"> -->
-				<!-- 								<h:outputLabel for="newRole">New Role:</h:outputLabel> -->
-				<!-- 							</div> -->
-				<!-- 							<div class="input"> -->
-				<!-- 								<h:selectOneMenu id="newRole" value="#{newUserAuth.authority}"> -->
-				<!-- 									<f:selectItems value="#{roleService.rolesSelectItems}" /> -->
-				<!-- 								</h:selectOneMenu> -->
-				<!-- 							</div> -->
-				<!-- 						</div> -->
-				<!-- 						<div class="buttonGroup"> -->
-				<!-- 							<p:commandButton id="addNewRole" value="Add Role" process="@form" -->
-				<!-- 								action="addNewAuth" /> -->
-				<!-- 							<p:commandButton id="cancel" value="Cancel" process="@form" -->
-				<!-- 								action="cancel" /> -->
-				<!-- 						</div> -->
-				<!-- 					</fieldset> -->
 				<h:outputText id="noRolesText"
 					value="This user has not been assigned any roles yet."
 					rendered="#{userAuths.rowCount == 0}" styleClass="control-label" />
@@ -83,18 +53,7 @@
 						</f:facet>
 						<h:outputText value="#{a.authority}" />
 					</h:column>
-					<!-- 						<p:column> -->
-					<!-- 							<f:facet name="header"> -->
-					<!-- 								<p:commandLink id="sortByNameLink" action="sort" -->
-					<!-- 									value="Existing Role(s)" process="@form"> -->
-					<!-- 									<f:param name="sortBy" value="authority" /> -->
-					<!-- 								</p:commandLink> -->
-					<!-- 							</f:facet> -->
-					<!-- 							#{a.authority}			 -->
-					<!-- 						</p:column> -->
 				</h:dataTable>
-				<!-- 					</div> -->
-				<!-- 				</div> -->
 			</h:form>
 		</div>
 	</ui:define>
