@@ -44,9 +44,10 @@
 
 						<p:column>
 							<f:facet name="header">UserId</f:facet>
+							
 							<p:commandLink id="viewUserDetail" action="viewuserdetail"
 								value="#{u.username}" update="@form"
-								oncomplete="confirmDialog.show()">
+								oncomplete="confirmDialog.show()" >
 								<f:param name="username" value="#{u.username}" />
 							</p:commandLink>
 						</p:column>
@@ -104,7 +105,7 @@
 						</div>
 					</p:outputPanel>
 				</p:dialog>
-				<p:dialog widgetVar="confirmDialog" header="User Details"
+				<p:dialog widgetVar="confirmDialog"  header="User Details"
 					modal="true" width="300">
 
 					<p:fieldset legend="User Details">

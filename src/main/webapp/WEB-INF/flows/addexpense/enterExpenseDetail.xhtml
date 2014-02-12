@@ -15,33 +15,37 @@
 		</div>
 
 		<div class="col-sm-8">
-			<h:form id="mainForm" styleClass="well" autocomplete="off">
+			<h:form id="mainForm" styleClass="well" autocomplete="off"
+				prependId="false">
 				<div class="form-group">
 					<h:outputLabel styleClass="control-label" for="expenseDescription"
 						value="Description" />
 					<h:inputText styleClass="form-control"
 						value="#{expenseDetail.description}" id="expenseDescription"
-						required="true" maxlength="64" requiredMessage="Please enter a description"/>
+						required="true" maxlength="64"
+						requiredMessage="Please enter a description" />
 				</div>
 
 				<div class="row">
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" value="Expense Date" />
-						<div class="input-group date">
-							<p:calendar value="#{expenseDetail.date}" id="expenseDate"
-								pattern="MM/dd/yyyy" timeZone="EST" data-date-autoclose="true"
-								data-date-today-highlight="true" data-provide="datepicker" />
-							<span class="input-group-addon"><i
-								class="glyphicon glyphicon-th"></i></span>
+						<div class="input-append date">
+<!-- 							<table style="width: 100%"> -->
+<!-- 								<tr> -->
+<!-- 									<td width="85%"> -->
+									<h:inputText id="expenseDate"
+											data-date="#{expenseDetail.date}" styleClass="form-control"
+											value="#{expenseDetail.date}" required="true"
+											requiredMessage="Please select a date.">
+											<f:convertDateTime pattern="mm/dd/yyyy" timeZone="EST" />
+										</h:inputText>
+<!-- 										</td> -->
+<!-- 									<td><span class="btn input-group-addon form-control" -->
+<!-- 										onclick="$('#expenseDate').datepicker('show')"><i -->
+<!-- 											class="glyphicon glyphicon-th"></i></span></td> -->
+<!-- 								</tr> -->
+<!-- 							</table> -->
 						</div>
-						<!-- 						<div class="input-group date"> -->
-						<!-- 							<input data-provide="datepicker" class="form-control" -->
-						<!-- 								data-date-autoclose="true" id="expenseDate" -->
-						<!-- 								value="#{expenseDetail.date}" data-date-format="mm-dd-yyyy" -->
-						<!-- 								required="required" data-date-today-highlight="true" /> <span -->
-						<!-- 								class="input-group-addon"> <i -->
-						<!-- 								class="glyphicon glyphicon-th"></i></span> -->
-						<!-- 						</div> -->
 					</div>
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="expenseAmount"
@@ -56,10 +60,10 @@
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="paidBy"
 							value="Paid By" />
-<!-- 						<h:selectOneMenu value="#{expenseDetail.paidBy}" id="paidBy" -->
-<!-- 							styleClass="form-control" style="height: 38px"> -->
+						<!-- 						<h:selectOneMenu value="#{expenseDetail.paidBy}" id="paidBy" -->
+						<!-- 							styleClass="form-control" style="height: 38px"> -->
 						<h:selectOneMenu value="#{expenseDetail.paidBy}" id="paidBy"
-							styleClass="form-control" >
+							styleClass="form-control">
 							<f:selectItems value="#{userService.userNamesSelectItems}" />
 						</h:selectOneMenu>
 						<p:message for="paidBy" />
@@ -90,7 +94,7 @@
 						</div>
 						<h:panelGroup styleClass="form-group" layout="block">
 							<p:dataTable id="userShares" value="#{expenseDetail.userShares}"
-								var="us" >
+								var="us">
 
 								<p:column headerText="-">
 									<h:selectBooleanCheckbox id="participationFlag"
@@ -102,10 +106,15 @@
 
 								<p:column headerText="Share Amount">
 									<h:outputText value="#{us.shareAmount}"
-										rendered="#{expenseDetail.overrideSharesFlag == false}" />
+										rendered="#{expenseDetail.overrideSharesFlag == false}">
+										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+									</h:outputText>
 
 									<h:inputText value="#{us.shareAmount}"
-										rendered="#{expenseDetail.overrideSharesFlag == true}" />
+										styleClass="form-control input-sm"
+										rendered="#{expenseDetail.overrideSharesFlag == true}">
+										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+									</h:inputText>
 								</p:column>
 							</p:dataTable>
 						</h:panelGroup>
@@ -121,6 +130,16 @@
 				</div>
 			</h:form>
 		</div>
+		<script type="text/javascript">
+			// When the document is ready
+			$(document).ready(function() {
+				$('#expenseDate').datepicker({
+					format : "mm/dd/yyyy",
+					autoclose : "true",
+					todayHighlight : "true"
+				});
+			});
+		</script>
 	</ui:define>
 </ui:composition>
 </html>

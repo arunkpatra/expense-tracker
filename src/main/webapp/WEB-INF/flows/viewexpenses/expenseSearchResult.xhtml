@@ -1,10 +1,10 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:f="http://java.sun.com/jsf/core">	
+	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
 	<ui:define name="title">Expenses</ui:define>
 	<ui:define name="body">
@@ -13,50 +13,66 @@
 			<h:outputText value="Click on an expense to see details." />
 		</div>
 		<div class="col-sm-8">
-		<h:form id="expenses" >
-			<h:outputText id="noExpensesText" value="No Expenses Found"
-				rendered="#{expenses.rowCount == 0}" />
-			<p:dataTable id="expenses" value="#{expenses}" var="e"
-				rendered="#{expenses.rowCount > 0}">
-				<p:column headerText="Description">
-					<p:commandLink id="viewExpenseDetail" action="viewdetail"
-						value="#{e.description}" processIds="*">
-						<f:param name="expenseId" value="#{e.id}" />
-					</p:commandLink>
-				</p:column>
-				<p:column headerText="Paid By">
-					<h:outputText value="#{e.paidBy}" />
-				</p:column>
-				<p:column headerText="Amount">
-					<h:outputText value="#{e.amount}" />
-				</p:column>
-				<p:column headerText="Date">
-					<h:outputText value="#{e.date}">
-						<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy" />
-					</h:outputText>
-				</p:column>
-				<p:column headerText="Settl. Id">
-					<a
-						href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
-						target="blank">#{e.settlementId}</a>
-				</p:column>
-				<p:column headerText="Edit">
-					<p:commandButton id="editExpense" value="Edit" processIds="*"
-						action="editExpense"
-						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
-						<f:param name="toBeEditedExpenseId" value="#{e.id}" />
-					</p:commandButton>
-				</p:column>
-				<p:column headerText="Delete">
-					<p:commandButton id="deleteExpense" value="Delete" processIds="*"
-						action="deleteExpense"
-						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
-						<f:param name="expenseId" value="#{e.id}" />
-					</p:commandButton>
+			<h:form id="expenses">
+				<h:outputText id="noExpensesText" value="No Expenses Found"
+					rendered="#{expenses.rowCount == 0}" />
+				<p:dataTable id="expenses" value="#{expenses}" var="e"
+					rendered="#{expenses.rowCount > 0}">
+					<p:column headerText="Description">
+						<h:commandLink id="viewExpenseDetail" action="viewdetail"
+							value="#{e.description}" processIds="*">
+							<f:param name="expenseId" value="#{e.id}" />
+						</h:commandLink>
+					</p:column>
+					<p:column headerText="Paid By">
+						<h:outputText value="#{e.paidBy}" />
+					</p:column>
+					<p:column headerText="Amount">
+						<h:outputText value="#{e.amount}" />
+					</p:column>
+					<p:column headerText="Date">
+						<h:outputText value="#{e.date}">
+							<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Settl. Id">
+						<a
+							href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
+							target="blank">#{e.settlementId}</a>
+					</p:column>
+					<p:column headerText="Actions">
+						<div class="form-group form-actions" >
+						<h:commandButton id="editExpense" value="Edit"
+							action="editExpense" styleClass="btn btn-primary btn-xs"
+							processIds="*"
+							rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+							<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+						</h:commandButton>
+						
+						<h:commandButton id="deleteExpense" value="Delete" processIds="*"
+							action="deleteExpense" styleClass="btn btn-danger btn-xs"
+							rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+							<f:param name="expenseId" value="#{e.id}" />
+						</h:commandButton>
+						
+						</div>
+						
+						<!-- 					<p:commandButton id="editExpense" value="Edit" processIds="*" -->
+						<!-- 						action="editExpense" -->
+						<!-- 						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}"> -->
+						<!-- 						<f:param name="toBeEditedExpenseId" value="#{e.id}" /> -->
+						<!-- 					</p:commandButton> -->
+					</p:column>
+<!-- 					<p:column headerText="Delete"> -->
+<!-- 						<p:commandButton id="deleteExpense" value="Delete" processIds="*" -->
+<!-- 							action="deleteExpense" -->
+<!-- 							rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}"> -->
+<!-- 							<f:param name="expenseId" value="#{e.id}" /> -->
+<!-- 						</p:commandButton> -->
 
-				</p:column>
-			</p:dataTable>
-		</h:form>
+<!-- 					</p:column> -->
+				</p:dataTable>
+			</h:form>
 		</div>
 	</ui:define>
 </ui:composition>

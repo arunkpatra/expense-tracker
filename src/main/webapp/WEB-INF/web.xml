@@ -116,4 +116,8 @@
         <extension>woff</extension>
         <mime-type>application/x-font-woff</mime-type>
     </mime-mapping>
+    <mime-mapping>
+        <extension>map</extension>
+        <mime-type>application/javascript</mime-type>
+    </mime-mapping>
 </web-app>
