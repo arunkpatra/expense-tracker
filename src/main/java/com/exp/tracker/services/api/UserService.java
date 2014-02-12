@@ -23,6 +23,7 @@ import javax.faces.model.SelectItem;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.webflow.context.ExternalContext;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.RoleEntity;
 import com.exp.tracker.data.entities.UserEntity;
@@ -61,6 +62,6 @@ public interface UserService {
 	
 	public boolean isPasswordChangeNeeded(String userName);
 	
-	public UserBean resetPassword(String userName);
+	public UserBean resetPassword(String userName, RequestContext ctx);
 
 }

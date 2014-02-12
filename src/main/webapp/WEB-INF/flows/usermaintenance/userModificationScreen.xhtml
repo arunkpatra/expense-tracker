@@ -128,15 +128,16 @@
 					</h:commandButton>
 
 				</div>
-				<p:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-					var="a" rendered="#{userAuths.rowCount > 0}">
-					<p:column>
+				<h:dataTable id="auths"  value="#{userAuths}"
+					var="a" rendered="#{userAuths.rowCount > 0}" 
+					styleClass="table table-striped table-bordered table-condensed">
+					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Authorization" />
 						</f:facet>
-									#{a.authority}			
-								</p:column>
-					<p:column>
+						<h:outputText value="#{a.authority}" />												
+					</h:column>
+					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Action">
 							</h:outputText>
@@ -147,8 +148,8 @@
 								<f:param name="authIdToDelete" value="#{a.id}" />
 							</h:commandButton>
 						</div>
-					</p:column>
-				</p:dataTable>
+					</h:column>
+				</h:dataTable>
 
 				<!-- 				</p:fieldset> -->
 				<p:dialog widgetVar="confirmDialog" id="dlg1"

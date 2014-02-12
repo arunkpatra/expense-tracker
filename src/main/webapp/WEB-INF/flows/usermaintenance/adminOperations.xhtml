@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="col-sm-8">
-			<h:form id="mainForm">
+			<h:form id="mainForm" >
 				<div id="actions" class="btn-group">
 					<!-- <script> shows up here and causes square corners on the Add button below -->
 					<h:commandButton action="adduser" value="#{text['button.add']}"
@@ -61,7 +61,7 @@
 								</h:commandButton>
 								
 								<h:commandButton id="reset" value="Reset Password" immediate="true"
-									action="resetpassword" oncomplete="resetPwdDialog.show()"
+									action="resetpassword" 
 									process="@form" update="@form" styleClass="btn btn-default btn-xs">
 									<f:param name="passwordResetUserName" value="#{u.username}" />
 								</h:commandButton>

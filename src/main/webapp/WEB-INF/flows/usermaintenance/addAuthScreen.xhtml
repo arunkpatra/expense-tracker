@@ -74,11 +74,15 @@
 				<h:outputText id="noRolesText"
 					value="This user has not been assigned any roles yet."
 					rendered="#{userAuths.rowCount == 0}" styleClass="control-label" />
-				<p:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-					var="a" rendered="#{userAuths.rowCount > 0}">
-					<p:column headerText="Existing Role(s)">
+				<h:dataTable id="auths" value="#{userAuths}"
+					var="a" rendered="#{userAuths.rowCount > 0}" 
+					styleClass="table table-striped table-bordered table-condensed">
+					<h:column >
+						<f:facet name="header"> 
+							<h:outputText value="Existing Role(s)" styleClass="center"/>
+						</f:facet>
 						<h:outputText value="#{a.authority}" />
-					</p:column>
+					</h:column>
 					<!-- 						<p:column> -->
 					<!-- 							<f:facet name="header"> -->
 					<!-- 								<p:commandLink id="sortByNameLink" action="sort" -->
@@ -88,7 +92,7 @@
 					<!-- 							</f:facet> -->
 					<!-- 							#{a.authority}			 -->
 					<!-- 						</p:column> -->
-				</p:dataTable>
+				</h:dataTable>
 				<!-- 					</div> -->
 				<!-- 				</div> -->
 			</h:form>

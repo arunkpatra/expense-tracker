@@ -16,44 +16,63 @@
 			<h:form id="expenses">
 				<h:outputText id="noExpensesText" value="No Expenses Found"
 					rendered="#{expenses.rowCount == 0}" />
-				<p:dataTable id="expenses" value="#{expenses}" var="e"
-					rendered="#{expenses.rowCount > 0}">
-					<p:column headerText="Description">
+				<h:dataTable id="expenses" value="#{expenses}" var="e"
+					rendered="#{expenses.rowCount > 0}" 
+					styleClass="table table-striped table-bordered table-condensed">
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Description" />
+						</f:facet>
 						<h:commandLink id="viewExpenseDetail" action="viewdetail"
 							value="#{e.description}" processIds="*">
 							<f:param name="expenseId" value="#{e.id}" />
 						</h:commandLink>
-					</p:column>
-					<p:column headerText="Paid By">
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Paid By" />
+						</f:facet>
 						<h:outputText value="#{e.paidBy}" />
-					</p:column>
-					<p:column headerText="Amount">
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Amount" />
+						</f:facet>
 						<h:outputText value="#{e.amount}" />
-					</p:column>
-					<p:column headerText="Date">
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Date" />
+						</f:facet>
 						<h:outputText value="#{e.date}">
 							<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy" />
 						</h:outputText>
-					</p:column>
-					<p:column headerText="Settl. Id">
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Settl. Id" />
+						</f:facet>
 						<a
 							href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
 							target="blank">#{e.settlementId}</a>
-					</p:column>
-					<p:column headerText="Actions">
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Actions" />
+						</f:facet>
 						<div class="form-group form-actions" >
-						<h:commandButton id="editExpense" value="Edit"
-							action="editExpense" styleClass="btn btn-primary btn-xs"
-							processIds="*"
-							rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
-							<f:param name="toBeEditedExpenseId" value="#{e.id}" />
-						</h:commandButton>
-						
-						<h:commandButton id="deleteExpense" value="Delete" processIds="*"
-							action="deleteExpense" styleClass="btn btn-danger btn-xs"
-							rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
-							<f:param name="expenseId" value="#{e.id}" />
-						</h:commandButton>
+							<h:commandButton id="editExpense" value="Edit"
+								action="editExpense" styleClass="btn btn-primary btn-xs"
+								processIds="*"
+								rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+								<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+							</h:commandButton>
+							
+							<h:commandButton id="deleteExpense" value="Delete" processIds="*"
+								action="deleteExpense" styleClass="btn btn-danger btn-xs"
+								rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+								<f:param name="expenseId" value="#{e.id}" />
+							</h:commandButton>
 						
 						</div>
 						
@@ -62,7 +81,7 @@
 						<!-- 						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}"> -->
 						<!-- 						<f:param name="toBeEditedExpenseId" value="#{e.id}" /> -->
 						<!-- 					</p:commandButton> -->
-					</p:column>
+					</h:column>
 <!-- 					<p:column headerText="Delete"> -->
 <!-- 						<p:commandButton id="deleteExpense" value="Delete" processIds="*" -->
 <!-- 							action="deleteExpense" -->
@@ -71,7 +90,7 @@
 <!-- 						</p:commandButton> -->
 
 <!-- 					</p:column> -->
-				</p:dataTable>
+				</h:dataTable>
 			</h:form>
 		</div>
 	</ui:define>
