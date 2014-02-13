@@ -52,8 +52,8 @@
 			<evaluate expression="expenseService.getUnsettledExpenses(settlement)"
 				result="conversationScope.expenses" result-type="dataModel" />
 		</on-render>
-		<transition on="createSettlement" >
-			<evaluate expression="settlementService.createSettlement(settlement)"
+		<transition on="createSettlement" to="settlementGenerationEntry" >
+			<evaluate expression="settlementService.createSettlement(settlement, flowRequestContext)"
 				result="flowScope.settlementCreationId" />
 			<evaluate
 				expression="reportService.generateSettlementReport(settlementCreationId, flowRequestContext)" />
@@ -61,7 +61,7 @@
 		<transition on="createSettlementOk" to="settlementGenerationEntry"/>
 		<!-- Go Back one screen -->
 		<transition on="cancel" to="settlementGenerationEntry"/>
-
+		<transition on="ok" to="settlementGenerationEntry"/>
 		<transition on="editExpense" to="editExpenseFlow">
 			<set name="flowScope.toBeEditedExpenseId" value="(requestParameters.toBeEditedExpenseId)" />
 		</transition>

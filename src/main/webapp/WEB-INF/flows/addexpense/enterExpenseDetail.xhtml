@@ -42,11 +42,10 @@
 							value="Expense Amount" />
 						<h:inputText styleClass="form-control"
 							value="#{expenseDetail.amount}" id="expenseAmount"
-							required="true" maxlength="7">
+							required="true" maxlength="7" requiredMessage="Please enter amount.">
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
 								minIntegerDigits="1"></f:convertNumber>
 						</h:inputText>
-						<p:message for="expenseAmount" />
 					</div>
 				</div>
 				<div class="row">
@@ -59,7 +58,6 @@
 							styleClass="form-control">
 							<f:selectItems value="#{userService.userNamesSelectItems}" />
 						</h:selectOneMenu>
-						<p:message for="paidBy" />
 					</div>
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" for="expenseCategory"

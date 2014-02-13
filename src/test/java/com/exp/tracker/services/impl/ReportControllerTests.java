@@ -17,6 +17,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.webflow.execution.RequestContext;
+import org.springframework.webflow.test.MockExternalContext;
+import org.springframework.webflow.test.MockRequestContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.SettlementBean;
@@ -98,7 +101,10 @@ public class ReportControllerTests extends AbstractExpenseTrackerBaseTest
                 userDetails.getUsername(), userDetails.getPassword(),
                 userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
-
+        RequestContext rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
         // Create Settlement
         Date today = new Date();
         Calendar cal1 = Calendar.getInstance();
@@ -114,7 +120,7 @@ public class ReportControllerTests extends AbstractExpenseTrackerBaseTest
         sb.setStartDate(yesterday);
         sb.setEndDate(tomorrow);
         // Persist object
-        Long result = settlementService.createSettlement(sb);
+        Long result = settlementService.createSettlement(sb,rCtx);
         Assert.assertTrue("Failed to create settlement", result != 0L);
         mockMvc.perform(
                 MockMvcRequestBuilders

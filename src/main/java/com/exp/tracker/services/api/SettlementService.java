@@ -19,6 +19,7 @@ package com.exp.tracker.services.api;
 import java.util.List;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.RoleEntity;
 import com.exp.tracker.data.model.ExpenseReportDataBean;
@@ -26,7 +27,7 @@ import com.exp.tracker.data.model.SettlementBean;
 
 public interface SettlementService {
 	
-	public Long createSettlement(SettlementBean sb);
+	public Long createSettlement(SettlementBean sb, RequestContext ctx);
 	
 	public List<SettlementBean> getSettlements();
 	

@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.webflow.execution.RequestContext;
+import org.springframework.webflow.test.MockExternalContext;
+import org.springframework.webflow.test.MockRequestContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.PaymentBean;
@@ -95,7 +98,11 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 				userDetails.getUsername(), userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-		
+		RequestContext rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
+        
 		// Create Settlement
 		Date today = new Date();
 		Calendar cal1 = Calendar.getInstance();
@@ -111,7 +118,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		sb.setStartDate(yesterday);
 		sb.setEndDate(tomorrow);
 		// Persist object
-		Long result = settlementService.createSettlement(sb);
+		Long result = settlementService.createSettlement(sb,rCtx);
 		Assert.assertTrue("Failed to create settlement", result != 0L);
 		// get it back
 		SettlementBean slb = settlementService.getSettlementById(result);

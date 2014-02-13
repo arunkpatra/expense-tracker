@@ -30,9 +30,12 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.AuthEntity;
 import com.exp.tracker.data.entities.ExpenseEntity;
@@ -65,7 +68,7 @@ public class JpaSettlementService implements SettlementService
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public Long createSettlement(SettlementBean sb)
+    public Long createSettlement(SettlementBean sb, RequestContext ctx)
     {
         Long result = 0l;
         // create new settlement
@@ -76,6 +79,8 @@ public class JpaSettlementService implements SettlementService
         queryGetExpenses.setParameter("endDate", sb.getEndDate());
         Collection<ExpenseEntity> expenses = queryGetExpenses.getResultList();
         if (expenses.size() == 0) {
+        	ctx.getMessageContext().
+        		addMessage(new MessageBuilder().warning().defaultText("No expenses to settle.").build());
             return 0l; // get out now
         }
         
@@ -166,6 +171,8 @@ public class JpaSettlementService implements SettlementService
         queryAddSettlementId.setParameter("endDate", sb.getEndDate());
         queryAddSettlementId.setParameter("settlementId", se.getId());
         queryAddSettlementId.executeUpdate(); // expenses updated
+        ctx.getMessageContext().
+		addMessage(new MessageBuilder().info().defaultText("Settlement was created succesfuly.").build());
         return result;
     }
 
