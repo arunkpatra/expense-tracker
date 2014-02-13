@@ -87,6 +87,9 @@ public class UserEntity extends EncryptionHelper implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdatedDate;
 
+    @Column(name = "phonenumber")
+    private String phoneNumber;
+    
     private String creditCardNumber;
 
     @OneToMany(targetEntity = AuthEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
@@ -202,7 +205,15 @@ public class UserEntity extends EncryptionHelper implements Serializable
         this.lastUpdatedDate = lastUpdatedDate;
     }
 
-    public int getPasswordChangeNeeded()
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public int getPasswordChangeNeeded()
     {
         return passwordChangeNeeded;
     }

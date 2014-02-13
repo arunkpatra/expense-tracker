@@ -43,10 +43,21 @@ public class ReportControllerTests extends AbstractExpenseTrackerBaseTest
 
     @Autowired
     private SettlementService settlementService;
-
+    RequestContext rCtx;
     @Before
     public void setup()
     {
+    	userDetailService = wac.getBean(JdbcDaoImpl.class);
+        UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
+        Authentication authToken = new UsernamePasswordAuthenticationToken(
+                userDetails.getUsername(), userDetails.getPassword(),
+                userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
+        
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         //
         // Add 1st user
@@ -58,7 +69,7 @@ public class ReportControllerTests extends AbstractExpenseTrackerBaseTest
         ub1.setMiddleInit("1");
         ub1.setPassword("password");
         ub1.setUsername("testuserX");
-        UserBean userBean1 = userService.addUser(ub1);
+        UserBean userBean1 = userService.addUser(ub1,rCtx);
         Assert.assertNotNull("Failed to create userX. Why Why", userBean1);
         //
         // Add 1st user
@@ -70,7 +81,7 @@ public class ReportControllerTests extends AbstractExpenseTrackerBaseTest
         ub2.setMiddleInit("2");
         ub2.setPassword("password");
         ub2.setUsername("testuserY");
-        UserBean userBean2 = userService.addUser(ub2);
+        UserBean userBean2 = userService.addUser(ub2,rCtx);
         Assert.assertNotNull("Failed to create userY", userBean2);
         //
         ExpenseDetail ed = new ExpenseDetail();
@@ -95,16 +106,7 @@ public class ReportControllerTests extends AbstractExpenseTrackerBaseTest
     @Test
     public void getReport() throws Exception
     {
-        userDetailService = wac.getBean(JdbcDaoImpl.class);
-        UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
-        Authentication authToken = new UsernamePasswordAuthenticationToken(
-                userDetails.getUsername(), userDetails.getPassword(),
-                userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-        RequestContext rCtx = new MockRequestContext();
-		MockExternalContext ec = new MockExternalContext();
-        ec.setCurrentUser("Admin");
-        ((MockRequestContext) rCtx).setExternalContext(ec);
+        
         // Create Settlement
         Date today = new Date();
         Calendar cal1 = Calendar.getInstance();

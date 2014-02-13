@@ -66,7 +66,7 @@ public class JpaUserService implements UserService
     }
 
     @Transactional
-    public UserBean addUser(UserBean ub)
+    public UserBean addUser(UserBean ub, RequestContext ctx)
     {
         UserBean newUb = null;
         boolean userExists = true;
@@ -114,6 +114,17 @@ public class JpaUserService implements UserService
             // we set this clear text just this once so that it can be emailed
             // to user
             newUb.setPassword(newPassword);
+            // Add message to be displayed on UI
+            ctx.getMessageContext().addMessage(
+                    new MessageBuilder().info()
+                            .defaultText("User added successfuly.")
+                            .build());
+        } else {
+        	// Add message to be displayed on UI
+            ctx.getMessageContext().addMessage(
+                    new MessageBuilder().error()
+                            .defaultText("Username has been taken already. Choose another.")
+                            .build());
         }
         return newUb;
     }
@@ -217,7 +228,7 @@ public class JpaUserService implements UserService
     }
 
     @Transactional
-    public UserBean updateAutorization(UserBean ub)
+    public UserBean updateAutorization(UserBean ub, RequestContext ctx)
     {
 
         Query queryRemoveAuthorities = em.createNamedQuery("removeAuthorities");
@@ -241,6 +252,11 @@ public class JpaUserService implements UserService
         ue0.setAuthSet(ael);
         em.merge(ue0);
         em.flush();
+        // Add message to be displayed on UI
+        ctx.getMessageContext().addMessage(
+                new MessageBuilder().info()
+                        .defaultText("The role was added successfuly.")
+                        .build());
         return new UserBean(ue0);
     }
 

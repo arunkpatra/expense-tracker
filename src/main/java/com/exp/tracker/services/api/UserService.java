@@ -43,9 +43,9 @@ public interface UserService {
 	
 	public UserBean getUser(String userName);
 	
-	public UserBean addUser(UserBean ub);
+	public UserBean addUser(UserBean ub, RequestContext ctx);
 	
-	public UserBean updateAutorization(UserBean ub);
+	public UserBean updateAutorization(UserBean ub, RequestContext ctx);
 	
 	@Secured(RoleEntity.ROLE_SITE_ADMIN)
 	public int deleteUser(Long id, String currentUserName);

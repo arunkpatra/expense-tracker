@@ -21,7 +21,6 @@
 					<h:outputText styleClass="form-control"
 						value="#{selectedUserToBeModified.username}" id="username"
 						required="true" />
-					<p:message for="username" />
 				</div>
 
 				<div class="row">
@@ -31,7 +30,6 @@
 						<h:inputText styleClass="form-control" id="firstName"
 							value="#{selectedUserToBeModified.firstName}" maxlength="50"
 							required="true" />
-						<p:message for="firstName" />
 					</div>
 
 					<div class="col-sm-4 form-group">
@@ -40,7 +38,6 @@
 						<h:inputText styleClass="form-control"
 							value="#{selectedUserToBeModified.lastName}" id="lastName"
 							maxlength="50" required="true" />
-						<p:message for="lastName" />
 					</div>
 
 					<div class="col-sm-2 form-group">
@@ -49,7 +46,6 @@
 						<h:inputText id="mInit"
 							value="#{selectedUserToBeModified.middleInit}" required="false"
 							maxlength="1" styleClass="form-control" />
-						<p:message for="mInit" />
 					</div>
 				</div>
 
@@ -63,7 +59,6 @@
 							<f:validateRegex
 								pattern="^([a-zA-Z]+(([a-zA-Z0-9]*)|((([^@]{0,}?)[a-zA-Z0-9]+){0,}))([@]{1})[a-zA-Z0-9]+(([.]{1})([a-zA-Z0-9]+)){1,2})$" />
 						</h:inputText>
-						<p:message for="email" />
 					</div>
 
 					<div class="col-sm-6 form-group">
@@ -71,11 +66,10 @@
 							value="#{text['user.phoneNumber']}" />
 						<h:inputText styleClass="form-control"
 							value="#{selectedUserToBeModified.phoneNumber}" id="phoneNumber"
-							validatorMessage="Invalid phone number">
+							validatorMessage="Enter a ten digit phone number" required="false">
 							<f:validateRegex
 								pattern="^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$" />
 						</h:inputText>
-						<p:message for="phoneNumber" />
 					</div>
 				</div>
 				<h:outputLabel styleClass="checkbox" for="enabled"
@@ -88,11 +82,10 @@
 				</h:outputLabel>
 
 				<div class="form-group form-actions">
-					<h:commandButton value="#{text['button.save']}" action="updateUser"
-						styleClass="btn btn-primary" />
-
 					<h:commandButton value="#{text['button.cancel']}" action="cancel"
 						immediate="true" styleClass="btn btn-default" />
+					<h:commandButton value="#{text['button.save']}" action="updateUser"
+						styleClass="btn btn-primary" />
 				</div>
 
 			</h:form>

@@ -12,13 +12,13 @@
 			<h2>#{text['userProfile.heading']}</h2>
 			<h:outputText value="This is the currently available information for the user." />
 		</div>
-		<div class="col-sm-7">
+		<div class="col-sm-8">
 			<h:form id="modifyUser" styleClass="well" autocomplete="off">
 				<div class="form-group">
 					<h:outputLabel styleClass="control-label" for="username"
 						value="#{text['user.username']}" />
 					<h:outputText styleClass="form-control"
-						value="#{selectedUserToBeModified.username}" id="username"
+						value="#{selectedUserToBeViewed.username}" id="username"
 						required="true" />
 				</div>
 
@@ -75,19 +75,12 @@
 			<h:form id="viewAuths" styleClass="well" autocomplete="off">
 				<h:outputText id="noRolesText" value="No roles found for this user"
 					rendered="#{userAuths.rowCount == 0}" />
-				<div class="form-group form-actions">
-					<h:commandButton id="addAuth" value="Add New Role" process="@form"
-						action="addAuth" styleClass="btn btn-primary btn-xs">
-						<f:param name="selectedUserName" value="#{selectedUser.username}" />
-					</h:commandButton>
-
-				</div>
 				<h:dataTable id="auths"  value="#{userAuths}"
 					var="a" rendered="#{userAuths.rowCount > 0}" 
 					styleClass="table table-striped table-bordered table-condensed">
 					<h:column>
 						<f:facet name="header">
-							<h:outputText value="Authorization" />
+							<h:outputText value="Authorization(s)" />
 						</f:facet>
 						<h:outputText value="#{a.authority}" />												
 					</h:column>

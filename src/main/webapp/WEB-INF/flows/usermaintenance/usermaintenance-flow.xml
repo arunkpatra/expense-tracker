@@ -26,12 +26,9 @@
 			result="conversationScope.users" result-type="dataModel"/>
 		</on-render>
 		<!-- View User -->
-		<transition on="viewuserdetail" >
+		<transition on="viewuserdetail"  to="userDetail">
 			<set name="flowScope.selectedUserName" value="(requestParameters.username)" />
-			<evaluate expression="userService.getUser(selectedUserName)"
-				result="viewScope.selectedUser" />
-			<evaluate expression="selectedUser.getAuthSet()" result="viewScope.userAuths"
-				result-type="dataModel" />
+			
 		</transition>
 		<!-- Add user -->
 		<transition on="adduser" to="addUserScreen">
@@ -124,10 +121,9 @@
 				result-type="dataModel" />
 			<render fragments="addAuth" />
 		</on-render>
-		<transition on="addNewAuth" to="addNewAuthResults">
-			<!--
-				<evaluate expression="selectedUser.setAuthToBeAdded(newUserAuth)"/>
-			-->
+		<transition on="addNewAuth" >
+			<evaluate expression="selectedUser.addAuth(newUserAuth.authority)" />
+			<evaluate expression="userService.updateAutorization(selectedUser, flowRequestContext)" />
 		</transition>
 		<transition on="cancel" to="userModificationScreen" bind="false" />
 	</view-state>
@@ -140,12 +136,27 @@
 		<transition on="ok" to="userModificationScreen">
 		</transition>
 	</view-state>
+	<view-state id="userDetail">
+		<on-render>
+			<evaluate expression="userService.getUser(selectedUserName)"
+				result="viewScope.selectedUserToBeViewed" />
+			<evaluate expression="selectedUserToBeViewed.getAuthSet()" result="viewScope.userAuths"
+				result-type="dataModel" />
+		</on-render>	
+		<transition on="ok" to="adminOperations"/>
+	</view-state>
 	<view-state id="addUserScreen" model="user">
 		<on-render>
 			<evaluate expression="user.clearUserData()"/>
 			<render fragments="addUser" />
 		</on-render>
-		<transition on="createUser" to="userCreationResults"/>
+		<transition on="createUser" to="adminOperations">
+			<evaluate expression="userService.addUser(user, flowRequestContext)" 
+				result="viewScope.createdUser" />
+			<evaluate
+				expression="emailService.sendWelcomeEmail(createdUser)"
+				result="viewScope.emailSendResult" />
+		</transition>
 		<transition on="cancel" to="adminOperations" bind="false"/>
 	</view-state>
 	<view-state id="userCreationResults">

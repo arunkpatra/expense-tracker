@@ -45,7 +45,7 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 	
 	@Autowired
 	ApplicationContext ctx;
-	
+	private RequestContext rCtx;
 	private ExpenseDetail expenseDetail;
 	@Before
     public void setup() {
@@ -55,7 +55,10 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 				userDetails.getUsername(), userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-		
+		rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
 		// Add 1st user
         UserBean ub1 = new UserBean();
         ub1.setEmailId("a@b.com");
@@ -65,7 +68,7 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
         ub1.setMiddleInit("1");
         ub1.setPassword("password");
         ub1.setUsername("testuser1");      
-        UserBean userBean1 = userService.addUser(ub1);
+        UserBean userBean1 = userService.addUser(ub1,rCtx);
         Assert.assertNotNull("Failed to create user1. Why", userBean1);
         //
         // Add 1st user
@@ -77,7 +80,7 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
         ub2.setMiddleInit("2");
         ub2.setPassword("password");
         ub2.setUsername("testuser2");      
-        UserBean userBean2 = userService.addUser(ub2);
+        UserBean userBean2 = userService.addUser(ub2,rCtx);
         Assert.assertNotNull("Failed to create user2", userBean2);
         // Setup an expense
 		ExpenseDetail ed = new ExpenseDetail();
@@ -104,17 +107,17 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		Assert.assertNotNull("Expense detail is null",expenseDetail);
 		
 		// start
-		RequestContext requestContext = new MockRequestContext();//MockRequestContext();
+		//RequestContext requestContext = new MockRequestContext();//MockRequestContext();
 		//
-		MockExternalContext ec = new MockExternalContext();
-        ec.setCurrentUser("Admin");
-        ((MockRequestContext) requestContext).setExternalContext(ec);
+//		MockExternalContext ec = new MockExternalContext();
+//        ec.setCurrentUser("Admin");
+//        ((MockRequestContext) requestContext).setExternalContext(ec);
         
 		MappingResults mResults = new DefaultMappingResults(null, null, new ArrayList<MappingResult>());
-		ValidationContext vc = new DefaultValidationContext(requestContext, "calcShares", mResults);
+		ValidationContext vc = new DefaultValidationContext(rCtx, "calcShares", mResults);
 		expenseDetail.validateEnterExpenseDetail(vc);
 		// try with next
-		vc = new DefaultValidationContext(requestContext, "next", mResults);
+		vc = new DefaultValidationContext(rCtx, "next", mResults);
 		expenseDetail.setOverrideSharesFlag(true);
         expenseDetail.validateEnterExpenseDetail(vc);
         

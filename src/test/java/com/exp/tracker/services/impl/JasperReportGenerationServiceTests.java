@@ -86,7 +86,7 @@ public class JasperReportGenerationServiceTests extends
 		ub1.setMiddleInit("1");
 		ub1.setPassword("password");
 		ub1.setUsername("reptusr1");
-		UserBean userBean1 = userService.addUser(ub1);
+		UserBean userBean1 = userService.addUser(ub1, rCtx);
 		Assert.assertNotNull("Failed to create user1.", userBean1);
 		//
 		// Add 2nd user
@@ -98,7 +98,7 @@ public class JasperReportGenerationServiceTests extends
 		ub2.setMiddleInit("2");
 		ub2.setPassword("password");
 		ub2.setUsername("reptusr2");
-		UserBean userBean2 = userService.addUser(ub2);
+		UserBean userBean2 = userService.addUser(ub2, rCtx);
 		Assert.assertNotNull("Failed to create user2", userBean2);
 
 		// Setup an expense

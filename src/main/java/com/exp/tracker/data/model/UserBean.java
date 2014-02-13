@@ -179,6 +179,7 @@ public class UserBean implements Serializable
         } else {
             this.setPasswordChangeNeeded(false);
         }
+        this.setPhoneNumber(ue.getPhoneNumber());
         List<AuthBean> abl = new ArrayList<AuthBean>();
         for (AuthEntity ae : ue.getAuthSet()) {
             AuthBean ab = new AuthBean(ae);
@@ -208,6 +209,7 @@ public class UserBean implements Serializable
         if (this.isPasswordChangeNeeded()) {
             ue.setPasswordChangeNeeded(1);
         }
+        ue.setPhoneNumber(this.getPhoneNumber());
         List<AuthEntity> ael = new ArrayList<AuthEntity>();
         for (AuthBean ab : getAuthSet()) {
             AuthEntity ae = ab.getAuthEntity();

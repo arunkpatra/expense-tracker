@@ -35,7 +35,7 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 	ApplicationContext ctx;
 	
 	static JdbcDaoImpl userDetailService;
-	
+	private RequestContext rCtx;
 	@Before
 	public void setup() {
 
@@ -50,7 +50,7 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 				userDetails.getUsername(), userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-		RequestContext rCtx = new MockRequestContext();
+		rCtx = new MockRequestContext();
 		MockExternalContext ec = new MockExternalContext();
         ec.setCurrentUser("Admin");
         ((MockRequestContext) rCtx).setExternalContext(ec);
@@ -68,12 +68,12 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		//ub1.addAuth("ROLE_SITE_ADMIN");
 		// add again
 		//ub1.addAuth("ROLE_SITE_ADMIN");
-		UserBean userBean1 = userService.addUser(ub1);
+		UserBean userBean1 = userService.addUser(ub1,rCtx);
 		Assert.assertNotNull("Failed to create ustest1. Why", userBean1);
 		// send mail
 		emailService.sendWelcomeEmail(userBean1);
 		// try to add again
-		UserBean userBean2 = userService.addUser(ub1);
+		UserBean userBean2 = userService.addUser(ub1,rCtx);
 		Assert.assertNull("Should not have created duplicate user", userBean2);
 		// Get users
 		List<UserEntity> ueList = userService.getUsers();
@@ -128,7 +128,7 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		// Get user name select items
 		Assert.assertNotNull("Expected user select items", userService.getUserNamesSelectItems());
 		// Update authorization
-		Assert.assertNotNull("Update auth failed", userService.updateAutorization(myUser));
+		Assert.assertNotNull("Update auth failed", userService.updateAutorization(myUser, rCtx));
 		// delete user
 		int result2 = userService.deleteUser(myUser.getId(), "Admin");
 		Assert.assertTrue("Failed to delete user", result2 == 0);
