@@ -20,7 +20,9 @@
 						<h:outputText id="noShareText"
 							value="No outstanding payments or receipts for you."
 							rendered="#{userPayments.rowCount == 0}" />
-						<h:dataTable id="shares" styleClass="table table-striped table-bordered table-condensed"
+						<div class="panel panel-default">
+					<div class="panel-body">
+						<h:dataTable id="shares" styleClass="table table-striped table-condensed"
 							value="#{userPayments}" var="up"
 							rendered="#{userPayments.rowCount > 0}">
 							<h:column >
@@ -86,6 +88,8 @@
 									style="font-weight: bold; color: red" />
 							</h:column>
 						</h:dataTable>
+						</div>
+						</div>
 				</sec:authorize>
 
 
@@ -95,9 +99,11 @@
 						<h:outputText id="noShareText1"
 							value="No outstanding payments or receipts for any user."
 							rendered="#{allPayments.rowCount == 0}" />
+							<div class="panel panel-default">
+					<div class="panel-body">
 						<h:dataTable id="shares1" value="#{allPayments}" var="ap"
 							rendered="#{allPayments.rowCount > 0}" 
-							styleClass="table table-striped table-bordered table-condensed">
+							styleClass="table table-striped table-condensed">
 							<h:column >
 								<f:facet name="header">
 									<h:outputText value="Sttlmt. Id" />
@@ -181,15 +187,8 @@
 								</div>
 							</h:column>
 						</h:dataTable>
-<!-- 					<p:dialog widgetVar="confirmDialog" id="dlg1" -->
-<!-- 						header="Payment Confirmation" modal="true" width="300"> -->
-<!-- 						<p:outputPanel id="confirmContent"> -->
-<!-- 							<p:messages id="messages1" autoUpdate="true" closable="true" /> -->
-<!-- 							<p>Transaction completed successfully.</p> -->
-<!-- 							<p:commandButton id="ok" value="Ok" action="ok" -->
-<!-- 								update="paymentDetailsTable1" /> -->
-<!-- 						</p:outputPanel> -->
-<!-- 					</p:dialog> -->
+						</div>
+						</div>
 				</sec:authorize>
 
 			</h:form>

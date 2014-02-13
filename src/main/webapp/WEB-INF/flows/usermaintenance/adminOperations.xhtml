@@ -21,145 +21,55 @@
 					<h:commandButton action="adduser" value="#{text['button.add']}"
 						id="adduser" styleClass="btn btn-primary">
 					</h:commandButton>
-
 				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h:dataTable value="#{users}" var="u"
+							styleClass="table table-striped table-condensed">
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="-" />
+								</f:facet>
 
-				<h:dataTable value="#{users}" var="u"
-					styleClass="table table-striped table-bordered table-condensed">
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="-" />
-						</f:facet>
+								<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
+									disabled="true" />
 
-						<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
-							disabled="true" />
+							</h:column>
 
-					</h:column>
+							<h:column >
+								<f:facet name="header">UserId</f:facet>
+								<h:commandLink id="viewUserDetail" action="viewuserdetail"
+									value="#{u.username}" update="@form"
+									oncomplete="confirmDialog.show()">
+									<f:param name="username" value="#{u.username}" />
+								</h:commandLink>
+							</h:column>
 
-					<h:column>
-						<f:facet name="header">UserId</f:facet>
+							<h:column>
+								<f:facet name="header">Actions</f:facet>
+								<div class="form-group form-actions" >
+									<h:commandButton id="modifyUser" value="Edit"
+										action="modifyuser" styleClass="btn btn-primary btn-xs">
+										<f:param name="usernameTobeModified" value="#{u.username}" />
+									</h:commandButton>
 
-						<h:commandLink id="viewUserDetail" action="viewuserdetail"
-							value="#{u.username}" update="@form"
-							oncomplete="confirmDialog.show()">
-							<f:param name="username" value="#{u.username}" />
-						</h:commandLink>
-					</h:column>
+									<h:commandButton id="reset" value="Reset Password"
+										immediate="true" action="resetpassword" process="@form"
+										update="@form" styleClass="btn btn-default btn-xs">
+										<f:param name="passwordResetUserName" value="#{u.username}" />
+									</h:commandButton>
 
-					<h:column>
-						<f:facet name="header">Actions</f:facet>
-						<div class="form-group form-actions" align="center">
-							<h:commandButton id="modifyUser" value="Modify"
-								action="modifyuser" styleClass="btn btn-default btn-xs">
-								<f:param name="usernameTobeModified" value="#{u.username}" />
-							</h:commandButton>
+									<h:commandButton id="deleteUser" value="Delete"
+										action="deleteuser" styleClass="btn btn-danger btn-xs">
+										<f:param name="userIdToBeDeleted" value="#{u.id}"
+											update=":users" />
+									</h:commandButton>
 
-							<h:commandButton id="reset" value="Reset Password"
-								immediate="true" action="resetpassword" process="@form"
-								update="@form" styleClass="btn btn-default btn-xs">
-								<f:param name="passwordResetUserName" value="#{u.username}" />
-							</h:commandButton>
-
-							<h:commandButton id="deleteUser" value="Delete"
-								action="deleteuser" styleClass="btn btn-danger btn-xs">
-								<f:param name="userIdToBeDeleted" value="#{u.id}"
-									update=":users" />
-							</h:commandButton>
-
-						</div>
-					</h:column>
-
-					<!-- 						<h:column> -->
-					<!-- 							<f:facet name="header">Modify</f:facet> -->
-					<!-- 							<div align="center"> -->
-					<!-- 								<h:commandButton id="modifyUser" value="Modify" -->
-					<!-- 									action="modifyuser" styleClass="btn btn-default btn-xs"> -->
-					<!-- 									<f:param name="usernameTobeModified" value="#{u.username}" /> -->
-					<!-- 								</h:commandButton> -->
-					<!-- 							</div> -->
-					<!-- 						</h:column> -->
-					<!-- 						<h:column> -->
-					<!-- 							<f:facet name="header"> -->
-					<!-- 								<h:outputText value="Reset Password"> -->
-					<!-- 								</h:outputText> -->
-					<!-- 							</f:facet> -->
-					<!-- 							<div align="center" > -->
-					<!-- 								<h:commandButton id="reset" value="Reset Password" immediate="true" -->
-					<!-- 									action="resetpassword" oncomplete="resetPwdDialog.show()" -->
-					<!-- 									process="@form" update="@form" styleClass="btn btn-default btn-xs"> -->
-					<!-- 									<f:param name="passwordResetUserName" value="#{u.username}" /> -->
-					<!-- 								</h:commandButton> -->
-					<!-- 							</div> -->
-					<!-- 						</h:column> -->
-					<!-- 						<h:column> -->
-					<!-- 							<f:facet name="header">Delete</f:facet> -->
-					<!-- 							<div align="center"> -->
-					<!-- 								<h:commandButton id="deleteUser" value="Delete" -->
-					<!-- 									action="deleteuser" styleClass="btn btn-danger btn-xs"> -->
-					<!-- 									<f:param name="userIdToBeDeleted" value="#{u.id}" -->
-					<!-- 										update=":users" /> -->
-					<!-- 								</h:commandButton> -->
-					<!-- 							</div> -->
-					<!-- 						</h:column> -->
-				</h:dataTable>
-				<!-- 					<div class="buttonGroup"> -->
-				<!-- 						<h:commandButton id="addNewUser" value="Add New User" -->
-				<!-- 							action="adduser" styleClass="btn btn-primary"/> -->
-				<!-- 					</div> -->
-
-				<!-- 				</p:outputPanel> -->
-				<!-- 			</p:panel> -->
-				<p:dialog widgetVar="resetPwdDialog" header="Password rest"
-					modal="true" width="300">
-					<p:outputPanel id="passwordResetContent">
-						<!-- 						<span class="errors"> <h:messages globalOnly="true" /> -->
-						<!-- 						</span> -->
-						<p>Password was reset successfully. An email has been sent.</p>
-
-						<div class="buttonGroup">
-							<p:commandButton id="ok" value="Ok" process="@form"
-								update="@form" action="passwordResetOk" />
-						</div>
-					</p:outputPanel>
-				</p:dialog>
-				<p:dialog widgetVar="confirmDialog" header="User Details"
-					modal="true" width="300">
-
-					<p:fieldset legend="User Details">
-						<h:panelGrid columns="2">
-							<h:outputLabel>User Id:</h:outputLabel>
-							<h:outputText value="#{selectedUser.username}" />
-
-							<h:outputLabel>Name:</h:outputLabel>
-							<h:outputText
-								value="#{selectedUser.firstName} #{selectedUser.middleInit} #{selectedUser.lastName}" />
-
-							<h:outputLabel>Email Id:</h:outputLabel>
-							<h:outputText value="#{selectedUser.emailId}" />
-
-							<h:outputLabel>Enabled:</h:outputLabel>
-							<h:outputText value="Yes"
-								rendered="#{selectedUser.enabled == true}" />
-							<h:outputText value="No"
-								rendered="#{selectedUser.enabled == false}" />
-
-							<h:outputText id="noRolesText"
-								value="No roles found for this user"
-								rendered="#{userAuths.rowCount == 0}" />
-						</h:panelGrid>
-					</p:fieldset>
-
-					<p:dataTable id="auths" styleClass="summary" value="#{userAuths}"
-						var="a" rendered="#{userAuths.rowCount > 0}">
-
-						<p:column colspan="2">
-							<f:facet name="header">
-								<h:outputText value="Authorization(s)" />
-							</f:facet>
-						#{a.authority}			
-						</p:column>
-					</p:dataTable>
-				</p:dialog>
+								</div>
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
 			</h:form>
 		</div>
 	</ui:define>

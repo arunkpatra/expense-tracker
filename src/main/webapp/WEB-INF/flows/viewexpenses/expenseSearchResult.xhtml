@@ -16,9 +16,11 @@
 			<h:form id="expenses">
 				<h:outputText id="noExpensesText" value="No Expenses Found"
 					rendered="#{expenses.rowCount == 0}" />
+				<div class="panel panel-default">
+					<div class="panel-body">
 				<h:dataTable id="expenses" value="#{expenses}" var="e"
 					rendered="#{expenses.rowCount > 0}"
-					styleClass="table table-striped table-bordered table-condensed">
+					styleClass="table table-striped  table-condensed">
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Description" />
@@ -82,6 +84,8 @@
 						</div>
 					</h:column>
 				</h:dataTable>
+				</div>
+				</div>
 			</h:form>
 		</div>
 	</ui:define>

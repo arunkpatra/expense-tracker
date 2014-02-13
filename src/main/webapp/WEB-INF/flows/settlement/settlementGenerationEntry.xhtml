@@ -71,10 +71,11 @@
 						value="No previous settlements exist."
 						rendered="#{existingSettelements.rowCount == 0}" />
 					<h:outputLabel rendered="#{existingSettelements.rowCount > 0}">Existing settlements</h:outputLabel>
-
+					<div class="panel panel-default">
+					<div class="panel-body">
 					<h:dataTable id="settlementsTable" value="#{existingSettelements}"
 						var="s" rendered="#{existingSettelements.rowCount > 0}"
-						styleClass="table table-striped table-bordered table-condensed">
+						styleClass="table table-striped table-condensed">
 						<h:column>
 							<f:facet name="header">
 								<h:outputText value="Settl. Id" />
@@ -138,6 +139,8 @@
 							</div>
 						</h:column>
 					</h:dataTable>
+					</div>
+					</div>
 					<p:dialog widgetVar="confirmDialog" id="dlg1"
 						header="Settlement Closure Result" modal="true" width="300">
 						<p:outputPanel id="confirmContent">

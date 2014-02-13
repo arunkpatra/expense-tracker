@@ -1,34 +1,41 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
-	xmlns:f="http://java.sun.com/jsf/core">	
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 
 <ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Welcome</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>Welcome!</h2>
+		</div>
+		<div class="col-sm-8">
+			<div class="panel panel-primary">
+         
+              <div class="panel-body">
+                Panel content
+              </div>
+            </div>
+            
+			<p>This application is for all those lazy bums who forget to
+				claim back what they have spent. We do like generous room mates
+				though.</p>
+			<p>Here you can:</p>
+			<ul>
+				<li>Log in expenses that you have made, on yourself or on
+					others</li>
+				<li>See logged in expenses</li>
+				<li>Generate reports and know who owes you money</li>
+			</ul>
+			<p align="right">
+				<a href="addexpense">Start using Expense Tracker</a>
+			</p>
+		</div>
+			
 
-<ui:define name="body">
-
-<div class="section">
-	<h2>Welcome to Expense Tracker</h2>
-	<p>
-	 	This application is for all those lazy bums who forget to claim back
-	 	what they have spent. We do like generous room mates though.
-	</p>
-	<p>
-		Here you can:
-	</p>
-	<ul>
-		<li>Log in expenses that you have made, on yourself or on others</li>
-		<li>See logged in expenses</li>
-		<li>Generate reports and know who owes you money</li>
-	</ul>
-	<p align="right">
-		<a href="addexpense">Start using Expense Tracker</a>
-	</p>
-</div>
-
-</ui:define>
+	</ui:define>
 </ui:composition>
 </html>

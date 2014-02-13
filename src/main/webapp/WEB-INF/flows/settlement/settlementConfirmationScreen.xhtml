@@ -19,14 +19,11 @@
 			<h:outputText id="noExpensesText"
 				value="No expenses were found to settle."
 				rendered="#{expenses.rowCount == 0}" />
-
-<!-- 			<h:outputLabel id="verifyText" -->
-<!-- 				value="Following expenses will be settled. Please verify this list." -->
-<!-- 				rendered="#{expenses.rowCount > 0}" /> -->
-
+			<div class="panel panel-default">
+					<div class="panel-body">
 			<h:dataTable id="expenses"  value="#{expenses}"
 				var="e" rendered="#{expenses.rowCount > 0}" 
-				styleClass="table table-striped table-bordered table-condensed">
+				styleClass="table table-striped  table-condensed">
 				<h:column >
 					<f:facet name="header">
 						<h:outputText value="Description" />
@@ -36,12 +33,12 @@
 						<f:param name="expenseId" value="#{e.id}" />
 					</h:commandLink>
 				</h:column>
-				<h:column >
-					<f:facet name="header">
-						<h:outputText value="Paid By" />
-					</f:facet>
-					<h:outputText value="#{e.paidBy}" />
-				</h:column>
+<!-- 				<h:column > -->
+<!-- 					<f:facet name="header"> -->
+<!-- 						<h:outputText value="Paid By" /> -->
+<!-- 					</f:facet> -->
+<!-- 					<h:outputText value="#{e.paidBy}" /> -->
+<!-- 				</h:column> -->
 				<h:column >
 					<f:facet name="header">
 						<h:outputText value="Amount" />
@@ -68,17 +65,11 @@
 							action="editExpense" styleClass="btn btn-primary btn-xs">
 							<f:param name="toBeEditedExpenseId" value="#{e.id}" />
 						</h:commandButton>
-					
-<!-- 					<h:commandButton value="Cancel" action="cancel" immediate="true" -->
-<!-- 						styleClass="btn btn-default" /> -->
-<!-- 					<h:commandButton value="Next" action="next" -->
-<!-- 						styleClass="btn btn-primary" /> -->
-
-				</div>
-					
+				</div>					
 				</h:column>
 			</h:dataTable>
-			
+			</div>
+			</div>			
 			<div class="form-group form-actions">
 				<h:commandButton id="ok" value="Ok" processIds="*"
 					action="ok" styleClass="btn btn-primary" rendered="#{expenses.rowCount == 0}"/>
