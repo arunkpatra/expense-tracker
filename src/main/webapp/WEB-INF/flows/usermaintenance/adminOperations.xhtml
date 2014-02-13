@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="col-sm-8">
-			<h:form id="mainForm" >
+			<h:form id="mainForm">
 				<div id="actions" class="btn-group">
 					<!-- <script> shows up here and causes square corners on the Add button below -->
 					<h:commandButton action="adduser" value="#{text['button.add']}"
@@ -24,102 +24,96 @@
 
 				</div>
 
-				<!-- 			<p:panel id="users" header="Users" toggleable="true" -->
-				<!-- 				toggleSpeed="100" style="margin-top: 10px"> -->
-				<!-- 				<h:outputText value="No Users Found" rendered="#{users.rowCount==0}" /> -->
+				<h:dataTable value="#{users}" var="u"
+					styleClass="table table-striped table-bordered table-condensed">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="-" />
+						</f:facet>
 
-				<!-- 				<h:outputText value="Click on a user name to see details." /> -->
-<!-- 				<p:outputPanel id="usersContent"> -->
-			
-					<h:dataTable value="#{users}" var="u" styleClass="table table-striped table-bordered table-condensed">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="-" />
-							</f:facet>
-				
-								<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
-									disabled="true" />
-						
-						</h:column>
+						<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
+							disabled="true" />
 
-						<h:column>
-							<f:facet name="header">UserId</f:facet>
-							
-							<h:commandLink id="viewUserDetail" action="viewuserdetail"
-								value="#{u.username}" update="@form"
-								oncomplete="confirmDialog.show()" >
-								<f:param name="username" value="#{u.username}" />
-							</h:commandLink>
-						</h:column>
-						
-						<h:column>
-							<f:facet name="header">Actions</f:facet>
-							<div class="form-group form-actions" align="center">
-								<h:commandButton id="modifyUser" value="Modify"
-									action="modifyuser" styleClass="btn btn-default btn-xs">
-									<f:param name="usernameTobeModified" value="#{u.username}" />
-								</h:commandButton>
-								
-								<h:commandButton id="reset" value="Reset Password" immediate="true"
-									action="resetpassword" 
-									process="@form" update="@form" styleClass="btn btn-default btn-xs">
-									<f:param name="passwordResetUserName" value="#{u.username}" />
-								</h:commandButton>
-								
-								<h:commandButton id="deleteUser" value="Delete"
-									action="deleteuser" styleClass="btn btn-danger btn-xs">
-									<f:param name="userIdToBeDeleted" value="#{u.id}"
-										update=":users" />
-								</h:commandButton>
-								
-							</div>
-						</h:column>
-						
-<!-- 						<h:column> -->
-<!-- 							<f:facet name="header">Modify</f:facet> -->
-<!-- 							<div align="center"> -->
-<!-- 								<h:commandButton id="modifyUser" value="Modify" -->
-<!-- 									action="modifyuser" styleClass="btn btn-default btn-xs"> -->
-<!-- 									<f:param name="usernameTobeModified" value="#{u.username}" /> -->
-<!-- 								</h:commandButton> -->
-<!-- 							</div> -->
-<!-- 						</h:column> -->
-<!-- 						<h:column> -->
-<!-- 							<f:facet name="header"> -->
-<!-- 								<h:outputText value="Reset Password"> -->
-<!-- 								</h:outputText> -->
-<!-- 							</f:facet> -->
-<!-- 							<div align="center" > -->
-<!-- 								<h:commandButton id="reset" value="Reset Password" immediate="true" -->
-<!-- 									action="resetpassword" oncomplete="resetPwdDialog.show()" -->
-<!-- 									process="@form" update="@form" styleClass="btn btn-default btn-xs"> -->
-<!-- 									<f:param name="passwordResetUserName" value="#{u.username}" /> -->
-<!-- 								</h:commandButton> -->
-<!-- 							</div> -->
-<!-- 						</h:column> -->
-<!-- 						<h:column> -->
-<!-- 							<f:facet name="header">Delete</f:facet> -->
-<!-- 							<div align="center"> -->
-<!-- 								<h:commandButton id="deleteUser" value="Delete" -->
-<!-- 									action="deleteuser" styleClass="btn btn-danger btn-xs"> -->
-<!-- 									<f:param name="userIdToBeDeleted" value="#{u.id}" -->
-<!-- 										update=":users" /> -->
-<!-- 								</h:commandButton> -->
-<!-- 							</div> -->
-<!-- 						</h:column> -->
-					</h:dataTable>
-					<!-- 					<div class="buttonGroup"> -->
-					<!-- 						<h:commandButton id="addNewUser" value="Add New User" -->
-					<!-- 							action="adduser" styleClass="btn btn-primary"/> -->
-					<!-- 					</div> -->
+					</h:column>
 
-<!-- 				</p:outputPanel> -->
+					<h:column>
+						<f:facet name="header">UserId</f:facet>
+
+						<h:commandLink id="viewUserDetail" action="viewuserdetail"
+							value="#{u.username}" update="@form"
+							oncomplete="confirmDialog.show()">
+							<f:param name="username" value="#{u.username}" />
+						</h:commandLink>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Actions</f:facet>
+						<div class="form-group form-actions" align="center">
+							<h:commandButton id="modifyUser" value="Modify"
+								action="modifyuser" styleClass="btn btn-default btn-xs">
+								<f:param name="usernameTobeModified" value="#{u.username}" />
+							</h:commandButton>
+
+							<h:commandButton id="reset" value="Reset Password"
+								immediate="true" action="resetpassword" process="@form"
+								update="@form" styleClass="btn btn-default btn-xs">
+								<f:param name="passwordResetUserName" value="#{u.username}" />
+							</h:commandButton>
+
+							<h:commandButton id="deleteUser" value="Delete"
+								action="deleteuser" styleClass="btn btn-danger btn-xs">
+								<f:param name="userIdToBeDeleted" value="#{u.id}"
+									update=":users" />
+							</h:commandButton>
+
+						</div>
+					</h:column>
+
+					<!-- 						<h:column> -->
+					<!-- 							<f:facet name="header">Modify</f:facet> -->
+					<!-- 							<div align="center"> -->
+					<!-- 								<h:commandButton id="modifyUser" value="Modify" -->
+					<!-- 									action="modifyuser" styleClass="btn btn-default btn-xs"> -->
+					<!-- 									<f:param name="usernameTobeModified" value="#{u.username}" /> -->
+					<!-- 								</h:commandButton> -->
+					<!-- 							</div> -->
+					<!-- 						</h:column> -->
+					<!-- 						<h:column> -->
+					<!-- 							<f:facet name="header"> -->
+					<!-- 								<h:outputText value="Reset Password"> -->
+					<!-- 								</h:outputText> -->
+					<!-- 							</f:facet> -->
+					<!-- 							<div align="center" > -->
+					<!-- 								<h:commandButton id="reset" value="Reset Password" immediate="true" -->
+					<!-- 									action="resetpassword" oncomplete="resetPwdDialog.show()" -->
+					<!-- 									process="@form" update="@form" styleClass="btn btn-default btn-xs"> -->
+					<!-- 									<f:param name="passwordResetUserName" value="#{u.username}" /> -->
+					<!-- 								</h:commandButton> -->
+					<!-- 							</div> -->
+					<!-- 						</h:column> -->
+					<!-- 						<h:column> -->
+					<!-- 							<f:facet name="header">Delete</f:facet> -->
+					<!-- 							<div align="center"> -->
+					<!-- 								<h:commandButton id="deleteUser" value="Delete" -->
+					<!-- 									action="deleteuser" styleClass="btn btn-danger btn-xs"> -->
+					<!-- 									<f:param name="userIdToBeDeleted" value="#{u.id}" -->
+					<!-- 										update=":users" /> -->
+					<!-- 								</h:commandButton> -->
+					<!-- 							</div> -->
+					<!-- 						</h:column> -->
+				</h:dataTable>
+				<!-- 					<div class="buttonGroup"> -->
+				<!-- 						<h:commandButton id="addNewUser" value="Add New User" -->
+				<!-- 							action="adduser" styleClass="btn btn-primary"/> -->
+				<!-- 					</div> -->
+
+				<!-- 				</p:outputPanel> -->
 				<!-- 			</p:panel> -->
 				<p:dialog widgetVar="resetPwdDialog" header="Password rest"
 					modal="true" width="300">
 					<p:outputPanel id="passwordResetContent">
-<!-- 						<span class="errors"> <h:messages globalOnly="true" /> -->
-<!-- 						</span> -->
+						<!-- 						<span class="errors"> <h:messages globalOnly="true" /> -->
+						<!-- 						</span> -->
 						<p>Password was reset successfully. An email has been sent.</p>
 
 						<div class="buttonGroup">
@@ -128,7 +122,7 @@
 						</div>
 					</p:outputPanel>
 				</p:dialog>
-				<p:dialog widgetVar="confirmDialog"  header="User Details"
+				<p:dialog widgetVar="confirmDialog" header="User Details"
 					modal="true" width="300">
 
 					<p:fieldset legend="User Details">

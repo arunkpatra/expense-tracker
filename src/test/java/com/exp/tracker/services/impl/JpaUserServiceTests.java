@@ -124,7 +124,7 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 				userService.isPasswordChangeNeeded("ustest1"));
 		// Update user
 		myUser.setEmailId("d@g.com");
-		userService.updateUser(myUser);
+		userService.updateUser(myUser, rCtx);
 		// Get user name select items
 		Assert.assertNotNull("Expected user select items", userService.getUserNamesSelectItems());
 		// Update authorization
@@ -136,7 +136,7 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		userBean1.clearUserData();
 		// remove Auths
 		for (AuthBean ab : myUser.getAuthSet()) {
-			userService.removeAuthById(ab.getAuthEntity().getId());
+			userService.removeAuthById(ab.getAuthEntity().getId(), rCtx);
 		}
 		myUser.getAuthSet();
 		// get user beans

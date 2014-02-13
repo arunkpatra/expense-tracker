@@ -87,16 +87,16 @@
 		</on-render>
 		<transition on="addAuth" to="addAuthScreen">
 		</transition>
-		<transition on="deleteAuth">
+		<transition on="deleteAuth" to="userModificationScreen">
 			<set name="flowScope.authIdToDelete" value="(requestParameters.authIdToDelete)" />
-			<evaluate expression="userService.removeAuthById(authIdToDelete)" />
+			<evaluate expression="userService.removeAuthById(authIdToDelete, flowRequestContext)" />
 		</transition>
 		<transition on="deleteAuthOk" to="userModificationScreen">
 		</transition>
 		<transition on="back" to="adminOperations" bind="false">
 		</transition>
-		<transition on="updateUser" >
-			<evaluate expression="userService.updateUser(selectedUserToBeModified)" />
+		<transition on="updateUser" to="adminOperations">
+			<evaluate expression="userService.updateUser(selectedUserToBeModified, flowRequestContext)" />
 		</transition>
 		<transition on="updateOk" to="adminOperations">
 		</transition>

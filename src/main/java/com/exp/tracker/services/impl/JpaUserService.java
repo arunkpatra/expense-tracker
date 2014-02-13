@@ -31,7 +31,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.binding.message.MessageBuilder;
-import org.springframework.binding.message.MessageContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,9 +90,8 @@ public class JpaUserService implements UserService
             UserEntity ue1 = ub.getUserEntity();
             Calendar calendar = Calendar.getInstance();
             String newPassword = ub.getPassword();
-            if (null == newPassword) 
-            {
-            	newPassword = RandomStringUtils.random(8, true, true);
+            if (null == newPassword) {
+                newPassword = RandomStringUtils.random(8, true, true);
             }
             // save hashed with salt
             ue1.setPassword(passwordEncoder.getHash(ub.getUsername(),
@@ -203,7 +201,7 @@ public class JpaUserService implements UserService
     }
 
     @Transactional
-    public void removeAuthById(Long id)
+    public void removeAuthById(Long id, RequestContext ctx)
     {
         if (logger.isDebugEnabled()) {
             logger.debug("About to remove auth record with id " + id);
@@ -211,6 +209,11 @@ public class JpaUserService implements UserService
         Query queryRemoveAuthority = em.createNamedQuery("removeAuthority");
         queryRemoveAuthority.setParameter("id", id);
         queryRemoveAuthority.executeUpdate();
+        // Add message to be displayed on UI
+        ctx.getMessageContext().addMessage(
+                new MessageBuilder().info()
+                        .defaultText("The role was deleted successfuly.")
+                        .build());
     }
 
     @Transactional
@@ -278,7 +281,7 @@ public class JpaUserService implements UserService
     }
 
     @Transactional
-    public void updateUser(UserBean ub)
+    public void updateUser(UserBean ub, RequestContext ctx)
     {
         UserEntity ue = em.find(UserEntity.class, ub.getId());
         if (ub.getEnabled()) {
@@ -294,6 +297,12 @@ public class JpaUserService implements UserService
         ue.setLastUpdatedDate(calendar.getTime());
         em.merge(ue);
         em.flush();
+        // Add message to be displayed on UI
+        ctx.getMessageContext().addMessage(
+                new MessageBuilder().info()
+                        .defaultText("User information updated successfuly.")
+                        .build());
+
     }
 
     @Transactional
@@ -347,11 +356,10 @@ public class JpaUserService implements UserService
         em.merge(ue1);
         ub = new UserBean(ue1);
         ub.setPassword(newPassword);
-        //
-        MessageContext messages = ctx.getMessageContext();
-        messages.addMessage(new MessageBuilder().info().defaultText("Password was reset succesfuly.").build());
-//        messages.addMessage(new MessageBuilder().error()
-//                .code("total.amount.incorrect").build());
+        // Add message to be displayed on UI
+        ctx.getMessageContext().addMessage(
+                new MessageBuilder().info()
+                        .defaultText("Password was reset succesfuly.").build());
         return ub;
     }
 

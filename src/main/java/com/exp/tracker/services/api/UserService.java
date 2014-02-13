@@ -54,9 +54,9 @@ public interface UserService {
 	
 	public List<SelectItem> getUserNamesSelectItems();
 	
-	public void removeAuthById(Long id);
+	public void removeAuthById(Long id, RequestContext ctx);
 	
-	public void updateUser(UserBean ub);
+	public void updateUser(UserBean ub, RequestContext ctx);
 	
 	public String changePassword(PasswordChangeBean pB, UserBean Ub);
 	
