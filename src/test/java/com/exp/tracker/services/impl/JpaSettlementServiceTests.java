@@ -127,7 +127,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		List<SettlementBean> sList = settlementService.getSettlements();
 		Assert.assertTrue("Expected exactly 1 settlement.", sList.size() == 1);
 		// Try to close settlement, it should fail
-		int completionResult = settlementService.completeSettlement(result);
+		int completionResult = settlementService.completeSettlement(result, rCtx);
 		Assert.assertTrue("Expected settlement closure to fail.",
 				completionResult == 1);
 		// Try to delete it, it should fail
@@ -145,11 +145,11 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		Assert.assertNotNull("Payments list for user testuser3 is null", pbList2);
 		
 		// Now try to close again
-		int completionResult2 = settlementService.completeSettlement(result);
+		int completionResult2 = settlementService.completeSettlement(result, rCtx);
 		Assert.assertTrue("Settlement closure should have succeded.",
 				completionResult2 == 0);
 		// now delete settlement
-		int deletionResult = settlementService.deleteSettlement(result);
+		int deletionResult = settlementService.deleteSettlement(result, rCtx);
 		Assert.assertTrue("Expected deletion to succeed.", deletionResult == 0);
 	}
 }

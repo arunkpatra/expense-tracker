@@ -311,6 +311,7 @@ public class JpaUserService implements UserService
         ue.setLastName(ub.getLastName());
         Calendar calendar = Calendar.getInstance();
         ue.setLastUpdatedDate(calendar.getTime());
+        ue.setPhoneNumber(ub.getPhoneNumber());
         em.merge(ue);
         em.flush();
         // Add message to be displayed on UI

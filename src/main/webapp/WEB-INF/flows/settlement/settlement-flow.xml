@@ -29,16 +29,16 @@
 		<transition on="completeSettlement" >
 			<set name="flowScope.selectedSettlementId" value="(requestParameters.settlementId)" />
 			<evaluate
-				expression="settlementService.completeSettlement(selectedSettlementId)"
+				expression="settlementService.completeSettlement(selectedSettlementId, flowRequestContext)"
 				result="viewScope.settlementClosureResult" />			
 		</transition>
 		<transition on="closeSettlementOk" to="settlementGenerationEntry"/>
 	</view-state>
 
 	<view-state id="settlementDeletionConfirmation">
-		<transition on="yes" to="settlementDeletionResults">
+		<transition on="yes" to="settlementGenerationEntry">
 			<evaluate
-				expression="settlementService.deleteSettlement(toBeDeletedSettlementId)"
+				expression="settlementService.deleteSettlement(toBeDeletedSettlementId, flowRequestContext)"
 				result="flowScope.settlementDeletionResult" />
 		</transition>
 		<transition on="no" to="settlementGenerationEntry" bind="false" />

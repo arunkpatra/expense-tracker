@@ -71,89 +71,79 @@
 						value="No previous settlements exist."
 						rendered="#{existingSettelements.rowCount == 0}" />
 					<h:outputLabel rendered="#{existingSettelements.rowCount > 0}">Existing settlements</h:outputLabel>
-					<div class="panel panel-default">
-					<div class="panel-body">
-					<h:dataTable id="settlementsTable" value="#{existingSettelements}"
-						var="s" rendered="#{existingSettelements.rowCount > 0}"
-						styleClass="table table-striped table-condensed">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Settl. Id" />
-							</f:facet>
-							<a
-								href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{s.id}"
-								target="blank"> #{s.id} </a>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Start Date" />
-							</f:facet>
-							<h:outputText value="#{s.startDate}">
-								<f:convertDateTime timeZone="EST" pattern="MM/dd/yyyy" />
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="End Date" />
-							</f:facet>
-							<h:outputText value="#{s.endDate}">
-								<f:convertDateTime dateStyle="short" timeZone="EST"
-									pattern="MM/dd/yyyy" />
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Settled" />
-							</f:facet>
-							<h:outputText value="Yes" rendered="#{s.settlementFlag == 1}" />
-							<h:outputText value="No" rendered="#{s.settlementFlag == 0}" />
-						</h:column>
+					<c:if test="#{existingSettelements.rowCount > 0}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h:dataTable id="settlementsTable"
+									value="#{existingSettelements}" var="s"
+									rendered="#{existingSettelements.rowCount > 0}"
+									styleClass="table table-striped table-condensed">
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Settl. Id" />
+										</f:facet>
+										<a
+											href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{s.id}"
+											target="blank"> #{s.id} </a>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Start Date" />
+										</f:facet>
+										<h:outputText value="#{s.startDate}">
+											<f:convertDateTime timeZone="EST" pattern="MM/dd/yyyy" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="End Date" />
+										</f:facet>
+										<h:outputText value="#{s.endDate}">
+											<f:convertDateTime dateStyle="short" timeZone="EST"
+												pattern="MM/dd/yyyy" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Settled" />
+										</f:facet>
+										<h:outputText value="Yes" rendered="#{s.settlementFlag == 1}" />
+										<h:outputText value="No" rendered="#{s.settlementFlag == 0}" />
+									</h:column>
 
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Exp. Report" />
-							</f:facet>
-							<a
-								href="${request.contextPath}/et/reports/expenseReport.pdf?sid=#{s.id}"
-								target="blank"> <img
-								src="${request.contextPath}/images/pdficon_small.gif"
-								alt="Exp. Report" />
-							</a>
-						</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Exp. Report" />
+										</f:facet>
+										<a
+											href="${request.contextPath}/et/reports/expenseReport.pdf?sid=#{s.id}"
+											target="blank"> <img
+											src="${request.contextPath}/images/pdficon_small.gif"
+											alt="Exp. Report" />
+										</a>
+									</h:column>
 
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Actions" />
-							</f:facet>
-							<div class="form-group form-actions">
-								<h:commandButton id="settle" value="Close"
-									oncomplete="confirmDialog.show()" action="completeSettlement"
-									rendered="#{(s.settlementFlag == 0)}" process="@form"
-									update="@form" styleClass="btn btn-primary btn-xs">
-									<f:param name="settlementId" value="#{s.id}" />
-								</h:commandButton>
-								<h:commandButton id="delete" value="Delete" processIds="*"
-									action="delete" styleClass="btn btn-danger btn-xs">
-									<f:param name="settlementId" value="#{s.id}" />
-								</h:commandButton>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Actions" />
+										</f:facet>
+										<div class="form-group form-actions">
+											<h:commandButton id="settle" value="Close"
+												action="completeSettlement"
+												rendered="#{(s.settlementFlag == 0)}" process="@form"
+												update="@form" styleClass="btn btn-primary btn-xs">
+												<f:param name="settlementId" value="#{s.id}" />
+											</h:commandButton>
+											<h:commandButton id="delete" value="Delete" processIds="*"
+												action="delete" styleClass="btn btn-danger btn-xs">
+												<f:param name="settlementId" value="#{s.id}" />
+											</h:commandButton>
+										</div>
+									</h:column>
+								</h:dataTable>
 							</div>
-						</h:column>
-					</h:dataTable>
-					</div>
-					</div>
-					<p:dialog widgetVar="confirmDialog" id="dlg1"
-						header="Settlement Closure Result" modal="true" width="300">
-						<p:outputPanel id="confirmContent">
-							<p:messages id="messages1" autoUpdate="true" closable="true" />
-							<h:outputText value="Settlement was closed successfully."
-								rendered="#{settlementClosureResult == 0}" />
-							<h:outputText
-								value="You can not close a settlement while there are still records to settle."
-								rendered="#{settlementClosureResult == 1}" />
-						</p:outputPanel>
-						<p:commandButton id="ok" value="Ok" action="closeSettlementOk"
-							update="settlementsTable" />
-					</p:dialog>
+						</div>
+					</c:if>
 				</h:form>
 			</div>
 		</sec:authorize>

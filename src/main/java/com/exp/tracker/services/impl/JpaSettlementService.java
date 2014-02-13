@@ -48,229 +48,249 @@ import com.exp.tracker.services.api.SettlementService;
 
 @Service("settlementService")
 @Repository
-public class JpaSettlementService implements SettlementService
-{
+public class JpaSettlementService implements SettlementService {
 
-    /**
-     * The logger.
-     */
-    private static final Log logger = LogFactory
-            .getLog(JpaSettlementService.class);
+	/**
+	 * The logger.
+	 */
+	private static final Log logger = LogFactory
+			.getLog(JpaSettlementService.class);
 
-    private EntityManager em;
+	private EntityManager em;
 
-    @PersistenceContext
-    public void setEntityManager(EntityManager em)
-    {
-        this.em = em;
-    }
+	@PersistenceContext
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Transactional
-    public Long createSettlement(SettlementBean sb, RequestContext ctx)
-    {
-        Long result = 0l;
-        // create new settlement
-        SettlementEntity se = new SettlementEntity();
-        Query queryGetExpenses = null;
-        queryGetExpenses = em.createNamedQuery("getUnsettledExpenses");
-        queryGetExpenses.setParameter("startDate", sb.getStartDate());
-        queryGetExpenses.setParameter("endDate", sb.getEndDate());
-        Collection<ExpenseEntity> expenses = queryGetExpenses.getResultList();
-        if (expenses.size() == 0) {
-        	ctx.getMessageContext().
-        		addMessage(new MessageBuilder().warning().defaultText("No expenses to settle.").build());
-            return 0l; // get out now
-        }
-        
-        // calculate volume
-        float volume = 0.0f;
-        for (ExpenseEntity ee : expenses) {
-            volume = volume + ee.getAmount();
-        }
-        // set volume
-        se.setVolume(volume);
-        se.setStartDate(sb.getStartDate());
-        se.setEndDate(sb.getEndDate());
-        Calendar cal = Calendar.getInstance();
-        se.setCreatedDate(cal.getTime());
-        se.setAccountManager(sb.getAccountManager());
-        se.setSettlementCompleted(SettlementEntity.SETTLEMENT_NOT_COMPLETED);
-        em.persist(se); // settlement created at root level
-        // an indicator that we succeded
-        result = se.getId();
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long createSettlement(SettlementBean sb, RequestContext ctx) {
+		Long result = 0l;
+		// create new settlement
+		SettlementEntity se = new SettlementEntity();
+		Query queryGetExpenses = null;
+		queryGetExpenses = em.createNamedQuery("getUnsettledExpenses");
+		queryGetExpenses.setParameter("startDate", sb.getStartDate());
+		queryGetExpenses.setParameter("endDate", sb.getEndDate());
+		Collection<ExpenseEntity> expenses = queryGetExpenses.getResultList();
+		if (expenses.size() == 0) {
+			ctx.getMessageContext().addMessage(
+					new MessageBuilder().warning()
+							.defaultText("No expenses to settle.").build());
+			return 0l; // get out now
+		}
 
-        // get all users now
-        Query queryGetUsers = em.createNamedQuery("getAllUsers");
-        Query queryExpenseForUser = em
-                .createNamedQuery("unsettledExpenseForUser");
-        Query queryAmountPaidByUser = em
-                .createNamedQuery("unsettledAmountPaidByUser");
-        Collection<UserEntity> users = queryGetUsers.getResultList(); // user
-                                                                      // list
-                                                                      // obtained
-        Set<UserSettlementEntity> usl = new HashSet<UserSettlementEntity>();
-        for (UserEntity u : users) {
-            boolean thisIsAnUser = false;
-            for (AuthEntity ae : u.getAuthSet()) {
-                if (ae.getAuthority().equalsIgnoreCase(RoleEntity.ROLE_USER)) {
-                    thisIsAnUser = true;
-                    break;
-                }
-            }
+		// calculate volume
+		float volume = 0.0f;
+		for (ExpenseEntity ee : expenses) {
+			volume = volume + ee.getAmount();
+		}
+		// set volume
+		se.setVolume(volume);
+		se.setStartDate(sb.getStartDate());
+		se.setEndDate(sb.getEndDate());
+		Calendar cal = Calendar.getInstance();
+		se.setCreatedDate(cal.getTime());
+		se.setAccountManager(sb.getAccountManager());
+		se.setSettlementCompleted(SettlementEntity.SETTLEMENT_NOT_COMPLETED);
+		em.persist(se); // settlement created at root level
+		// an indicator that we succeded
+		result = se.getId();
 
-            UserSettlementEntity use = new UserSettlementEntity();
-            use.setSettlement_id(se.getId());
-            use.setSettlementFlag(UserSettlementEntity.SETTLEMENT_NOT_COMPLETED);
-            // obtain expenses for user
-            queryExpenseForUser.setParameter("startDate", sb.getStartDate());
-            queryExpenseForUser.setParameter("endDate", sb.getEndDate());
-            queryExpenseForUser.setParameter("userName", u.getUsername());
-            Double expenseForUser = (Double) queryExpenseForUser
-                    .getSingleResult();
-            if (null == expenseForUser) {
-                expenseForUser = 0.0d;
-            }
-            // total share for this user
-            use.setUserShare(Float.parseFloat(Double.toString(expenseForUser)));
+		// get all users now
+		Query queryGetUsers = em.createNamedQuery("getAllUsers");
+		Query queryExpenseForUser = em
+				.createNamedQuery("unsettledExpenseForUser");
+		Query queryAmountPaidByUser = em
+				.createNamedQuery("unsettledAmountPaidByUser");
+		Collection<UserEntity> users = queryGetUsers.getResultList(); // user
+																		// list
+																		// obtained
+		Set<UserSettlementEntity> usl = new HashSet<UserSettlementEntity>();
+		for (UserEntity u : users) {
+			boolean thisIsAnUser = false;
+			for (AuthEntity ae : u.getAuthSet()) {
+				if (ae.getAuthority().equalsIgnoreCase(RoleEntity.ROLE_USER)) {
+					thisIsAnUser = true;
+					break;
+				}
+			}
 
-            // obtain total paid by user
-            queryAmountPaidByUser.setParameter("startDate", sb.getStartDate());
-            queryAmountPaidByUser.setParameter("endDate", sb.getEndDate());
-            queryAmountPaidByUser.setParameter("paidBy", u.getUsername());
-            Double paidByUser = (Double) queryAmountPaidByUser
-                    .getSingleResult();
+			UserSettlementEntity use = new UserSettlementEntity();
+			use.setSettlement_id(se.getId());
+			use.setSettlementFlag(UserSettlementEntity.SETTLEMENT_NOT_COMPLETED);
+			// obtain expenses for user
+			queryExpenseForUser.setParameter("startDate", sb.getStartDate());
+			queryExpenseForUser.setParameter("endDate", sb.getEndDate());
+			queryExpenseForUser.setParameter("userName", u.getUsername());
+			Double expenseForUser = (Double) queryExpenseForUser
+					.getSingleResult();
+			if (null == expenseForUser) {
+				expenseForUser = 0.0d;
+			}
+			// total share for this user
+			use.setUserShare(Float.parseFloat(Double.toString(expenseForUser)));
 
-            if (null == paidByUser) {
-                paidByUser = 0.0d;
-            }
-            // total paid by this user
-            use.setUserPaid(Float.parseFloat(Double.toString(paidByUser)));
-            //
-            // set net amount - payable or receivable
-            use.setAmount(Float.parseFloat(Double.toString(paidByUser))
-                    - Float.parseFloat(Double.toString(expenseForUser)));
-            if (use.getAmount() == 0.0f) {
-                // auto settled
-                use.setSettlementFlag(UserSettlementEntity.SETTLEMENT_COMPLETED);
-                use.setSettledDate(new Date());
-            }
-            use.setUserName(u.getUsername());
-            if (thisIsAnUser || (expenseForUser > 0.0d)) {
-                usl.add(use);
-            }
-        }
-        se.setUserSettlementSet(usl);
-        em.merge(se); // individual amounts merged
+			// obtain total paid by user
+			queryAmountPaidByUser.setParameter("startDate", sb.getStartDate());
+			queryAmountPaidByUser.setParameter("endDate", sb.getEndDate());
+			queryAmountPaidByUser.setParameter("paidBy", u.getUsername());
+			Double paidByUser = (Double) queryAmountPaidByUser
+					.getSingleResult();
 
-        // now update expenses
-        Query queryAddSettlementId = null;
-        queryAddSettlementId = em.createNamedQuery("addSettlementId");
-        queryAddSettlementId.setParameter("startDate", sb.getStartDate());
-        queryAddSettlementId.setParameter("endDate", sb.getEndDate());
-        queryAddSettlementId.setParameter("settlementId", se.getId());
-        queryAddSettlementId.executeUpdate(); // expenses updated
-        ctx.getMessageContext().
-		addMessage(new MessageBuilder().info().defaultText("Settlement was created succesfuly.").build());
-        return result;
-    }
+			if (null == paidByUser) {
+				paidByUser = 0.0d;
+			}
+			// total paid by this user
+			use.setUserPaid(Float.parseFloat(Double.toString(paidByUser)));
+			//
+			// set net amount - payable or receivable
+			use.setAmount(Float.parseFloat(Double.toString(paidByUser))
+					- Float.parseFloat(Double.toString(expenseForUser)));
+			if (use.getAmount() == 0.0f) {
+				// auto settled
+				use.setSettlementFlag(UserSettlementEntity.SETTLEMENT_COMPLETED);
+				use.setSettledDate(new Date());
+			}
+			use.setUserName(u.getUsername());
+			if (thisIsAnUser || (expenseForUser > 0.0d)) {
+				usl.add(use);
+			}
+		}
+		se.setUserSettlementSet(usl);
+		em.merge(se); // individual amounts merged
 
-    @SuppressWarnings("unchecked")
-    public List<SettlementBean> getSettlements()
-    {
-        Query queryGetAllSettlements = null;
-        queryGetAllSettlements = em.createNamedQuery("getAllSettlements");
-        Collection<SettlementEntity> settlements = queryGetAllSettlements
-                .getResultList();
-        List<SettlementBean> sbl = new ArrayList<SettlementBean>();
+		// now update expenses
+		Query queryAddSettlementId = null;
+		queryAddSettlementId = em.createNamedQuery("addSettlementId");
+		queryAddSettlementId.setParameter("startDate", sb.getStartDate());
+		queryAddSettlementId.setParameter("endDate", sb.getEndDate());
+		queryAddSettlementId.setParameter("settlementId", se.getId());
+		queryAddSettlementId.executeUpdate(); // expenses updated
+		ctx.getMessageContext().addMessage(
+				new MessageBuilder().info()
+						.defaultText("Settlement was created succesfuly.")
+						.build());
+		return result;
+	}
 
-        for (SettlementEntity se : settlements) {
-            SettlementBean sb = new SettlementBean(se);
-            sbl.add(sb);
-        }
-        return sbl;
-    }
+	@SuppressWarnings("unchecked")
+	public List<SettlementBean> getSettlements() {
+		Query queryGetAllSettlements = null;
+		queryGetAllSettlements = em.createNamedQuery("getAllSettlements");
+		Collection<SettlementEntity> settlements = queryGetAllSettlements
+				.getResultList();
+		List<SettlementBean> sbl = new ArrayList<SettlementBean>();
 
-    @SuppressWarnings("unchecked")
-    @Transactional
-    public int completeSettlement(Long sid)
-    {
-        int result = 0;
-        Query queryGetUserSettlementsForSettlementId = em
-                .createNamedQuery("getUnsettledUserSettlementsForSettlementId");
-        queryGetUserSettlementsForSettlementId
-                .setParameter("settlementId", sid);
-        Collection<UserSettlementEntity> unsettledUseList = queryGetUserSettlementsForSettlementId
-                .getResultList();
-        if (unsettledUseList.size() == 0) {
-            SettlementEntity se = new SettlementEntity();
-            se = em.find(SettlementEntity.class, sid);
-            se.setSettlementCompleted(SettlementEntity.SETTLEMENT_COMPLETED);
-            Calendar cal = Calendar.getInstance();
-            se.setClosedDate(cal.getTime());
-            em.merge(se);
-        } else {
-            // You can't close a settlement if there are still records to
-            // settle!
-            result = 1;
-        }
-        //
-        return result;
-    }
+		for (SettlementEntity se : settlements) {
+			SettlementBean sb = new SettlementBean(se);
+			sbl.add(sb);
+		}
+		return sbl;
+	}
 
-    public SettlementBean getSettlementById(Long id)
-    {
-        SettlementEntity se = em.find(SettlementEntity.class, id);
-        SettlementBean sb = new SettlementBean(se);
-        return sb;
-    }
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public int completeSettlement(Long sid, RequestContext ctx) {
+		int result = 0;
+		Query queryGetUserSettlementsForSettlementId = em
+				.createNamedQuery("getUnsettledUserSettlementsForSettlementId");
+		queryGetUserSettlementsForSettlementId
+				.setParameter("settlementId", sid);
+		Collection<UserSettlementEntity> unsettledUseList = queryGetUserSettlementsForSettlementId
+				.getResultList();
+		if (unsettledUseList.size() == 0) {
+			SettlementEntity se = new SettlementEntity();
+			se = em.find(SettlementEntity.class, sid);
+			se.setSettlementCompleted(SettlementEntity.SETTLEMENT_COMPLETED);
+			Calendar cal = Calendar.getInstance();
+			se.setClosedDate(cal.getTime());
+			em.merge(se);
+			ctx.getMessageContext().addMessage(
+					new MessageBuilder().info()
+							.defaultText("Settlement was closed succesfuly.")
+							.build());
+		} else {
+			// You can't close a settlement if there are still records to
+			// settle!
+			ctx.getMessageContext()
+					.addMessage(
+							new MessageBuilder()
+									.error()
+									.defaultText(
+											"You can not close a settlement while there are still records to settle..")
+									.build());
+			result = 1;
+		}
+		//
+		return result;
+	}
 
-    @SuppressWarnings("unchecked")
-    public List<ExpenseReportDataBean> getExpensesForSettlementId(Long id)
-    {
-        Query queryGetExpensesForSettlementId = em
-                .createNamedQuery("getExpensesForSettlementId");
-        queryGetExpensesForSettlementId.setParameter("settlementId", id);
-        List<ExpenseReportDataBean> erdbList = new ArrayList<ExpenseReportDataBean>();
-        Collection<Object[]> results = queryGetExpensesForSettlementId
-                .getResultList();
-        for (Object[] oa : results) {
-            ExpenseReportDataBean erdb = new ExpenseReportDataBean();
-            // Each object is a list
-            erdb.setExpenseId(((Long) oa[0]).longValue());
-            erdb.setExpenseAmount(((Float) oa[1]).floatValue());
-            erdb.setExpenseDate(((Date) oa[2]));
-            erdb.setExpenseDescription(((String) oa[3]));
-            erdb.setPaidBy(((String) oa[4]));
-            erdb.setUserName(((String) oa[5]));
-            erdb.setUserShareAmount(((Float) oa[6]).floatValue());
-            // set in list
-            erdbList.add(erdb);
-        }
-        return erdbList;
-    }
+	public SettlementBean getSettlementById(Long id) {
+		SettlementEntity se = em.find(SettlementEntity.class, id);
+		SettlementBean sb = new SettlementBean(se);
+		return sb;
+	}
 
-    @Transactional
-    public int deleteSettlement(Long sid)
-    {
-        // 0 return code is good. 1 is bad
-        int result = 0;
-        try {
-            // delete reports
-            Query queryDeleteReportsForSid = em
-                    .createNamedQuery("deleteReportsForSid");
-            queryDeleteReportsForSid.setParameter("sid", sid);
-            queryDeleteReportsForSid.executeUpdate();
-            // reports deleted
-            SettlementEntity se = em.find(SettlementEntity.class, sid);
-            em.remove(se);
-        } catch (Exception e) {
-            result = 1;
-            logger.error(
-                    "Error occured while deleting settlement " + e.getMessage(),
-                    e);
-        }
-        return result;
-    }
+	@SuppressWarnings("unchecked")
+	public List<ExpenseReportDataBean> getExpensesForSettlementId(Long id) {
+		Query queryGetExpensesForSettlementId = em
+				.createNamedQuery("getExpensesForSettlementId");
+		queryGetExpensesForSettlementId.setParameter("settlementId", id);
+		List<ExpenseReportDataBean> erdbList = new ArrayList<ExpenseReportDataBean>();
+		Collection<Object[]> results = queryGetExpensesForSettlementId
+				.getResultList();
+		for (Object[] oa : results) {
+			ExpenseReportDataBean erdb = new ExpenseReportDataBean();
+			// Each object is a list
+			erdb.setExpenseId(((Long) oa[0]).longValue());
+			erdb.setExpenseAmount(((Float) oa[1]).floatValue());
+			erdb.setExpenseDate(((Date) oa[2]));
+			erdb.setExpenseDescription(((String) oa[3]));
+			erdb.setPaidBy(((String) oa[4]));
+			erdb.setUserName(((String) oa[5]));
+			erdb.setUserShareAmount(((Float) oa[6]).floatValue());
+			// set in list
+			erdbList.add(erdb);
+		}
+		return erdbList;
+	}
+
+	@Transactional
+	public int deleteSettlement(Long sid, RequestContext ctx) {
+		// 0 return code is good. 1 is bad
+		int result = 0;
+		try {
+			// delete reports
+			Query queryDeleteReportsForSid = em
+					.createNamedQuery("deleteReportsForSid");
+			queryDeleteReportsForSid.setParameter("sid", sid);
+			queryDeleteReportsForSid.executeUpdate();
+			// reports deleted
+			SettlementEntity se = em.find(SettlementEntity.class, sid);
+			em.remove(se);
+		} catch (Exception e) {
+			result = 1;
+			ctx.getMessageContext()
+					.addMessage(
+							new MessageBuilder()
+									.error()
+									.defaultText(
+											"Failed to delete settlement. Unsettled expenses might be preventing deletion.")
+									.build());
+			logger.error(
+					"Error occured while deleting settlement " + e.getMessage(),
+					e);
+		}
+		ctx.getMessageContext()
+		.addMessage(
+				new MessageBuilder()
+						.info()
+						.defaultText(
+								"Settlement deleted succesfuly.")
+						.build());
+		return result;
+	}
 
 }

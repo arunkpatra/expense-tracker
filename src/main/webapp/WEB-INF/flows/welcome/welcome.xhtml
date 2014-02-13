@@ -4,8 +4,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-
-
 <ui:composition template="/layouts/standard.xhtml">
 	<ui:define name="title">Welcome</ui:define>
 	<ui:define name="body">
@@ -14,28 +12,24 @@
 		</div>
 		<div class="col-sm-8">
 			<div class="panel panel-primary">
-         
-              <div class="panel-body">
-                Panel content
-              </div>
-            </div>
-            
-			<p>This application is for all those lazy bums who forget to
-				claim back what they have spent. We do like generous room mates
-				though.</p>
-			<p>Here you can:</p>
-			<ul>
-				<li>Log in expenses that you have made, on yourself or on
-					others</li>
-				<li>See logged in expenses</li>
-				<li>Generate reports and know who owes you money</li>
-			</ul>
-			<p align="right">
-				<a href="addexpense">Start using Expense Tracker</a>
-			</p>
-		</div>
-			
+				<div class="panel-body" style="text-align: justify;">
+					<p>You can use Expense Tracker to manage expenses for a group
+						of users. You can generate expense reports and settlement reports
+						that show payables and receivables.</p>
 
+					<p>Here you can:</p>
+					<ul>
+						<li>Log in expenses that you have made, on yourself or on
+							others</li>
+						<li>Manage users of the application</li>
+						<li>Generate reports and know who owes you money</li>
+					</ul>
+					<p align="right">
+						<a href="addexpense">Start using Expense Tracker</a>
+					</p>
+				</div>
+			</div>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

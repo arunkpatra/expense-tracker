@@ -31,7 +31,7 @@ public interface SettlementService {
 	
 	public List<SettlementBean> getSettlements();
 	
-	public int completeSettlement(Long sid);
+	public int completeSettlement(Long sid, RequestContext ctx);
 	
 	public SettlementBean getSettlementById(Long id);
 	
@@ -39,6 +39,6 @@ public interface SettlementService {
 	
 	//@PreAuthorize("hasAuthority('ROLE_SITE_ADMIN')")
 	@Secured(RoleEntity.ROLE_SITE_ADMIN)
-	public int deleteSettlement(Long sid);
+	public int deleteSettlement(Long sid, RequestContext ctx);
 
 }

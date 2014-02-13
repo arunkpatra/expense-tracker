@@ -9,21 +9,18 @@
 	<ui:define name="title">Add User</ui:define>
 	<body id="signup">
 		<ui:define name="body">
-
 			<div class="col-sm-2">
 				<h2>#{text['signup.heading']}</h2>
 				#{text['signup.message']}
 			</div>
 			<div class="col-sm-8">
 				<h:form id="signupForm" styleClass="well" autocomplete="off">
-
 					<div class="form-group">
 						<h:outputLabel styleClass="control-label" for="username"
 							value="#{text['user.username']}" />
 						<h:inputText styleClass="form-control" value="#{user.username}"
-							id="username" required="true" autofocus="true" maxlength="16" />
-
-						<p:message for="username" />
+							id="username" required="true" autofocus="true" maxlength="16" 
+							requiredMessage="Please enter a username."/>
 					</div>
 
 					<div class="row">
@@ -31,16 +28,16 @@
 							<h:outputLabel styleClass="control-label" for="firstName"
 								value="#{text['user.firstName']}" />
 							<h:inputText styleClass="form-control" id="firstName"
-								value="#{user.firstName}" maxlength="50" required="true" />
-							<p:message for="firstName" />
+								value="#{user.firstName}" maxlength="50" required="true" 
+								requiredMessage="Please enter first name."/>
 						</div>
 
 						<div class="col-sm-4 form-group">
 							<h:outputLabel styleClass="control-label" for="lastName"
 								value="#{text['user.lastName']}" />
 							<h:inputText styleClass="form-control" value="#{user.lastName}"
-								id="lastName" maxlength="50" required="true" />
-							<p:message for="lastName" />
+								id="lastName" maxlength="50" required="true" 
+								requiredMessage="Please enter last name."/>
 						</div>
 
 						<div class="col-sm-2 form-group">
@@ -48,10 +45,8 @@
 								value="#{text['user.middle.int']}" />
 							<h:inputText id="mInit" value="#{user.middleInit}"
 								required="false" maxlength="1" styleClass="form-control" />
-							<p:message for="mInit" />
 						</div>
 					</div>
-
 
 					<div class="row">
 						<div class="col-sm-6 form-group">
@@ -62,18 +57,17 @@
 								<f:validateRegex
 									pattern="^([a-zA-Z]+(([a-zA-Z0-9]*)|((([^@]{0,}?)[a-zA-Z0-9]+){0,}))([@]{1})[a-zA-Z0-9]+(([.]{1})([a-zA-Z0-9]+)){1,2})$" />
 							</h:inputText>
-							<p:message for="email" />
 						</div>
 
 						<div class="col-sm-6 form-group">
 							<h:outputLabel styleClass="control-label" for="phoneNumber"
 								value="#{text['user.phoneNumber']}" />
 							<h:inputText styleClass="form-control"
-								value="#{user.phoneNumber}" id="phoneNumber" validatorMessage="Invalid phone number">
+								value="#{user.phoneNumber}" id="phoneNumber" 
+								validatorMessage="Invalid phone number">
 								<f:validateRegex
 									pattern="^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$" />
 							</h:inputText>
-							<p:message for="phoneNumber" />
 						</div>
 					</div>
 					<h:outputLabel styleClass="checkbox" for="enabled"
