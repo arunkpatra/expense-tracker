@@ -2,7 +2,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
@@ -65,7 +64,6 @@
 						<h:inputText styleClass="form-control"
 							value="#{expenseDetail.category}" id="expenseCategory"
 							required="false" maxlength="32" />
-						<p:message for="expenseCategory" />
 					</div>
 				</div>
 

@@ -2,57 +2,28 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
-
+	<ui:define name="title">Delete User</ui:define>
 	<ui:define name="body">
-
-		<h:form id="userDeletionReview">
+		<div class="col-sm-2">
 			<h2>Delete User</h2>
-			<p>User deletion is a critical process. It is not advisable from
-				an audit trail standpoint. We recommend disabling the user instead.</p>
-			<br />
-			<p>Do you still want to delete this user?</p>
-			<div class="form-group form-actions">
-				<h:commandButton value="No" action="no"
-					id="no" styleClass="btn btn-primary" processIds="*" />
-				<p:commandButton value="Yes" action="yes"
-					immediate="true" id="yes" styleClass="btn btn-default"
-					process="@form" update="@form" oncomplete="deleteConfirmDialog.show()"/>
-			</div>
-
-<!-- 			<div class="buttonGroup"> -->
-<!-- 				<p:commandButton id="no" value="No" action="no" /> -->
-<!-- 				<p:commandButton id="yes" value="Yes" action="yes" -->
-<!-- 					oncomplete="deleteConfirmDialog.show()" process="@form" -->
-<!-- 					update="@form" /> -->
-<!-- 			</div> -->
-			<p:dialog widgetVar="deleteConfirmDialog" header="Delete User"
-				modal="true" width="300">
-				<p:outputPanel id="deleteContent">
-					<span class="errors"> <h:messages globalOnly="true" />
-					</span>
-
-					<h:outputText value="The user was deleted successfully."
-						rendered="#{userDeletionResults == 0}" />
-					<h:outputText value="You can not delete yourself."
-						rendered="#{userDeletionResults == 2}" />
-					<h:outputText value="The user could not be deleted."
-						rendered="#{userDeletionResults == 1}" />
-					<br />
-					<br />
-					<h:outputText
-						value="The user may have participatory expenses or settlements."
-						rendered="#{userDeletionResults == 1}" />
-
-					<div class="buttonGroup">
-						<p:commandButton id="ok" value="Ok" action="ok" />
-					</div>
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
+		</div>
+		<div class="col-sm-8">
+			<h:form id="userDeletionReview">
+				<p>User deletion is a critical process. It is not advisable from
+					an audit trail standpoint. We recommend disabling the user instead.</p>
+				<br />
+				<p>Do you still want to delete this user?</p>
+				<div class="form-group form-actions">
+					<h:commandButton value="No" action="no" id="no"
+						styleClass="btn btn-primary" processIds="*" />
+					<h:commandButton value="Yes" action="yes" id="yes"
+						styleClass="btn btn-danger"  />
+				</div>
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

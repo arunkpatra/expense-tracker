@@ -2,7 +2,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html" 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">	
 <ui:composition template="/layouts/standard.xhtml">
@@ -12,18 +11,13 @@
 <h:form id="addAuthResults">
 	<div class="section">
 		<h2>Role Addition Results</h2>		
-		<ui:fragment id="addAuthResultsRecord">
+
 			<div id="addAuthResultsScreen">	
-			<span class="errors">
-<!-- 				<h:messages globalOnly="true" />  -->
-			</span>		
 				<p>The new role was added successfully.</p>			
 			</div>
-			<div class="buttonGroup">
-				<p:commandButton id="ok" value="Ok" processIds="@form" action="ok" />
-			</div>
-		</ui:fragment>
-		
+			<div class="form-group form-actions">
+				<h:commandButton id="ok" value="Ok" processIds="@form" action="ok" />
+			</div>	
 	</div>
 </h:form>
 </ui:define>

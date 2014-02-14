@@ -2,7 +2,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
@@ -23,7 +22,7 @@
 					</h:commandButton>
 				</div>
 				<div class="panel panel-default">
-					<div class="panel-body">
+<!-- 					<div class="panel-body"> -->
 						<h:dataTable value="#{users}" var="u"
 							styleClass="table table-striped table-condensed">
 							<h:column>
@@ -47,7 +46,7 @@
 
 							<h:column>
 								<f:facet name="header">Actions</f:facet>
-								<div class="form-group form-actions" >
+								<div class=" form-actions" >
 									<h:commandButton id="modifyUser" value="Edit"
 										action="modifyuser" styleClass="btn btn-primary btn-xs">
 										<f:param name="usernameTobeModified" value="#{u.username}" />
@@ -64,11 +63,10 @@
 										<f:param name="userIdToBeDeleted" value="#{u.id}"
 											update=":users" />
 									</h:commandButton>
-
 								</div>
 							</h:column>
 						</h:dataTable>
-					</div>
+<!-- 					</div> -->
 				</div>
 			</h:form>
 		</div>

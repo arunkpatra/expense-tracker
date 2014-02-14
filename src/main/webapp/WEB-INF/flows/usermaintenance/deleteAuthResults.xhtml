@@ -2,7 +2,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html" 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">	
 <ui:composition template="/layouts/standard.xhtml">
@@ -14,13 +13,10 @@
 		<h2>Authorization deletion result</h2>		
 		<ui:fragment id="deleteAuthResultsRecord">
 			<div id="deleteAuthResultsScreen">	
-<!-- 			<span class="errors"> -->
-<!-- 				<h:messages globalOnly="true" />  -->
-<!-- 			</span>		 -->
 				<p>The role was deleted successfully.</p>			
 			</div>
 			<div class="buttonGroup">
-				<p:commandButton id="ok" value="Ok" process="@form" action="ok" />
+				<h:commandButton id="ok" value="Ok" process="@form" action="ok" />
 			</div>
 		</ui:fragment>
 		

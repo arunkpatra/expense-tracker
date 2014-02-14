@@ -29,13 +29,15 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 	@Autowired
 	private UserService userService;
 
-	@Autowired EmailService emailService;
-	
+	@Autowired
+	EmailService emailService;
+
 	@Autowired
 	ApplicationContext ctx;
-	
+
 	static JdbcDaoImpl userDetailService;
 	private RequestContext rCtx;
+
 	@Before
 	public void setup() {
 
@@ -52,9 +54,9 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		rCtx = new MockRequestContext();
 		MockExternalContext ec = new MockExternalContext();
-        ec.setCurrentUser("Admin");
-        ((MockRequestContext) rCtx).setExternalContext(ec);
-        
+		ec.setCurrentUser("Admin");
+		((MockRequestContext) rCtx).setExternalContext(ec);
+
 		// add a user
 		UserBean ub1 = new UserBean();
 		ub1.setEmailId("a@b.com");
@@ -65,15 +67,15 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		ub1.setPassword("password");
 		ub1.setUsername("ustest1");
 		// add auth
-		//ub1.addAuth("ROLE_SITE_ADMIN");
+		// ub1.addAuth("ROLE_SITE_ADMIN");
 		// add again
-		//ub1.addAuth("ROLE_SITE_ADMIN");
-		UserBean userBean1 = userService.addUser(ub1,rCtx);
+		// ub1.addAuth("ROLE_SITE_ADMIN");
+		UserBean userBean1 = userService.addUser(ub1, rCtx);
 		Assert.assertNotNull("Failed to create ustest1. Why", userBean1);
 		// send mail
 		emailService.sendWelcomeEmail(userBean1);
 		// try to add again
-		UserBean userBean2 = userService.addUser(ub1,rCtx);
+		UserBean userBean2 = userService.addUser(ub1, rCtx);
 		Assert.assertNull("Should not have created duplicate user", userBean2);
 		// Get users
 		List<UserEntity> ueList = userService.getUsers();
@@ -99,7 +101,7 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 				"".equalsIgnoreCase(result));
 		// send email
 		emailService.sendPasswordResetEmail(myUser);
-		// Fail this time	
+		// Fail this time
 		pcb.setOldPassword("catanddog");
 		pcb.setNewPassword("tiger");
 		pcb.setNewPasswordAgain("tigeragain");
@@ -110,13 +112,11 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		pcb.setOldPassword("tiger");
 		pcb.setNewPassword("lion");
 		pcb.setNewPasswordAgain("lion");
-		Assert.assertTrue("Password change failed",
-				"Old password is invalid.".equalsIgnoreCase(userService
-						.changePassword(pcb, myUser)));
-		
+		Assert.assertTrue("Password change failed", "Old password is invalid."
+				.equalsIgnoreCase(userService.changePassword(pcb, myUser)));
+
 		// reset password of the user
-		
-        
+
 		userService.resetPassword("ustest1", rCtx);
 		// Is password change needed
 		Assert.assertTrue(
@@ -126,11 +126,13 @@ public class JpaUserServiceTests extends AbstractExpenseTrackerBaseTest {
 		myUser.setEmailId("d@g.com");
 		userService.updateUser(myUser, rCtx);
 		// Get user name select items
-		Assert.assertNotNull("Expected user select items", userService.getUserNamesSelectItems());
+		Assert.assertNotNull("Expected user select items",
+				userService.getUserNamesSelectItems());
 		// Update authorization
-		Assert.assertNotNull("Update auth failed", userService.updateAutorization(myUser, rCtx));
+		Assert.assertNotNull("Update auth failed",
+				userService.updateAutorization(myUser, rCtx));
 		// delete user
-		int result2 = userService.deleteUser(myUser.getId(), "Admin");
+		int result2 = userService.deleteUser(myUser.getId(), "Admin", rCtx);
 		Assert.assertTrue("Failed to delete user", result2 == 0);
 		// clear user data
 		userBean1.clearUserData();

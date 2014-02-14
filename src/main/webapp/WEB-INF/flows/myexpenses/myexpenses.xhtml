@@ -2,7 +2,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html" 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">	
 <ui:composition template="/layouts/standard.xhtml">
@@ -20,9 +19,9 @@
 						<f:facet name="header">
 							<h:outputText value="Description"/>
 						</f:facet>						
-						<p:commandLink id="viewExpenseDetail" action="viewdetail" value="#{e.description}" processIds="*">
+						<h:commandLink id="viewExpenseDetail" action="viewdetail" value="#{e.description}" processIds="*">
 								<f:param name="expenseId" value="#{e.id}" />
-						</p:commandLink>						
+						</h:commandLink>						
 					</h:column>
 					<h:column>
 						<f:facet name="header">
@@ -65,20 +64,20 @@
 						<f:facet name="header">
 							<h:outputText value="Edit"></h:outputText>
 						</f:facet>
-						<p:commandButton id="editExpense" value="Edit" processIds="*" action="editExpense"
+						<h:commandButton id="editExpense" value="Edit" processIds="*" action="editExpense"
 						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
 							<f:param name="toBeEditedExpenseId" value="#{e.id}" />
-						</p:commandButton>
+						</h:commandButton>
 					</h:column>				
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Delete"></h:outputText>						
 						</f:facet>
 						
-						<p:commandButton id="deleteExpense" value="Delete" processIds="*" action="deleteExpense"
+						<h:commandButton id="deleteExpense" value="Delete" processIds="*" action="deleteExpense"
 						rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
 							<f:param name="expenseId" value="#{e.id}" />
-						</p:commandButton>
+						</h:commandButton>
 						
 					</h:column> 					
 				</h:dataTable>

@@ -2,7 +2,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
@@ -16,8 +15,8 @@
 			<h:form id="expenses">
 				<h:outputText id="noExpensesText" value="No Expenses Found"
 					rendered="#{expenses.rowCount == 0}" />
-				<div class="panel panel-default">
-					<div class="panel-body">
+				<c:if test="#{expenses.rowCount > 0}">
+					<div class="panel panel-default">
 						<h:dataTable id="expenses" value="#{expenses}" var="e"
 							rendered="#{expenses.rowCount > 0}"
 							styleClass="table table-striped  table-condensed">
@@ -67,15 +66,15 @@
 								<f:facet name="header">
 									<h:outputText value="Actions" />
 								</f:facet>
-								<div class="form-group form-actions">
-									<h:commandButton id="editExpense" value="Edit"
+								<div class=" form-actions">
+									<h:commandButton id="editExpense" value="Edit" 
 										action="editExpense" styleClass="btn btn-primary btn-xs"
 										processIds="*"
 										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
 										<f:param name="toBeEditedExpenseId" value="#{e.id}" />
 									</h:commandButton>
 
-									<h:commandButton id="deleteExpense" value="Delete"
+									<h:commandButton id="deleteExpense" value="Delete" 
 										processIds="*" action="deleteExpense"
 										styleClass="btn btn-danger btn-xs"
 										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
@@ -86,7 +85,7 @@
 							</h:column>
 						</h:dataTable>
 					</div>
-				</div>
+				</c:if>
 			</h:form>
 		</div>
 	</ui:define>

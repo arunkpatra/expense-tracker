@@ -4,8 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-
-
 	<!-- Secure the flow. -->
 	<secured attributes="ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any" />
 	<!-- Attach a persistence context to this flow -->
@@ -64,12 +62,10 @@
 
 	<view-state id="userDeletionReviewScreen">
 		<transition on="no" to="adminOperations"/>
-		<transition on="yes">
+		<transition on="yes" to="adminOperations">
 			<evaluate
-				expression="userService.deleteUser(userIdToBeDeleted, currentUser.name)"
+				expression="userService.deleteUser(userIdToBeDeleted, currentUser.name, flowRequestContext)"
 				result="viewScope.userDeletionResults" />
-		</transition>
-		<transition on="ok" to="adminOperations">
 		</transition>
 	</view-state>
 
@@ -80,7 +76,6 @@
 				result="flowScope.selectedUserToBeModified" />
 			<evaluate expression="selectedUserToBeModified.getAuthSet()"
 				result="conversationScope.userAuths" result-type="dataModel" />
-<!-- 			<render fragments="modifyUser"></render> -->
 		</on-render>
 		<transition on="addAuth" to="addAuthScreen">
 		</transition>

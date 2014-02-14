@@ -4,7 +4,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core">	
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" template="/layouts/standard.xhtml">
-
 	<ui:param name="bodyId" value="login"/>
 	<ui:define name="body">
 		<form id="loginForm" action="${request.contextPath}/et/loginProcess"
@@ -14,7 +13,8 @@
 				<c:if test="${not empty param.login_error}">
 				<div class="alert alert-warning alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert">&#215;</button>
-                    #{text['errors.password.mismatch']}
+					Your login attempt was not successful. 
+					Reason: #{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
                 </div>
 <!-- 				<div class="errors"> -->
 <!-- 			Your login attempt was not successful, try again.<br /> -->
@@ -40,7 +40,7 @@
 	</ui:define>
 	
 	 <ui:define name="scripts">
-   //     <ui:include src="/scripts/login.js"/>
+        <ui:include src="/scripts/login.js"/>
     </ui:define>
     
 </ui:composition>
