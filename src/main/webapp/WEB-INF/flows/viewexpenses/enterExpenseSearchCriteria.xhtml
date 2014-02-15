@@ -20,23 +20,29 @@
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" value="Start Date"
 							for="startDate" />
-						<div class="input-append date">
+						<div class="input-group date">
 							<h:inputText id="startDate" 
 								styleClass="form-control" value="#{expenseSearchCriteria.startDate}"
 								required="true" requiredMessage="Please select start date.">
 								<f:convertDateTime dateStyle="short" pattern="MM/dd/yyyy"  timeZone="EST" />
 							</h:inputText>
+							<span class="input-group-addon"
+								onclick="$('#startDate').datepicker('show')"><i
+								class="glyphicon glyphicon-th"></i></span>
 						</div>
 					</div>
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" value="End Date"
 							for="endDate" />
-						<div class="input-append date">
+						<div class="input-group date">
 							<h:inputText id="endDate" 
 								styleClass="form-control" value="#{expenseSearchCriteria.endDate}"
 								required="true" requiredMessage="Please select end date.">
 								<f:convertDateTime  pattern="MM/dd/yyyy" timeZone="EST" />
 							</h:inputText>
+							<span class="input-group-addon"
+								onclick="$('#endDate').datepicker('show')"><i
+								class="glyphicon glyphicon-th"></i></span>
 						</div>
 					</div>
 				</div>

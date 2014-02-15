@@ -52,7 +52,8 @@
 		<!-- <jquery.version>1.8.3</jquery.version> -->
 		<junit.version>4.11</junit.version>
 		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
-		<mojarra-version>2.1.7</mojarra-version>
+		<!-- <mojarra-version>2.1.7</mojarra-version> -->
+		<mojarra-version>2.2.4</mojarra-version>
 		<omnifaces.version>1.6.3</omnifaces.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<primefaces-version>4.0</primefaces-version>
@@ -100,6 +101,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.omnifaces</groupId>
 			<artifactId>omnifaces</artifactId>
@@ -246,11 +253,11 @@
 			<artifactId>jsf-impl</artifactId>
 			<version>${mojarra-version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.primefaces</groupId> -->
-<!-- 			<artifactId>primefaces</artifactId> -->
-<!-- 			<version>${primefaces-version}</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.primefaces</groupId> -->
+		<!-- <artifactId>primefaces</artifactId> -->
+		<!-- <version>${primefaces-version}</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>bootstrap</artifactId>

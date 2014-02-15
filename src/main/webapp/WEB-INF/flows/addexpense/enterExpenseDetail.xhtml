@@ -28,12 +28,15 @@
 				<div class="row">
 					<div class="col-sm-6 form-group">
 						<h:outputLabel styleClass="control-label" value="Expense Date" />
-						<div class="input-append date">
+						<div class="input-group date">
 							<h:inputText id="expenseDate" data-date="#{expenseDetail.date}"
 								styleClass="form-control" value="#{expenseDetail.date}"
 								required="true" requiredMessage="Please select a date.">
-								<f:convertDateTime  pattern="MM/dd/yyyy" timeZone="EST" />
+								<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
 							</h:inputText>
+							<span class="input-group-addon"
+								onclick="$('#expenseDate').datepicker('show')"><i
+								class="glyphicon glyphicon-th"></i></span>
 						</div>
 					</div>
 					<div class="col-sm-6 form-group">
@@ -41,7 +44,8 @@
 							value="Expense Amount" />
 						<h:inputText styleClass="form-control"
 							value="#{expenseDetail.amount}" id="expenseAmount"
-							required="true" maxlength="7" requiredMessage="Please enter amount.">
+							required="true" maxlength="7"
+							requiredMessage="Please enter amount.">
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
 								minIntegerDigits="1"></f:convertNumber>
 						</h:inputText>
@@ -81,45 +85,46 @@
 							<h:commandButton value="Override Shares" action="overrideShares"
 								styleClass="btn btn-default btn-xs" />
 						</div>
-<!-- 						<h:panelGroup styleClass="form-group" layout="block"> -->
-							<h:dataTable id="userShares" value="#{expenseDetail.userShares}"
-								var="us" styleClass="table table-striped table-bordered table-condensed">
+						<!-- 						<h:panelGroup styleClass="form-group" layout="block"> -->
+						<h:dataTable id="userShares" value="#{expenseDetail.userShares}"
+							var="us"
+							styleClass="table table-striped table-bordered table-condensed">
 
-								<h:column >
-									<f:facet name="header">
-										<h:outputText value="-" />
-									</f:facet>
-									<h:selectBooleanCheckbox id="participationFlag"
-										value="#{us.participationFlag}" />
-								</h:column>
-								
-								
-								<h:column headerText="Name">
-									<f:facet name="header">
-										<h:outputText value="Name" />
-									</f:facet>
-								
-									<h:outputText value="#{us.name}" />
-								</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="-" />
+								</f:facet>
+								<h:selectBooleanCheckbox id="participationFlag"
+									value="#{us.participationFlag}" />
+							</h:column>
 
-								<h:column>
-									<f:facet name="header">
-										<h:outputText value="Share Amount" />
-									</f:facet>
-									
-									<h:outputText value="#{us.shareAmount}"
-										rendered="#{expenseDetail.overrideSharesFlag == false}">
-										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-									</h:outputText>
 
-									<h:inputText value="#{us.shareAmount}"
-										styleClass="form-control input-sm"
-										rendered="#{expenseDetail.overrideSharesFlag == true}">
-										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-									</h:inputText>
-								</h:column>
-							</h:dataTable>
-<!-- 						</h:panelGroup> -->
+							<h:column headerText="Name">
+								<f:facet name="header">
+									<h:outputText value="Name" />
+								</f:facet>
+
+								<h:outputText value="#{us.name}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Share Amount" />
+								</f:facet>
+
+								<h:outputText value="#{us.shareAmount}"
+									rendered="#{expenseDetail.overrideSharesFlag == false}">
+									<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+								</h:outputText>
+
+								<h:inputText value="#{us.shareAmount}"
+									styleClass="form-control input-sm"
+									rendered="#{expenseDetail.overrideSharesFlag == true}">
+									<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+								</h:inputText>
+							</h:column>
+						</h:dataTable>
+						<!-- 						</h:panelGroup> -->
 					</div>
 				</fieldset>
 

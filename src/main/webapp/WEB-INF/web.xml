@@ -106,16 +106,17 @@
 	<!-- Just here so the JSF implementation can initialize -->
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.faces</url-pattern>
+		<url-pattern>/javax.faces.resource/*</url-pattern>
+		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	<mime-mapping>
-        <extension>woff</extension>
-        <mime-type>application/x-font-woff</mime-type>
-    </mime-mapping>
+<!-- 	<mime-mapping> -->
+<!--         <extension>woff</extension> -->
+<!--         <mime-type>application/x-font-woff</mime-type> -->
+<!--     </mime-mapping> -->
     <mime-mapping>
         <extension>map</extension>
         <mime-type>application/javascript</mime-type>
