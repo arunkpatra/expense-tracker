@@ -22,8 +22,8 @@
 						</li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
-
-						<li><a href="${request.contextPath}/et/welcome">Home</a></li>
+						
+						<li><a href="${request.contextPath}/et/welcome"><i class="fa fa-home fa-fw"></i> Home</a></li>
 
 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
 							<li><a href="${request.contextPath}/et/usermaintenance">Administration</a></li>
