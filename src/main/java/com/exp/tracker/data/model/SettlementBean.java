@@ -46,9 +46,20 @@ public class SettlementBean implements Serializable
     private List<UserSettlementBean> userSettlementList;
 
     public SettlementBean() {
-
+//    	setEndDate(null);
+//    	setStartDate(null);
     }
-
+    
+    public void clear() {
+    	this.setSettlementFlag(0);
+    	this.setId(null);
+    	this.setStartDate(null);
+    	this.setEndDate(null);
+    	this.setCreatedDate(null);
+    	this.setClosedDate(null);
+    	this.setVolume(0.0f);
+    	this.setAccountManager(null);
+    }
     public SettlementBean(SettlementEntity se) {
         setId(se.getId());
         setEndDate(se.getEndDate());

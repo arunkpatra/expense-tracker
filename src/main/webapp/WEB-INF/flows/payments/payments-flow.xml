@@ -22,9 +22,9 @@
 			<evaluate expression="paymentService.getAllPayments()"
 				result="conversationScope.allPayments" result-type="dataModel" />
 		</on-entry>
-		<transition on="settleTransaction" >			
+		<transition on="settleTransaction" to="currentPayments">			
 			<set name="flowScope.selectedUserSettlementId" value="(requestParameters.userSettlementId)" />
-			<evaluate expression="paymentService.applyUserPayment(selectedUserSettlementId)" />
+			<evaluate expression="paymentService.applyUserPayment(selectedUserSettlementId, flowRequestContext)" />
 		</transition>
 		<transition on="ok" to="currentPayments">
 		</transition>

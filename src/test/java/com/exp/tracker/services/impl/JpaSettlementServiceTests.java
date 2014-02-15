@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.webflow.execution.RequestContext;
+import org.springframework.webflow.test.MockExternalContext;
+import org.springframework.webflow.test.MockRequestContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.PaymentBean;
@@ -40,10 +43,19 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 	private SettlementService settlementService;
 	@Autowired
 	PaymentService paymentService;
-
+	private RequestContext rCtx;
 	@Before
 	public void setup() {
-
+		userDetailService = ctx.getBean(JdbcDaoImpl.class);
+		UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
+		Authentication authToken = new UsernamePasswordAuthenticationToken(
+				userDetails.getUsername(), userDetails.getPassword(),
+				userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
 		// Add 1st user
 		UserBean ub1 = new UserBean();
 		ub1.setEmailId("a@b.com");
@@ -53,7 +65,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		ub1.setMiddleInit("1");
 		ub1.setPassword("password");
 		ub1.setUsername("testuser3");
-		UserBean userBean1 = userService.addUser(ub1);
+		UserBean userBean1 = userService.addUser(ub1,rCtx);
 		Assert.assertNotNull("Failed to create user3. Why Why", userBean1);
 		//
 		// Add 1st user
@@ -65,7 +77,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		ub2.setMiddleInit("2");
 		ub2.setPassword("password");
 		ub2.setUsername("testuser4");
-		UserBean userBean2 = userService.addUser(ub2);
+		UserBean userBean2 = userService.addUser(ub2,rCtx);
 		Assert.assertNotNull("Failed to create user4", userBean2);
 		//
 		ExpenseDetail ed = new ExpenseDetail();
@@ -89,13 +101,8 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 
 	@Test
 	public void settlementServiceTests() {
-		userDetailService = ctx.getBean(JdbcDaoImpl.class);
-		UserDetails userDetails = userDetailService.loadUserByUsername("Admin");
-		Authentication authToken = new UsernamePasswordAuthenticationToken(
-				userDetails.getUsername(), userDetails.getPassword(),
-				userDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		
+
+        
 		// Create Settlement
 		Date today = new Date();
 		Calendar cal1 = Calendar.getInstance();
@@ -111,7 +118,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		sb.setStartDate(yesterday);
 		sb.setEndDate(tomorrow);
 		// Persist object
-		Long result = settlementService.createSettlement(sb);
+		Long result = settlementService.createSettlement(sb,rCtx);
 		Assert.assertTrue("Failed to create settlement", result != 0L);
 		// get it back
 		SettlementBean slb = settlementService.getSettlementById(result);
@@ -120,7 +127,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		List<SettlementBean> sList = settlementService.getSettlements();
 		Assert.assertTrue("Expected exactly 1 settlement.", sList.size() == 1);
 		// Try to close settlement, it should fail
-		int completionResult = settlementService.completeSettlement(result);
+		int completionResult = settlementService.completeSettlement(result, rCtx);
 		Assert.assertTrue("Expected settlement closure to fail.",
 				completionResult == 1);
 		// Try to delete it, it should fail
@@ -128,7 +135,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		// Assert.assertTrue("Expected deletion to fail.", deletionResult == 1);
 		// try applying payments
 		for (UserSettlementBean usb : slb.getUserSettlementList()) {
-			paymentService.applyUserPayment(usb.getId());
+			paymentService.applyUserPayment(usb.getId(), rCtx);
 		}
 		// Get some payments
 		List<PaymentBean> pbList = paymentService.getAllPayments();
@@ -138,11 +145,11 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		Assert.assertNotNull("Payments list for user testuser3 is null", pbList2);
 		
 		// Now try to close again
-		int completionResult2 = settlementService.completeSettlement(result);
+		int completionResult2 = settlementService.completeSettlement(result, rCtx);
 		Assert.assertTrue("Settlement closure should have succeded.",
 				completionResult2 == 0);
 		// now delete settlement
-		int deletionResult = settlementService.deleteSettlement(result);
+		int deletionResult = settlementService.deleteSettlement(result, rCtx);
 		Assert.assertTrue("Expected deletion to succeed.", deletionResult == 0);
 	}
 }

@@ -30,6 +30,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "users")
@@ -78,11 +80,16 @@ public class UserEntity extends EncryptionHelper implements Serializable
     private String middleInit;
 
     @Column(name = "createddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Column(name = "lastupdateddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdatedDate;
 
+    @Column(name = "phonenumber")
+    private String phoneNumber;
+    
     private String creditCardNumber;
 
     @OneToMany(targetEntity = AuthEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
@@ -198,7 +205,15 @@ public class UserEntity extends EncryptionHelper implements Serializable
         this.lastUpdatedDate = lastUpdatedDate;
     }
 
-    public int getPasswordChangeNeeded()
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public int getPasswordChangeNeeded()
     {
         return passwordChangeNeeded;
     }

@@ -18,7 +18,9 @@ package com.exp.tracker.data.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -61,6 +63,11 @@ public class UserBean implements Serializable
      * EMail ID of the user.
      */
     private String emailId;
+    
+    /**
+     * The phone number
+     */
+    private String phoneNumber;
     /**
      * First name of the user.
      */
@@ -172,6 +179,7 @@ public class UserBean implements Serializable
         } else {
             this.setPasswordChangeNeeded(false);
         }
+        this.setPhoneNumber(ue.getPhoneNumber());
         List<AuthBean> abl = new ArrayList<AuthBean>();
         for (AuthEntity ae : ue.getAuthSet()) {
             AuthBean ab = new AuthBean(ae);
@@ -201,6 +209,7 @@ public class UserBean implements Serializable
         if (this.isPasswordChangeNeeded()) {
             ue.setPasswordChangeNeeded(1);
         }
+        ue.setPhoneNumber(this.getPhoneNumber());
         List<AuthEntity> ael = new ArrayList<AuthEntity>();
         for (AuthBean ab : getAuthSet()) {
             AuthEntity ae = ab.getAuthEntity();
@@ -224,7 +233,7 @@ public class UserBean implements Serializable
     {
         //
     }
-/*
+
     public void addAuth(String auth)
     {
         Map<String, AuthBean> aMap = new HashMap<String, AuthBean>();
@@ -238,7 +247,6 @@ public class UserBean implements Serializable
             this.authSet.add(ab);
         }
     }
-*/
     public Long getId()
     {
         return id;
@@ -266,7 +274,15 @@ public class UserBean implements Serializable
         this.emailId = emailId;
     }
 
-    public String getFirstName()
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getFirstName()
     {
         return firstName;
     }

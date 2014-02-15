@@ -19,6 +19,7 @@ package com.exp.tracker.services.api;
 import java.util.List;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.RoleEntity;
 import com.exp.tracker.data.model.ExpenseReportDataBean;
@@ -26,11 +27,11 @@ import com.exp.tracker.data.model.SettlementBean;
 
 public interface SettlementService {
 	
-	public Long createSettlement(SettlementBean sb);
+	public Long createSettlement(SettlementBean sb, RequestContext ctx);
 	
 	public List<SettlementBean> getSettlements();
 	
-	public int completeSettlement(Long sid);
+	public int completeSettlement(Long sid, RequestContext ctx);
 	
 	public SettlementBean getSettlementById(Long id);
 	
@@ -38,6 +39,6 @@ public interface SettlementService {
 	
 	//@PreAuthorize("hasAuthority('ROLE_SITE_ADMIN')")
 	@Secured(RoleEntity.ROLE_SITE_ADMIN)
-	public int deleteSettlement(Long sid);
+	public int deleteSettlement(Long sid, RequestContext ctx);
 
 }

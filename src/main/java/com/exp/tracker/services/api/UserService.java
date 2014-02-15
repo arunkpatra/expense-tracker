@@ -23,6 +23,7 @@ import javax.faces.model.SelectItem;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.webflow.context.ExternalContext;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.RoleEntity;
 import com.exp.tracker.data.entities.UserEntity;
@@ -42,25 +43,25 @@ public interface UserService {
 	
 	public UserBean getUser(String userName);
 	
-	public UserBean addUser(UserBean ub);
+	public UserBean addUser(UserBean ub, RequestContext ctx);
 	
-	public UserBean updateAutorization(UserBean ub);
+	public UserBean updateAutorization(UserBean ub, RequestContext ctx);
 	
 	@Secured(RoleEntity.ROLE_SITE_ADMIN)
-	public int deleteUser(Long id, String currentUserName);
+	public int deleteUser(Long id, String currentUserName, RequestContext ctx);
 	
 	public List<String> getUserNames();
 	
 	public List<SelectItem> getUserNamesSelectItems();
 	
-	public void removeAuthById(Long id);
+	public void removeAuthById(Long id, RequestContext ctx);
 	
-	public void updateUser(UserBean ub);
+	public void updateUser(UserBean ub, RequestContext ctx);
 	
 	public String changePassword(PasswordChangeBean pB, UserBean Ub);
 	
 	public boolean isPasswordChangeNeeded(String userName);
 	
-	public UserBean resetPassword(String userName);
+	public UserBean resetPassword(String userName, RequestContext ctx);
 
 }

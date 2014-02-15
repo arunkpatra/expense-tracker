@@ -29,6 +29,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "et_user_settlement")
@@ -61,6 +63,7 @@ public class UserSettlementEntity implements Serializable
     private String userName;
 
     @Column(name = "setteleddate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date settledDate;
 
     @Column(name = "usershare")

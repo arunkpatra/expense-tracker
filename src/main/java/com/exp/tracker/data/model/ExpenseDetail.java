@@ -17,7 +17,6 @@ package com.exp.tracker.data.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +38,8 @@ public class ExpenseDetail implements Serializable
     private static final long serialVersionUID = 1L;
 
     public ExpenseDetail() {
-        Calendar calendar = Calendar.getInstance();
-        setDate(calendar.getTime());
+        //Calendar calendar = Calendar.getInstance();
+       // setDate(calendar.getTime());
         setUserShares(new ArrayList<UserShare>());
     }
 

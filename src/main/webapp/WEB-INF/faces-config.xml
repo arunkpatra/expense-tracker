@@ -1,11 +1,39 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <faces-config xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-        version="2.0">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+
+	<!-- <application> -->
+	<!-- <message-bundle>JsfMessageResources</message-bundle> -->
+	<!-- </application> -->
 
 	<application>
-		<message-bundle>JsfMessageResources</message-bundle>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>de</supported-locale>
+			<supported-locale>el</supported-locale>
+			<supported-locale>en</supported-locale>
+			<supported-locale>es</supported-locale>
+			<supported-locale>fr</supported-locale>
+			<supported-locale>it</supported-locale>
+			<supported-locale>ko</supported-locale>
+			<supported-locale>nl</supported-locale>
+			<supported-locale>no</supported-locale>
+			<supported-locale>pt</supported-locale>
+			<supported-locale>pt_BR</supported-locale>
+			<supported-locale>tr</supported-locale>
+			<supported-locale>zh</supported-locale>
+			<supported-locale>zh_CN</supported-locale>
+			<supported-locale>zh_TW</supported-locale>
+		</locale-config>
+		<message-bundle>ApplicationResources</message-bundle>
+		<resource-bundle>
+			<base-name>ApplicationResources</base-name>
+			<var>text</var>
+		</resource-bundle>
+		<resource-handler>org.omnifaces.resourcehandler.UnmappedResourceHandler</resource-handler>
+
 	</application>
-	    
 </faces-config>

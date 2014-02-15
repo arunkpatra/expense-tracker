@@ -25,9 +25,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.binding.message.MessageBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.UserSettlementEntity;
 import com.exp.tracker.data.model.PaymentBean;
@@ -85,13 +87,16 @@ public class JpaPaymentService implements PaymentService {
 		return paymentList;
 	}
 	@Transactional
-	public void applyUserPayment(Long usId) {
+	public void applyUserPayment(Long usId, RequestContext ctx) {
 		UserSettlementEntity use = new UserSettlementEntity();
 		use = em.find(UserSettlementEntity.class, usId);
 		use.setSettlementFlag(UserSettlementEntity.SETTLEMENT_COMPLETED);
 		Date today = new Date();
 		use.setSettledDate(today);
 		em.merge(use);	
+		ctx.getMessageContext().addMessage(
+				new MessageBuilder().info()
+						.defaultText("Transaction processed successfuly.").build());
 	}
 
 }

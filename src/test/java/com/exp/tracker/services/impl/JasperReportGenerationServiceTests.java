@@ -16,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.webflow.execution.RequestContext;
+import org.springframework.webflow.test.MockExternalContext;
+import org.springframework.webflow.test.MockRequestContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.SettlementBean;
@@ -52,6 +55,7 @@ public class JasperReportGenerationServiceTests extends
 	
 	private ServletContext context;
 
+	private RequestContext rCtx;
 	@Before
 	public void setup() {
 		// Sanity check
@@ -67,7 +71,11 @@ public class JasperReportGenerationServiceTests extends
 				userDetails.getUsername(), userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-
+		rCtx = new MockRequestContext();
+		MockExternalContext ec = new MockExternalContext();
+        ec.setCurrentUser("Admin");
+        ((MockRequestContext) rCtx).setExternalContext(ec);
+        
 		// Create two users
 		// Add 1st user
 		UserBean ub1 = new UserBean();
@@ -78,7 +86,7 @@ public class JasperReportGenerationServiceTests extends
 		ub1.setMiddleInit("1");
 		ub1.setPassword("password");
 		ub1.setUsername("reptusr1");
-		UserBean userBean1 = userService.addUser(ub1);
+		UserBean userBean1 = userService.addUser(ub1, rCtx);
 		Assert.assertNotNull("Failed to create user1.", userBean1);
 		//
 		// Add 2nd user
@@ -90,7 +98,7 @@ public class JasperReportGenerationServiceTests extends
 		ub2.setMiddleInit("2");
 		ub2.setPassword("password");
 		ub2.setUsername("reptusr2");
-		UserBean userBean2 = userService.addUser(ub2);
+		UserBean userBean2 = userService.addUser(ub2, rCtx);
 		Assert.assertNotNull("Failed to create user2", userBean2);
 
 		// Setup an expense
@@ -133,7 +141,7 @@ public class JasperReportGenerationServiceTests extends
 		sb.setStartDate(yesterday);
 		sb.setEndDate(tomorrow);
 		// Persist object
-		Long sid = settlementService.createSettlement(sb);
+		Long sid = settlementService.createSettlement(sb, rCtx);
 		Assert.assertTrue("Failed to create settlement", sid != 0L);
 
 		// Get report paths
