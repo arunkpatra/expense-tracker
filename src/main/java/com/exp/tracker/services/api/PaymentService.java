@@ -18,6 +18,8 @@ package com.exp.tracker.services.api;
 
 import java.util.List;
 
+import org.springframework.webflow.execution.RequestContext;
+
 import com.exp.tracker.data.model.PaymentBean;
 
 public interface PaymentService {
@@ -26,5 +28,5 @@ public interface PaymentService {
 	
 	public List<PaymentBean> getAllPayments();
 	
-	public void applyUserPayment(Long usId);
+	public void applyUserPayment(Long usId, RequestContext ctx);
 }

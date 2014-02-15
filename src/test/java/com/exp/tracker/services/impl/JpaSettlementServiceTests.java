@@ -135,7 +135,7 @@ public class JpaSettlementServiceTests extends AbstractExpenseTrackerBaseTest {
 		// Assert.assertTrue("Expected deletion to fail.", deletionResult == 1);
 		// try applying payments
 		for (UserSettlementBean usb : slb.getUserSettlementList()) {
-			paymentService.applyUserPayment(usb.getId());
+			paymentService.applyUserPayment(usb.getId(), rCtx);
 		}
 		// Get some payments
 		List<PaymentBean> pbList = paymentService.getAllPayments();
