@@ -56,9 +56,9 @@
 										update="@form" styleClass="btn btn-default btn-xs">
 										<f:param name="passwordResetUserName" value="#{u.username}" />
 									</h:commandButton>
-
+									
 									<h:commandButton id="deleteUser" value="Delete"
-										action="deleteuser" styleClass="btn btn-danger btn-xs">
+										action="deleteuser" styleClass="btn btn-danger btn-xs" >									
 										<f:param name="userIdToBeDeleted" value="#{u.id}"
 											update=":users" />
 									</h:commandButton>
