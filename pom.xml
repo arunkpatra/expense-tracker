@@ -56,7 +56,7 @@
 		<mojarra-version>2.2.4</mojarra-version>
 		<omnifaces.version>1.6.3</omnifaces.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<primefaces-version>4.0</primefaces-version>
+<!-- 		<primefaces-version>4.0</primefaces-version> -->
 		<springframework-version>4.0.0.RELEASE</springframework-version>
 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
 		<slf4j-version>1.5.10</slf4j-version>
@@ -73,12 +73,12 @@
 			<name>SpringSource Repository</name>
 			<url>http://repo.springsource.org/milestone</url>
 		</repository>
-		<repository>
-			<id>primefaces-repository</id>
-			<name>Prime Technology Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
+<!-- 		<repository> -->
+<!-- 			<id>primefaces-repository</id> -->
+<!-- 			<name>Prime Technology Maven Repository</name> -->
+<!-- 			<url>http://repository.primefaces.org</url> -->
+<!-- 			<layout>default</layout> -->
+<!-- 		</repository> -->
 		<repository>
 			<id>repository.springsource.snapshot</id>
 			<name>SpringSource Snapshot Repository</name>
@@ -92,11 +92,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.webjars</groupId>
-				<artifactId>bootstrap</artifactId>
-				<version>${bootstrap.version}</version>
-			</dependency>
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.webjars</groupId> -->
+<!-- 				<artifactId>bootstrap</artifactId> -->
+<!-- 				<version>${bootstrap.version}</version> -->
+<!-- 			</dependency> -->
 		</dependencies>
 	</dependencyManagement>
 
@@ -258,16 +258,16 @@
 		<!-- <artifactId>primefaces</artifactId> -->
 		<!-- <version>${primefaces-version}</version> -->
 		<!-- </dependency> -->
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>1.0.10</version>
-		</dependency>
+	<!-- <dependency> -->
+	<!-- <groupId>org.primefaces.themes</groupId> -->
+	<!-- <artifactId>bootstrap</artifactId> -->
+	<!-- <version>1.0.10</version> -->
+	<!-- </dependency> -->
 		<!-- Add Bootstrap via WebJars -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.webjars</groupId> -->
+<!-- 			<artifactId>bootstrap</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap-datepicker</artifactId>
@@ -278,11 +278,11 @@
 			<artifactId>jquery</artifactId>
 			<version>${jquery.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootswatch-spacelab</artifactId>
-			<version>3.1.0</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.webjars</groupId> -->
+<!-- 			<artifactId>bootswatch-spacelab</artifactId> -->
+<!-- 			<version>3.1.0</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootswatch-flatly</artifactId>
