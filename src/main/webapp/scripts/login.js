@@ -1,7 +1,7 @@
-<html xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
-<ui:composition>
-<script type="text/javascript">
+//<html xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+//      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+//<ui:composition>
+//<script type="text/javascript">
  //<![CDATA[
     if ($.cookie("username") != null && $.cookie("username") != "") {
         $("#j_username").val($.cookie("username"));
@@ -36,6 +36,6 @@
         this.ab = new Array("j_password", passwordRequired, new Function ("varName", " return this[varName];"));
     }
 //]]>
-</script>
-</ui:composition>
-</html>
+//</script>
+//</ui:composition>
+//</html>
