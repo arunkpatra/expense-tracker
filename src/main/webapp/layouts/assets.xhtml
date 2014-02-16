@@ -5,33 +5,32 @@
 <ui:composition>
 
 	<c:set var="base" value="#{request.contextPath}" />
-
-<!-- 		<h:outputStylesheet library="webjars/bootstrap/3.1.0/css" -->
-<!-- 			name="bootstrap.min.css" /> -->
-
-<!-- 	<h:outputStylesheet ></h:outputStylesheet> -->
+	<!-- 
 	<h:outputStylesheet library="webjars/bootswatch-flatly/3.1.0/css"
-		name="bootstrap.min.css" />	
+		name="bootstrap.min.css" />		
 	<h:outputStylesheet library="webjars/bootstrap-datepicker/1.3.0/css"
 		name="datepicker.css" />
-
 	<h:outputStylesheet library="webjars/font-awesome/4.0.3/css"
-		name="font-awesome.min.css" />
-		
+		name="font-awesome.min.css" />	
+ -->
+	<h:outputStylesheet
+		name="webjars/bootswatch-flatly/3.1.0/css/bootstrap.min.css" />
+	<h:outputStylesheet
+		name="webjars/bootstrap-datepicker/1.3.0/css/datepicker.css" />
+	<h:outputStylesheet
+		name="webjars/font-awesome/4.0.3/css/font-awesome.min.css" />
+
+
 	<link rel="stylesheet" type="text/css" href="${base}/styles/style.css" />
 
 	<h:outputScript library="webjars/jquery/2.1.0" name="jquery.min.js" />
-	
+
 	<h:outputScript library="webjars/bootstrap-datepicker/1.3.0/js"
 		name="bootstrap-datepicker.js" />
 
-	
-<!-- 	<h:outputScript library="webjars/bootstrap/3.1.0/js" -->
-<!-- 		name="bootstrap.min.js" /> -->
-
 	<h:outputScript library="webjars/bootswatch-flatly/3.1.0/js"
 		name="bootstrap.min.js" />
-		
+
 	<h:outputScript library="webjars/jquery-cookie/1.4.0"
 		name="jquery.cookie.js" />
 </ui:composition>
