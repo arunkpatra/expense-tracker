@@ -18,7 +18,8 @@
 			<div class="collapse navbar-collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
 					<c:if test="${empty currentUser.name}">
-						<li class="active"><a href="${request.contextPath}/et/login">#{text['login.title']}</a>
+						<li class="active"><a href="${request.contextPath}/et/login">
+						<i class="fa fa-sign-in fa-fw"/>#{text['login.title']}</a>
 						</li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
@@ -27,17 +28,17 @@
 								class="fa fa-home fa-fw"></i> Home</a></li>
 
 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
-							<li><a href="${request.contextPath}/et/usermaintenance">Administration</a></li>
+							<li><a href="${request.contextPath}/et/usermaintenance"><i class="fa fa-cog fa-fw"/>Admin</a></li>
 						</sec:authorize>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#" id="themes">Expenses <span
 								class="caret"></span></a>
 							<ul class="dropdown-menu" aria-labelledby="themes">
-								<li><a href="${request.contextPath}/et/myexpenses">My
-										Expenses</a></li>
-								<li><a href="${request.contextPath}/et/addexpense">Create
+								<li><a href="${request.contextPath}/et/myexpenses"><i class="fa fa-bars fa-fw"/>
+								My Expenses</a></li>
+								<li><a href="${request.contextPath}/et/addexpense"><i class="fa fa-plus-square fa-fw"/>Create
 										Expense</a></li>
-								<li><a href="${request.contextPath}/et/viewexpenses">View
+								<li><a href="${request.contextPath}/et/viewexpenses"><i class="fa fa-search fa-fw"/>View
 										Expenses</a></li>
 							</ul></li>
 
@@ -45,7 +46,7 @@
 							<li><a href="${request.contextPath}/et/settlement">Settlements</a>
 							</li>
 						</sec:authorize>
-						<li><a href="${request.contextPath}/et/payments">Payments</a></li>
+						<li><a href="${request.contextPath}/et/payments"><i class="fa fa-money fa-fw"/>Payments</a></li>
 					</c:if>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -60,7 +61,8 @@
 							</ul></li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
-						<li><a href="${request.contextPath}/et/logout">Logout</a></li>
+						<li><a href="${request.contextPath}/et/logout"><i class="fa fa-sign-out fa-fw"/>
+						Logout</a></li>
 					</c:if>
 				</ul>
 			</div>

@@ -67,19 +67,26 @@
 									<h:outputText value="Actions" />
 								</f:facet>
 								<div class=" form-actions">
-									<h:commandButton id="editExpense" value="Edit" 
+									<h:commandButton id="editExpense" value="Edit"
 										action="editExpense" styleClass="btn btn-primary btn-xs"
 										processIds="*"
 										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
 										<f:param name="toBeEditedExpenseId" value="#{e.id}" />
 									</h:commandButton>
 
-									<h:commandButton id="deleteExpense" value="Delete" 
-										processIds="*" action="deleteExpense"
-										styleClass="btn btn-danger btn-xs"
+									<h:commandLink id="deleteExpense" processIds="*"
+										action="deleteExpense" styleClass="btn btn-danger btn-xs"
 										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
 										<f:param name="expenseId" value="#{e.id}" />
-									</h:commandButton>
+										<i class="fa fa-trash-o fa-lg"></i> 
+										Delete
+									</h:commandLink>
+									<!-- 									<h:commandButton id="deleteExpense" value="Delete"  -->
+									<!-- 										processIds="*" action="deleteExpense" -->
+									<!-- 										styleClass="btn btn-danger btn-xs" -->
+									<!-- 										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}"> -->
+									<!-- 										<f:param name="expenseId" value="#{e.id}" /> -->
+									<!-- 									</h:commandButton> -->
 
 								</div>
 							</h:column>

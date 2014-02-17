@@ -14,57 +14,83 @@
 		</div>
 
 		<div class="col-sm-8">
-			<h:form id="mainForm">
+			<h:form id="mainForm" prependId="false">
 				<div id="actions" class="btn-group">
 					<!-- <script> shows up here and causes square corners on the Add button below -->
-					<h:commandButton action="adduser" value="#{text['button.add']}"
+					<h:commandButton action="adduser" value="Add User"
 						id="adduser" styleClass="btn btn-primary">
 					</h:commandButton>
 				</div>
 				<div class="panel panel-default">
-						<h:dataTable value="#{users}" var="u"
-							styleClass="table table-striped table-condensed">
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="-" />
-								</f:facet>
+					<h:dataTable value="#{users}" var="u"
+						styleClass="table table-striped table-condensed">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="-" />
+							</f:facet>
 
-								<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
-									disabled="true" />
+							<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
+								disabled="true" />
 
-							</h:column>
+						</h:column>
 
-							<h:column >
-								<f:facet name="header">UserId</f:facet>
-								<h:commandLink id="viewUserDetail" action="viewuserdetail"
-									value="#{u.username}" update="@form"
-									oncomplete="confirmDialog.show()">
-									<f:param name="username" value="#{u.username}" />
-								</h:commandLink>
-							</h:column>
+						<h:column>
+							<f:facet name="header">UserId</f:facet>
+							<h:commandLink id="viewUserDetail" action="viewuserdetail"
+								value="#{u.username}" update="@form">
+								<f:param name="username" value="#{u.username}" />
+							</h:commandLink>
+						</h:column>
 
-							<h:column>
-								<f:facet name="header">Actions</f:facet>
-								<div class=" form-actions" >
-									<h:commandButton id="modifyUser" value="Edit"
-										action="modifyuser" styleClass="btn btn-primary btn-xs">
-										<f:param name="usernameTobeModified" value="#{u.username}" />
-									</h:commandButton>
+						<h:column>
+							<f:facet name="header">Actions</f:facet>
+							<div class="btn-group">
 
-									<h:commandButton id="reset" value="Reset Password"
-										immediate="true" action="resetpassword" process="@form"
-										update="@form" styleClass="btn btn-default btn-xs">
-										<f:param name="passwordResetUserName" value="#{u.username}" />
-									</h:commandButton>
-									
-									<h:commandButton id="deleteUser" value="Delete"
-										action="deleteuser" styleClass="btn btn-danger btn-xs" >									
-										<f:param name="userIdToBeDeleted" value="#{u.id}"
-											update=":users" />
-									</h:commandButton>
-								</div>
-							</h:column>
-						</h:dataTable>
+								<a class="btn btn-primary btn-xs" href="#"><i
+									class="fa fa-user fa-fw"></i> Manage</a> <a
+									class="btn btn-primary btn-xs dropdown-toggle"
+									data-toggle="dropdown" href="#" style="height: 23px"> <span
+									class="fa fa-caret-down "></span></a>
+
+								<ul class="dropdown-menu">
+									<li><h:commandLink id="modifyUser" action="modifyuser">
+											<f:param name="usernameTobeModified" value="#{u.username}" />
+											<i class="fa fa-pencil fa-fw"></i>
+										Edit
+									</h:commandLink></li>
+									<li><h:commandLink id="deleteUser" action="deleteuser">
+											<f:param name="userIdToBeDeleted" value="#{u.id}" />
+											<i class="fa fa-trash-o fa-fw"></i>
+										Delete
+									</h:commandLink></li>
+<!-- 									<li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li> -->
+									<li class="divider"></li>
+									<li><h:commandLink id="resetpassword"
+											action="resetpassword" value="Reset Password">
+											<f:param name="passwordResetUserName" value="#{u.username}" />
+										</h:commandLink></li>
+								</ul>
+							</div>
+							<!-- 								<div class=" form-actions" > -->
+							<!-- 									<h:commandButton id="modifyUser" value="Edit" -->
+							<!-- 										action="modifyuser" styleClass="btn btn-primary btn-xs"> -->
+							<!-- 										<f:param name="usernameTobeModified" value="#{u.username}" /> -->
+							<!-- 									</h:commandButton> -->
+
+							<!-- 									<h:commandButton id="reset" value="Reset Password" -->
+							<!-- 										immediate="true" action="resetpassword" process="@form" -->
+							<!-- 										update="@form" styleClass="btn btn-default btn-xs"> -->
+							<!-- 										<f:param name="passwordResetUserName" value="#{u.username}" /> -->
+							<!-- 									</h:commandButton> -->
+
+							<!-- 									<h:commandButton id="deleteUser" value="Delete" -->
+							<!-- 										action="deleteuser" styleClass="btn btn-danger btn-xs" >									 -->
+							<!-- 										<f:param name="userIdToBeDeleted" value="#{u.id}" -->
+							<!-- 											update=":users" /> -->
+							<!-- 									</h:commandButton> -->
+							<!-- 								</div> -->
+						</h:column>
+					</h:dataTable>
 				</div>
 			</h:form>
 		</div>
