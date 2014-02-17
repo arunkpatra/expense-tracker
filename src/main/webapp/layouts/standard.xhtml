@@ -19,31 +19,27 @@
 
 	<body id="#{bodyId}">
 		<div id="wrap">
-		<!-- The main navigation bar goes here. -->
-		<ui:include src="/layouts/nav-bar.xhtml" />
-		<!-- The main page contents go here -->
-		<div class="container" id="content">
-			<!-- This renders application messages -->
-			<ui:include src="/layouts/messages.xhtml" />
-			<div class="row">
-				<ui:insert name="body" />
+			<!-- The main navigation bar goes here. -->
+			<ui:include src="/layouts/nav-bar.xhtml" />
+			<!-- The main page contents go here -->
+			<div class="container" id="content">
+				<!-- This renders application messages -->
+				<ui:include src="/layouts/messages.xhtml" />
+				<div class="row">
+					<ui:insert name="body" />
+				</div>
 			</div>
+			<div id="push"/>
 		</div>
-		<div id="push"></div>
-		</div>
-		<!-- 		<div id="footer" class="container navbar-fixed-bottom"> -->
-		<div id="footer" >
+		<div id="footer">
 			<div class="container">
-			<span class="col-sm-6 text-left">#{text['webapp.version']} 
-			</span> <span class="col-sm-6 text-right"> <c:set var="companyLink">#{text['company.url']}</c:set>
-				&#169; #{text['copyright.year']} 
-<!-- 				<a href="${companyLink}">#{text['company.name']}</a> -->
-			</span>
+				<span class="col-sm-6 text-left">#{text['webapp.version']} </span> <span
+					class="col-sm-6 text-right"> 
+					<c:set var="companyLink">#{text['company.url']}</c:set>
+					&#169; #{text['copyright.year']} 
+				</span>
 			</div>
 		</div>
-
-		<!-- 		<ui:insert name="scripts"/> -->
-		<!-- Content ends -->
 	</body>
 </f:view>
 </html>

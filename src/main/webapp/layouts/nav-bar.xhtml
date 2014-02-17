@@ -39,8 +39,7 @@
 										Expense</a></li>
 								<li><a href="${request.contextPath}/et/viewexpenses">View
 										Expenses</a></li>
-							</ul>
-						</li>
+							</ul></li>
 
 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
 							<li><a href="${request.contextPath}/et/settlement">Settlements</a>
@@ -49,17 +48,16 @@
 						<li><a href="${request.contextPath}/et/payments">Payments</a></li>
 					</c:if>
 				</ul>
-<!-- 				<a class="btn btn-primary" href="#"><i class="fa fa-user fa-fw"></i> User</a> -->
 				<ul class="nav navbar-nav navbar-right">
-					<c:if test="${not empty etUser.lastName}">					
+					<c:if test="${not empty etUser.lastName}">
 						<li class="dropdown"><a class="dropdown-toggle"
-								data-toggle="dropdown" href="#" id="user"><i class="fa fa-user fa-fw"></i>${etUser.firstName} ${etUser.lastName} <span
-									class="caret"></span></a>
-								<ul class="dropdown-menu" aria-labelledby="user">
-									<li><a href="${request.contextPath}/et/changepassword">Change Password</a></li>
-				
-								</ul>
-						</li>
+							data-toggle="dropdown" href="#" id="user"><i
+								class="fa fa-user fa-fw"></i>${etUser.firstName}
+								${etUser.lastName} <span class="caret"></span></a>
+							<ul class="dropdown-menu" aria-labelledby="user">
+								<li><a href="${request.contextPath}/et/changepassword">Change
+										Password</a></li>
+							</ul></li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
 						<li><a href="${request.contextPath}/et/logout">Logout</a></li>
