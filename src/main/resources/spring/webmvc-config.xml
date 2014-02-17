@@ -37,7 +37,7 @@
 	<bean class="org.springframework.faces.webflow.JsfFlowHandlerAdapter">
 		<property name="flowExecutor" ref="flowExecutor" />
 	</bean>
-
+<!-- 
 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
@@ -46,5 +46,5 @@
 			</props>
 		</property>
 	</bean>
-
+ -->
 </beans>

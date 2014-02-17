@@ -17,8 +17,8 @@
 			<h:form id="mainForm" prependId="false">
 				<div id="actions" class="btn-group">
 					<!-- <script> shows up here and causes square corners on the Add button below -->
-					<h:commandButton action="adduser" value="Add User"
-						id="adduser" styleClass="btn btn-primary">
+					<h:commandButton action="adduser" value="Add User" id="adduser"
+						styleClass="btn btn-primary">
 					</h:commandButton>
 				</div>
 				<div class="panel panel-default">
@@ -46,13 +46,19 @@
 							<f:facet name="header">Actions</f:facet>
 							<div class="btn-group">
 
-								<a class="btn btn-primary btn-xs" href="#"><i
-									class="fa fa-user fa-fw"></i> Manage</a> <a
-									class="btn btn-primary btn-xs dropdown-toggle"
-									data-toggle="dropdown" href="#" style="height: 23px"> <span
-									class="fa fa-caret-down "></span></a>
+								<button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+									data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>
+									Manage <span class="caret"></span>
+								</button>
+								
+								
+<!-- 								<a class="btn btn-primary btn-xs" href="#"><i -->
+<!-- 									class="fa fa-user fa-fw"></i> Manage</a> <a -->
+<!-- 									class="btn btn-primary btn-xs dropdown-toggle" -->
+<!-- 									data-toggle="dropdown" href="#" style="height: 23px"> <span -->
+<!-- 									class="fa fa-caret-down "></span></a> -->
 
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu" role="menu">
 									<li><h:commandLink id="modifyUser" action="modifyuser">
 											<f:param name="usernameTobeModified" value="#{u.username}" />
 											<i class="fa fa-pencil fa-fw"></i>
@@ -63,7 +69,7 @@
 											<i class="fa fa-trash-o fa-fw"></i>
 										Delete
 									</h:commandLink></li>
-<!-- 									<li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li> -->
+									<!-- 									<li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li> -->
 									<li class="divider"></li>
 									<li><h:commandLink id="resetpassword"
 											action="resetpassword" value="Reset Password">
