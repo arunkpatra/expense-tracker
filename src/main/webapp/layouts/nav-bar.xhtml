@@ -5,13 +5,15 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 <ui:composition>
 	<!-- This is the main navigation bar -->
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-default navbar-fixed-top" role="banner" id="top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#navbar-main">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="#{request.contextPath}">#{text['webapp.name']}</a>
 			</div>
@@ -19,8 +21,8 @@
 				<ul class="nav navbar-nav">
 					<c:if test="${empty currentUser.name}">
 						<li class="active"><a href="${request.contextPath}/et/login">
-						<i class="fa fa-sign-in fa-fw"/>#{text['login.title']}</a>
-						</li>
+								<i class="fa fa-sign-in fa-fw" />#{text['login.title']}
+						</a></li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
 
@@ -28,41 +30,58 @@
 								class="fa fa-home fa-fw"></i> Home</a></li>
 
 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
-							<li><a href="${request.contextPath}/et/usermaintenance"><i class="fa fa-cog fa-fw"/>Admin</a></li>
+<!-- 							<li><a href="${request.contextPath}/et/usermaintenance"><i -->
+<!-- 									class="fa fa-cog fa-fw" />Admin</a></li> -->
+									
+							<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#" id="adm"><i
+									class="fa fa-cog fa-fw" />Admin<span
+								class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="adm">
+									<li><a href="${request.contextPath}/et/usermaintenance">
+									<i class="fa fa-users fa-fw" /> Manage Users</a>
+									</li>
+									<li><a href="${request.contextPath}/et/settlement">
+									<i class="fa fa-th-list fa-fw" />Settlements</a>
+									</li>
+								</ul>
+							</li>		
+							
 						</sec:authorize>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#" id="themes">Expenses <span
 								class="caret"></span></a>
 							<ul class="dropdown-menu" aria-labelledby="themes">
-								<li><a href="${request.contextPath}/et/myexpenses"><i class="fa fa-bars fa-fw"/>
-								My Expenses</a></li>
-								<li><a href="${request.contextPath}/et/addexpense"><i class="fa fa-plus-square fa-fw"/>Create
-										Expense</a></li>
-								<li><a href="${request.contextPath}/et/viewexpenses"><i class="fa fa-search fa-fw"/>View
-										Expenses</a></li>
+								<li><a href="${request.contextPath}/et/myexpenses"><i
+										class="fa fa-bars fa-fw" /> My Expenses</a></li>
+								<li><a href="${request.contextPath}/et/addexpense"><i
+										class="fa fa-plus-square fa-fw" />Create Expense</a></li>
+								<li><a href="${request.contextPath}/et/viewexpenses"><i
+										class="fa fa-search fa-fw" />View Expenses</a></li>
 							</ul></li>
 
-						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
-							<li><a href="${request.contextPath}/et/settlement">Settlements</a>
-							</li>
-						</sec:authorize>
-						<li><a href="${request.contextPath}/et/payments"><i class="fa fa-money fa-fw"/>Payments</a></li>
+<!-- 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
+<!-- 							<li><a href="${request.contextPath}/et/settlement">Settlements</a> -->
+<!-- 							</li> -->
+<!-- 						</sec:authorize> -->
+						<li><a href="${request.contextPath}/et/payments"><i
+								class="fa fa-money fa-fw" />Payments</a></li>
 					</c:if>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<c:if test="${not empty etUser.lastName}">
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#" id="user"><i
-								class="fa fa-user fa-fw"></i>${etUser.firstName}
-								${etUser.lastName} <span class="caret"></span></a>
+								class="fa fa-user fa-fw"></i>${etUser.firstName}<span
+								class="caret"></span></a>
 							<ul class="dropdown-menu" aria-labelledby="user">
 								<li><a href="${request.contextPath}/et/changepassword">Change
 										Password</a></li>
 							</ul></li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
-						<li><a href="${request.contextPath}/et/logout"><i class="fa fa-sign-out fa-fw"/>
-						Logout</a></li>
+						<li><a href="${request.contextPath}/et/logout"><i
+								class="fa fa-sign-out fa-fw" /> Logout</a></li>
 					</c:if>
 				</ul>
 			</div>
