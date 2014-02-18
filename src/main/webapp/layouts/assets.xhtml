@@ -5,16 +5,15 @@
 <ui:composition>
 
 	<c:set var="base" value="#{request.contextPath}" />
-	<!-- 
-	<h:outputStylesheet library="webjars/bootswatch-flatly/3.1.0/css"
-		name="bootstrap.min.css" />		
-	<h:outputStylesheet library="webjars/bootstrap-datepicker/1.3.0/css"
-		name="datepicker.css" />
-	<h:outputStylesheet library="webjars/font-awesome/4.0.3/css"
-		name="font-awesome.min.css" />	
- -->
-	<h:outputStylesheet
-		name="webjars/bootswatch-flatly/3.1.0/css/bootstrap.min.css" />
+	<!-- This is a customized version of bootswatch-flatly. The navbar break to collapsed
+	state would happen at 1000px -->
+	<link rel="stylesheet" type="text/css" href="${base}/styles/bootstrap-flatly-custom-et.min.css" />
+
+
+<!-- 	<h:outputStylesheet -->
+<!-- 		name="webjars/bootstrap/3.1.1/css/bootstrap.min.css" /> -->
+<!-- 	<h:outputStylesheet -->
+<!-- 		name="webjars/bootswatch-flatly/3.1.1/css/bootstrap.min.css" /> -->
 	<h:outputStylesheet
 		name="webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
 	<h:outputStylesheet
@@ -28,9 +27,11 @@
 	<h:outputScript library="webjars/bootstrap-datepicker/1.3.0/js"
 		name="bootstrap-datepicker.js" />
 
-	<h:outputScript library="webjars/bootswatch-flatly/3.1.0/js"
+<!-- 	<h:outputScript library="webjars/bootstrap/3.1.1/js" -->
+<!-- 		name="bootstrap.min.js" /> -->
+	<h:outputScript library="webjars/bootswatch-flatly/3.1.1/js"
 		name="bootstrap.min.js" />
-
+		
 	<h:outputScript library="webjars/jquery-cookie/1.4.0"
 		name="jquery.cookie.js" />
 </ui:composition>
