@@ -14,7 +14,7 @@ Consider a group of room-mates who live together and share common expenses. Such
 	cd expense-tracker
 	mvn tomcat7:run
 ```
-This would run Expense Tracker against an embedded Derby database which will be created on the fly. This is for demonstration purposes only. For production use, configure your own database. Please refer the wiki pages to know more.
+The application will be available at http://localhost:8080/expense-tracker. By default Expense Tracker runs against an embedded Derby database which will be created on the fly. This is for demonstration purposes only. For production use, configure your own database. Please refer the wiki pages to know more.
 
 ## Working with Expense Tracker in Eclipse/STS
 
