@@ -15,7 +15,8 @@
 					<span class="icon-bar"></span> 
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#{request.contextPath}">#{text['webapp.name']}</a>
+				<a class="navbar-brand" href="#{request.contextPath}/et/welcome"><i
+								class="fa fa-home fa-fw"></i>#{text['webapp.name']}</a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
@@ -26,8 +27,8 @@
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
 
-						<li><a href="${request.contextPath}/et/welcome"><i
-								class="fa fa-home fa-fw"></i> Home</a></li>
+<!-- 						<li><a href="${request.contextPath}/et/welcome"><i -->
+<!-- 								class="fa fa-home fa-fw"></i> Home</a></li> -->
 
 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
 <!-- 							<li><a href="${request.contextPath}/et/usermaintenance"><i -->

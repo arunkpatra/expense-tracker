@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="/layouts/standard.xhtml">
 	<ui:define name="title">#{text['userList.title']}</ui:define>
@@ -36,27 +37,30 @@
 
 						<h:column>
 							<f:facet name="header">UserId</f:facet>
+							<p:commandLink
+								oncomplete="$('#course-detail-modal').modal('show');"
+								update=":course-detail-form" value="#{u.username}"
+								action="viewuserdetail">
+								<f:param name="username" value="#{u.username}" />
+							</p:commandLink>
+
+							<!--  
 							<h:commandLink id="viewUserDetail" action="viewuserdetail"
-								value="#{u.username}" update="@form">
+								value="#{u.username}" update="@form" >
 								<f:param name="username" value="#{u.username}" />
 							</h:commandLink>
+							-->
 						</h:column>
 
 						<h:column>
 							<f:facet name="header">Actions</f:facet>
 							<div class="btn-group">
 
-								<button type="button" class="btn btn-primary btn-xs dropdown-toggle"
-									data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>
-									Manage <span class="caret"></span>
+								<button type="button"
+									class="btn btn-primary btn-xs dropdown-toggle"
+									data-toggle="dropdown">
+									<i class="fa fa-user fa-fw"></i> Manage <span class="caret"></span>
 								</button>
-								
-								
-<!-- 								<a class="btn btn-primary btn-xs" href="#"><i -->
-<!-- 									class="fa fa-user fa-fw"></i> Manage</a> <a -->
-<!-- 									class="btn btn-primary btn-xs dropdown-toggle" -->
-<!-- 									data-toggle="dropdown" href="#" style="height: 23px"> <span -->
-<!-- 									class="fa fa-caret-down "></span></a> -->
 
 								<ul class="dropdown-menu" role="menu">
 									<li><h:commandLink id="modifyUser" action="modifyuser">
@@ -77,29 +81,89 @@
 										</h:commandLink></li>
 								</ul>
 							</div>
-							<!-- 								<div class=" form-actions" > -->
-							<!-- 									<h:commandButton id="modifyUser" value="Edit" -->
-							<!-- 										action="modifyuser" styleClass="btn btn-primary btn-xs"> -->
-							<!-- 										<f:param name="usernameTobeModified" value="#{u.username}" /> -->
-							<!-- 									</h:commandButton> -->
-
-							<!-- 									<h:commandButton id="reset" value="Reset Password" -->
-							<!-- 										immediate="true" action="resetpassword" process="@form" -->
-							<!-- 										update="@form" styleClass="btn btn-default btn-xs"> -->
-							<!-- 										<f:param name="passwordResetUserName" value="#{u.username}" /> -->
-							<!-- 									</h:commandButton> -->
-
-							<!-- 									<h:commandButton id="deleteUser" value="Delete" -->
-							<!-- 										action="deleteuser" styleClass="btn btn-danger btn-xs" >									 -->
-							<!-- 										<f:param name="userIdToBeDeleted" value="#{u.id}" -->
-							<!-- 											update=":users" /> -->
-							<!-- 									</h:commandButton> -->
-							<!-- 								</div> -->
 						</h:column>
 					</h:dataTable>
 				</div>
 			</h:form>
 		</div>
+		
+		<h:form id="course-detail-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="course-detail-modal" tabindex="-1"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h:outputLabel value="User Details" />
+						</div>
+						<div class="modal-body">
+							<div class="panel panel-default">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">User Name:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.username}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">#{text['user.firstName']}:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.firstName}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">#{text['user.lastName']}:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.lastName}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">#{text['user.middle.int']}:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.middleInit}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">#{text['user.email']}:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.emailId}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">#{text['user.phoneNumber']}:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.phoneNumber}</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">#{text['user.enabled']}:</label>
+									<div class="col-sm-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.enabled}</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<h:outputText id="noRolesText"
+									value="No roles found for this user"
+									rendered="#{userAuths.rowCount == 0}" />
+								<h:dataTable id="auths" value="#{userAuths}" var="a"
+									rendered="#{userAuths.rowCount > 0}"
+									styleClass="table table-striped table-condensed">
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Authorization(s)" />
+										</f:facet>
+										<h:outputText value="#{a.authority}" />
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>
