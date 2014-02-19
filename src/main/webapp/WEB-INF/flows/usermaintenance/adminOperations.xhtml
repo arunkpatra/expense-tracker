@@ -37,9 +37,10 @@
 
 						<h:column>
 							<f:facet name="header">UserId</f:facet>
+							<!-- Switched to a primefaces call to support modal -->
 							<p:commandLink
-								oncomplete="$('#course-detail-modal').modal('show');"
-								update=":course-detail-form" value="#{u.username}"
+								oncomplete="$('#user-detail-modal').modal('show');"
+								update=":user-detail-form" value="#{u.username}"
 								action="viewuserdetail">
 								<f:param name="username" value="#{u.username}" />
 							</p:commandLink>
@@ -68,11 +69,19 @@
 											<i class="fa fa-pencil fa-fw"></i>
 										Edit
 									</h:commandLink></li>
-									<li><h:commandLink id="deleteUser" action="deleteuser">
+									<li><p:commandLink id="deleteUser"
+											oncomplete="$('#user-deletion-modal').modal('show');"
+											update=":user-deletion-confirmation-form" action="deleteuser">
 											<f:param name="userIdToBeDeleted" value="#{u.id}" />
 											<i class="fa fa-trash-o fa-fw"></i>
-										Delete
-									</h:commandLink></li>
+											Delete
+										</p:commandLink> <!--
+										<h:commandLink id="deleteUser" action="deleteuser">
+												<f:param name="userIdToBeDeleted" value="#{u.id}" />
+												<i class="fa fa-trash-o fa-fw"></i>
+											Delete
+										</h:commandLink>	
+									--></li>
 									<!-- 									<li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li> -->
 									<li class="divider"></li>
 									<li><h:commandLink id="resetpassword"
@@ -86,59 +95,80 @@
 				</div>
 			</h:form>
 		</div>
-		
-		<h:form id="course-detail-form" prependId="false"
+		<h:form id="user-deletion-confirmation-form" prependId="false"
 			class="form-horizontal" role="form">
-			<div class="modal fade" id="course-detail-modal" tabindex="-1"
-				aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
+			<div class="modal fade" id="user-deletion-modal" tabindex="-1"
+				aria-labelledby="myModalLabel1" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"
 								aria-hidden="true">&#215;</button>
-							<h:outputLabel value="User Details" />
+							<h4 class="modal-title">Confirmation</h4>
+						</div>
+						<div class="modal-body">
+							<p align="justify">User deletion is a critical process. It is not advisable
+								from an audit trail standpoint. We recommend disabling the user
+								instead.</p>
+							<br />
+							<p>Do you still want to delete this user?</p>
+						</div>
+						<div class="modal-footer">
+							<div class="form-group form-actions">
+								<h:commandButton value="Cancel" action="userdeletioncancelled"
+									id="userdeletioncancelled" styleClass="btn btn-primary btn-sm"
+									processIds="*" />
+								<h:commandButton value="Delete" action="userdeletionconfirmed"
+									id="userdeletionconfirmed" styleClass="btn btn-danger btn-sm" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<h:form id="user-detail-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="user-detail-modal" tabindex="-1"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h4 class="modal-title">User Details</h4>
+							<!-- 							<h:outputLabel value="User Details" /> -->
 						</div>
 						<div class="modal-body">
 							<div class="panel panel-default">
 								<div class="form-group">
-									<label class="col-sm-4 control-label">User Name:</label>
-									<div class="col-sm-8">
+									<label class="col-xs-4 control-label">User Name:</label>
+									<div class="col-xs-8">
 										<p class="form-control-static">#{selectedUserToBeViewed.username}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label">#{text['user.firstName']}:</label>
-									<div class="col-sm-8">
-										<p class="form-control-static">#{selectedUserToBeViewed.firstName}</p>
+									<label class="col-xs-4 control-label">Name:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.firstName}
+											#{selectedUserToBeViewed.middleInit}
+											#{selectedUserToBeViewed.lastName}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label">#{text['user.lastName']}:</label>
-									<div class="col-sm-8">
-										<p class="form-control-static">#{selectedUserToBeViewed.lastName}</p>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-4 control-label">#{text['user.middle.int']}:</label>
-									<div class="col-sm-8">
-										<p class="form-control-static">#{selectedUserToBeViewed.middleInit}</p>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-4 control-label">#{text['user.email']}:</label>
-									<div class="col-sm-8">
+									<label class="col-xs-4 control-label">#{text['user.email']}:</label>
+									<div class="col-xs-8">
 										<p class="form-control-static">#{selectedUserToBeViewed.emailId}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label">#{text['user.phoneNumber']}:</label>
-									<div class="col-sm-8">
+									<label class="col-xs-4 control-label">#{text['user.phoneNumber']}:</label>
+									<div class="col-xs-8">
 										<p class="form-control-static">#{selectedUserToBeViewed.phoneNumber}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label">#{text['user.enabled']}:</label>
-									<div class="col-sm-8">
+									<label class="col-xs-4 control-label">#{text['user.enabled']}:</label>
+									<div class="col-xs-8">
 										<p class="form-control-static">#{selectedUserToBeViewed.enabled}</p>
 									</div>
 								</div>

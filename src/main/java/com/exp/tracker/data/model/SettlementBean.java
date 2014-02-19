@@ -133,7 +133,10 @@ public class SettlementBean implements Serializable
     {
         String userEventName = context.getUserEvent();
         if (!((userEventName.equalsIgnoreCase("completeSettlement"))
-                || (userEventName.equalsIgnoreCase("delete")) || (userEventName
+                || (userEventName.equalsIgnoreCase("delete")) 
+                || (userEventName.equalsIgnoreCase("settlementdeletionconfirmed"))
+                || (userEventName.equalsIgnoreCase("settlementdeletioncancelled"))
+                || (userEventName
                     .equalsIgnoreCase("closeSettlementOk")))) {
             if (getStartDate().after(getEndDate())) {
                 MessageContext messages = context.getMessageContext();

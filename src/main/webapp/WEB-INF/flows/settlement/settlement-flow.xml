@@ -23,9 +23,16 @@
 				result="conversationScope.existingSettelements" result-type="dataModel" />
 		</on-render>
 		<transition on="next" to="settlementConfirmationScreen" />
-		<transition on="delete" to="settlementDeletionConfirmation">
+		<transition on="delete" >
 			<set name="flowScope.toBeDeletedSettlementId" value="(requestParameters.settlementId)" />
 		</transition>
+		<transition on="settlementdeletionconfirmed" to="settlementGenerationEntry">
+			<evaluate
+				expression="settlementService.deleteSettlement(toBeDeletedSettlementId, flowRequestContext)"
+				result="flowScope.settlementDeletionResult" />
+		</transition>
+		<transition on="settlementdeletioncancelled" to="settlementGenerationEntry" bind="false" />
+		
 		<transition on="completeSettlement" >
 			<set name="flowScope.selectedSettlementId" value="(requestParameters.settlementId)" />
 			<evaluate

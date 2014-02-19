@@ -2,7 +2,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:sec="http://www.springframework.org/security/tags" 
+	xmlns:p="http://primefaces.org/ui" 
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/layouts/standard.xhtml">
@@ -138,10 +139,21 @@
 											update="@form" styleClass="btn btn-primary btn-xs">
 											<f:param name="settlementId" value="#{s.id}" />
 										</h:commandButton>
+										
+										<p:commandLink id="delete" styleClass="btn btn-danger btn-xs"
+											oncomplete="$('#settlement-deletion-modal').modal('show');"
+											update=":settlement-deletion-confirmation-form" action="delete">
+											<f:param name="settlementId" value="#{s.id}" />
+											<i class="fa fa-trash-o fa-fw"></i>
+											Delete
+										</p:commandLink>
+										
+										<!-- 
 										<h:commandButton id="delete" value="Delete" processIds="*"
 											action="delete" styleClass="btn btn-danger btn-xs">
 											<f:param name="settlementId" value="#{s.id}" />
 										</h:commandButton>
+										 -->
 									</div>
 								</h:column>
 							</h:dataTable>
@@ -149,6 +161,39 @@
 					</c:if>
 				</h:form>
 			</div>
+		<h:form id="settlement-deletion-confirmation-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="settlement-deletion-modal" tabindex="-1"
+				aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h4 class="modal-title">Confirmation</h4>
+						</div>
+						<div class="modal-body">
+							<p align="justify">You are about to delete settlement 
+							#{toBeDeletedSettlementId}. All associated expenses and reports
+							will be deleted as well. This process can not be reversed. Be
+							sure to take a backup of your database first. Your system
+							administrator can take a backup of your database.</p>
+							<br />
+							<p>Do you still want to delete this settlement?</p>
+						</div>
+						<div class="modal-footer">
+							<div class="form-group form-actions">
+								<h:commandButton value="Cancel" action="settlementdeletioncancelled"
+									id="settlementdeletioncancelled" styleClass="btn btn-primary btn-sm"
+									processIds="*" />
+								<h:commandButton value="Delete" action="settlementdeletionconfirmed"
+									id="settlementdeletionconfirmed" styleClass="btn btn-danger btn-sm" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
 		</sec:authorize>
 
 	</ui:define>

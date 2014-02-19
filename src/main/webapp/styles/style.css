@@ -307,3 +307,16 @@ html,body {
 #push,#footer {
 	height: 60px;
 }
+
+/*
+#user-detail-modal .modal-dialog
+{
+  width: 400px;
+}
+*/
+/*
+#user-detail-modal .modal-dialog {
+    width:500px;
+    margin-left:-220px;
+}
+*/
