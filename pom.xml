@@ -225,6 +225,11 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${springsecurity-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${springsecurity-version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -253,16 +258,16 @@
 			<artifactId>jsf-impl</artifactId>
 			<version>${mojarra-version}</version>
 		</dependency>
-	<dependency>
-		<groupId>org.primefaces</groupId>
-		<artifactId>primefaces</artifactId>
-		<version>${primefaces-version}</version>
-	</dependency>
-	<!-- <dependency> -->
-	<!-- <groupId>org.primefaces.themes</groupId> -->
-	<!-- <artifactId>bootstrap</artifactId> -->
-	<!-- <version>1.0.10</version> -->
-	<!-- </dependency> -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces-version}</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.primefaces.themes</groupId> -->
+		<!-- <artifactId>bootstrap</artifactId> -->
+		<!-- <version>1.0.10</version> -->
+		<!-- </dependency> -->
 		<!-- Add Bootstrap via WebJars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -278,11 +283,11 @@
 			<artifactId>jquery</artifactId>
 			<version>${jquery.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.webjars</groupId> -->
-<!-- 			<artifactId>bootswatch-spacelab</artifactId> -->
-<!-- 			<version>3.1.0</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.webjars</groupId> -->
+		<!-- <artifactId>bootswatch-spacelab</artifactId> -->
+		<!-- <version>3.1.0</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootswatch-flatly</artifactId>
