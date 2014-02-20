@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<flow xmlns="http://www.springframework.org/schema/webflow"
+<flow parent="parentflow" xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
-	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" >
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 	<!-- Secure the flow. -->
 	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN"
 		match="any" />
@@ -12,8 +12,6 @@
 	<input name="toBeEditedExpenseId" required="false" />
 	
 	<on-start>
-		<evaluate expression="userService.getUser(currentUser.name)"
-			result="flowScope.etUser" />
 		<evaluate
 			expression="expenseService.getExpenseDetailBeanById(toBeEditedExpenseId)"
 			result="flowScope.expenseDetail" />

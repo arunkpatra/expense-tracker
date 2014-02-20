@@ -58,7 +58,7 @@ public interface UserService {
 	
 	public void updateUser(UserBean ub, RequestContext ctx);
 	
-	public String changePassword(PasswordChangeBean pB, UserBean Ub);
+	public boolean changePassword(PasswordChangeBean pB, UserBean userBean, RequestContext ctx);
 	
 	public boolean isPasswordChangeNeeded(String userName);
 	
