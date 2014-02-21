@@ -40,3 +40,7 @@ File -> Import -> Maven -> Existing Maven project
 ```
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/arunkpatra/expense-tracker/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/arunkpatra/expense-tracker/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
