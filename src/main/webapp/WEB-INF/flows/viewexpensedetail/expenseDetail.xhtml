@@ -8,14 +8,14 @@
 	<ui:define name="title">Expense Details</ui:define>
 	<ui:define name="body">
 		<div class="col-sm-2">
-			<!-- 			<h2>Expense Details</h2> -->
+			<h2>Expense Details</h2>
 		</div>
 		<div class="col-sm-8">
 			<h:form id="expenseDetail" styleClass="form-horizontal" role="form">
 				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Expense Details</h3>
-					</div>
+					<!-- 					<div class="panel-heading"> -->
+					<!-- 						<h3 class="panel-title">Expense Details</h3> -->
+					<!-- 					</div> -->
 					<div class="panel-body">
 
 						<div class="row">
@@ -53,38 +53,40 @@
 						</div>
 
 						<div class="row">
-							<h:outputLabel styleClass="control-label col-xs-4"
-								value="Status" for="status" />
+							<h:outputLabel styleClass="control-label col-xs-4" value="Status"
+								for="status" />
 							<h:outputText id="status" value="#{expenseStatus}"
-								styleClass="form-control-static col-xs-4"/>
+								styleClass="form-control-static col-xs-4" />
 						</div>
-						
+
 						<fieldset>
 							<legend class="accordion-heading">
 								<a data-toggle="collapse" href="#collapse-shares"><h:outputText
 										value="User Shares" /></a>
 							</legend>
 							<div id="collapse-shares" class="accordion-body collapse">
-								<h:dataTable id="userShares" value="#{userShares}" var="us"
-									emptyMessage="No contributions."
-									styleClass="table table-striped table-bordered table-condensed">
+								<div class="panel panel-default">
+									<h:dataTable id="userShares" value="#{userShares}" var="us"
+										emptyMessage="No contributions."
+										styleClass="table table-striped table-condensed">
 
-									<h:column>
-										<f:facet name="header">
-											<h:outputText value="Name" />
-										</f:facet>
-										<h:outputText value="#{us.name}" />
-									</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{us.name}" />
+										</h:column>
 
-									<h:column>
-										<f:facet name="header">
-											<h:outputText value="Share Amount" />
-										</f:facet>
-										<h:outputText value="#{us.shareAmount}">
-											<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-										</h:outputText>
-									</h:column>
-								</h:dataTable>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="Share Amount" />
+											</f:facet>
+											<h:outputText value="#{us.shareAmount}">
+												<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+											</h:outputText>
+										</h:column>
+									</h:dataTable>
+								</div>
 							</div>
 						</fieldset>
 					</div>
@@ -100,10 +102,17 @@
 								<f:param name="toBeEditedExpenseId"
 									value="#{selectedExpense.id}" />
 							</h:commandButton>
-<!--  
+							<!--  
 							<h:commandButton value="Delete" action="deleteExpense"
 								styleClass="btn btn-danger" processIds="*" />
 -->
+							<h:commandLink id="deleteExpense" processIds="*"
+								action="deleteExpense" styleClass="btn btn-danger "
+								rendered="#{(empty selectedExpense.settlementId) and ((selectedExpense.createdBy == currentUser.name) or (selectedExpense.paidBy == currentUser.name))}">
+								<f:param name="expenseId" value="#{selectedExpense.id}" />
+								<i class="fa fa-trash-o fa-lg"></i> 
+										Delete
+							</h:commandLink>
 						</div>
 					</div>
 				</div>

@@ -29,12 +29,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.binding.message.MessageBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.entities.AuthEntity;
 import com.exp.tracker.data.entities.ExpenseEntity;
@@ -121,13 +123,18 @@ public class JpaExpenseService implements ExpenseService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<ExpenseEntity> getExpenses(ExpenseSearchCriteria esc) {
+	public List<ExpenseDetail> getExpenses(ExpenseSearchCriteria esc) {
 
 		Query queryGetExpenses = null;
 		queryGetExpenses = em.createNamedQuery("getExpenses");
 		queryGetExpenses.setParameter("startDate", esc.getStartDate());
 		queryGetExpenses.setParameter("endDate", esc.getEndDate());
-		return queryGetExpenses.getResultList();
+		List<ExpenseEntity> eeList = queryGetExpenses.getResultList();
+		List<ExpenseDetail> edList = new ArrayList<ExpenseDetail>();
+		for (ExpenseEntity ee : eeList) {
+		    edList.add(new ExpenseDetail(ee));
+		}
+		return edList;
 
 	}
 
@@ -157,13 +164,19 @@ public class JpaExpenseService implements ExpenseService {
 	}
 
 	@Transactional
-	public int deleteExpenseById(Long expenseId) {
+	public int deleteExpenseById(Long expenseId, RequestContext ctx) {
 		int result = 0;
 		ExpenseEntity ee = em.find(ExpenseEntity.class, expenseId);
 		if (null == ee.getSettlementId()) {
 			em.remove(ee);
+			ctx.getMessageContext().addMessage(
+                    new MessageBuilder().info()
+                            .defaultText("Expense deleted successfuly.").build());
 		} else {
 			// expense settled already. cant delete
+		    ctx.getMessageContext().addMessage(
+                    new MessageBuilder().error()
+                            .defaultText("Expense could not be deleted.").build());
 			result = 1;
 		}
 		return result;

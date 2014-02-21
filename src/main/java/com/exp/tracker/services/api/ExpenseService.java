@@ -18,7 +18,7 @@ package com.exp.tracker.services.api;
 
 import java.util.List;
 
-import com.exp.tracker.data.entities.ExpenseEntity;
+import org.springframework.webflow.execution.RequestContext;
 
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.ExpenseSearchCriteria;
@@ -45,7 +45,7 @@ public interface ExpenseService {
 	 *            The expense search criteria
 	 * @return A list of expenses
 	 */
-	List<ExpenseEntity> getExpenses(ExpenseSearchCriteria expSearchCriteria);
+	List<ExpenseDetail> getExpenses(ExpenseSearchCriteria expSearchCriteria);
 
 	/**
 	 * Get unsettled expenses for a settlement.
@@ -90,7 +90,7 @@ public interface ExpenseService {
 	 *            The expense ID
 	 * @return status of the operation.
 	 */
-	int deleteExpenseById(Long expenseId);
+	int deleteExpenseById(Long expenseId, RequestContext ctx);
 
 	/**
 	 * Returns the expense status.

@@ -72,6 +72,7 @@ public class ExpenseDetail implements Serializable
     private Long settlementId;
     private boolean overrideSharesFlag = false;
     private boolean editMode;
+    private boolean deleteExpenseFlag = false;
 
     private List<UserShare> userShares;
 
@@ -285,5 +286,15 @@ public class ExpenseDetail implements Serializable
     public void setEditMode(boolean editMode)
     {
         this.editMode = editMode;
+    }
+
+    public boolean isDeleteExpenseFlag()
+    {
+        return deleteExpenseFlag;
+    }
+
+    public void setDeleteExpenseFlag(boolean deleteExpenseFlag)
+    {
+        this.deleteExpenseFlag = deleteExpenseFlag;
     }
 }

@@ -20,11 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.webflow.execution.RequestContext;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockRequestContext;
 import org.springframework.webflow.validation.DefaultValidationContext;
 
-import com.exp.tracker.data.entities.ExpenseEntity;
 import com.exp.tracker.data.model.ExpenseDetail;
 import com.exp.tracker.data.model.ExpenseSearchCriteria;
 import com.exp.tracker.data.model.SettlementBean;
@@ -32,8 +32,6 @@ import com.exp.tracker.data.model.UserBean;
 import com.exp.tracker.data.model.UserShare;
 import com.exp.tracker.services.api.ExpenseService;
 import com.exp.tracker.services.api.UserService;
-
-import org.springframework.webflow.execution.RequestContext;
 public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 {
 
@@ -140,13 +138,13 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		//
 		esc.setEndDate(tomorrow);
 		esc.setStartDate(yesterday);
-		List<ExpenseEntity> expenses =  expenseService.getExpenses(esc);
+		List<ExpenseDetail> expenses =  expenseService.getExpenses(esc);
 		Assert.assertNotNull("Failed to get expenses", expenses);
 		int i = expenses.size();
 		Assert.assertTrue("Expected exactly 1 expense.", i == 1);
 		
 		// Locate a specific expense by id
-		ExpenseEntity ee = expenses.get(0);
+		ExpenseDetail ee = expenses.get(0);
 		ExpenseDetail ed = expenseService.getExpenseById(ee.getId());
 		Assert.assertNotNull("Failed to get expensedetail", ed);
 		
@@ -169,7 +167,7 @@ public class JpaExpenseServiceTests extends AbstractExpenseTrackerBaseTest
 		Assert.assertTrue("Expected exactly 1 expense to settle.", ex2.size() == 1);
 		
 		// Delete expense
-		int delresult = expenseService.deleteExpenseById(ee.getId());
+		int delresult = expenseService.deleteExpenseById(ee.getId(), rCtx);
 		Assert.assertTrue("Failed to delete expense", delresult == 0);
 		
 		// get expense for null user id

@@ -23,11 +23,12 @@
 			<evaluate expression="expenseService.getExpenses(expenseSearchCriteria)"
 				result="conversationScope.expenses" result-type="dataModel" />
 		</on-render>
-		<transition on="sort">
-			<set name="expenseSearchCriteria.sortBy" value="requestParameters.sortBy" />
-			<render fragments="expenses:searchResultsFragment" />
+		
+		<transition on="deleteSelected" to="expenseSearchResult">
+			<evaluate expression="expenseService.deleteSelectedExpenses(expenses, flowRequestContext)"
+				result="viewScope.expenseDeletionResult" />
 		</transition>
-
+		
 		<transition on="viewdetail" to="viewExpenseFlow">
 			<set name="flowScope.toBeViewedExpenseId" value="(requestParameters.expenseId)" />
 		</transition>
