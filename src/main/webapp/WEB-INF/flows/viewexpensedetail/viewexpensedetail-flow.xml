@@ -13,13 +13,28 @@
 		<on-render>
 			<evaluate expression="expenseService.getExpenseById(toBeViewedExpenseId)"
 				result="viewScope.selectedExpense" />
-				 
+				
+			<evaluate expression="expenseService.getExpenseStatus(toBeViewedExpenseId)"
+				result="viewScope.expenseStatus" />
+				
 			<evaluate expression="selectedExpense.getUserShares()"
 				result="viewScope.userShares" result-type="dataModel" />
 			 
 			<render fragments="expenseDetail" />
 		</on-render>
-		<transition on="ok" to="finish"/>
+		<transition on="back" to="finish"/>
+		
+		<transition on="editExpense" to="editExpenseFlow">
+			<set name="flowScope.toBeEditedExpenseId" value="toBeViewedExpenseId" />
+		</transition>
+		
 	</view-state>
+	
+	<subflow-state id="editExpenseFlow" subflow="addexpense">
+		<input name="toBeEditedExpenseId" value="toBeEditedExpenseId" />
+		<transition on="saveCancelled" to="finish" />
+		<transition on="finish" to="finish" />
+	</subflow-state>
+	
 	<end-state id="finish"/>
 </flow>

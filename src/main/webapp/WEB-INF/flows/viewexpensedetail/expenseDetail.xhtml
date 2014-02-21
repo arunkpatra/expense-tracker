@@ -8,85 +8,106 @@
 	<ui:define name="title">Expense Details</ui:define>
 	<ui:define name="body">
 		<div class="col-sm-2">
-			<h2>Expense Details</h2>
+			<!-- 			<h2>Expense Details</h2> -->
 		</div>
 		<div class="col-sm-8">
-			<h:form id="expenseDetail" styleClass="well">
-				<div class="form-group">
-					<h:outputLabel styleClass="control-label" for="expenseDescription"
-						value="Description" />
-					<h:outputText styleClass="form-control"
-						value="#{selectedExpense.description}" id="expenseDescription" />
+			<h:form id="expenseDetail" styleClass="form-horizontal" role="form">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Expense Details</h3>
+					</div>
+					<div class="panel-body">
+
+						<div class="row">
+							<h:outputLabel styleClass="control-label col-xs-4"
+								value="Description" for="expenseDescription" />
+							<h:outputText value="#{selectedExpense.description}"
+								id="expenseDescription"
+								styleClass="form-control-static col-xs-4">
+							</h:outputText>
+						</div>
+
+						<div class="row">
+							<h:outputLabel styleClass="control-label col-xs-4"
+								value="Expense Date" for="expenseDate" />
+							<h:outputText value="#{selectedExpense.date}" id="expenseDate"
+								styleClass="form-control-static col-xs-4">
+								<f:convertDateTime timeZone="EST" pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</div>
+						<div class="row">
+							<h:outputLabel styleClass="control-label col-xs-4" value="Amount"
+								for="expenseAmount" />
+							<h:outputText value="#{selectedExpense.amount}"
+								id="expenseAmount" styleClass="form-control-static col-xs-4">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									minIntegerDigits="1" />
+							</h:outputText>
+						</div>
+
+						<div class="row">
+							<h:outputLabel styleClass="control-label col-xs-4"
+								value="Paid By" for="paidBy" />
+							<h:outputText value="#{selectedExpense.paidBy}" id="paidBy"
+								styleClass="form-control-static col-xs-4" />
+						</div>
+
+						<div class="row">
+							<h:outputLabel styleClass="control-label col-xs-4"
+								value="Status" for="status" />
+							<h:outputText id="status" value="#{expenseStatus}"
+								styleClass="form-control-static col-xs-4"/>
+						</div>
+						
+						<fieldset>
+							<legend class="accordion-heading">
+								<a data-toggle="collapse" href="#collapse-shares"><h:outputText
+										value="User Shares" /></a>
+							</legend>
+							<div id="collapse-shares" class="accordion-body collapse">
+								<h:dataTable id="userShares" value="#{userShares}" var="us"
+									emptyMessage="No contributions."
+									styleClass="table table-striped table-bordered table-condensed">
+
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Name" />
+										</f:facet>
+										<h:outputText value="#{us.name}" />
+									</h:column>
+
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Share Amount" />
+										</f:facet>
+										<h:outputText value="#{us.shareAmount}">
+											<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+										</h:outputText>
+									</h:column>
+								</h:dataTable>
+							</div>
+						</fieldset>
+					</div>
+					<div class="panel-footer">
+						<div class="form-group form-actions">
+							<h:commandButton value="Back" action="back"
+								styleClass="btn btn-default" processIds="*" />
+
+							<h:commandButton id="editExpense" value="Edit"
+								action="editExpense" styleClass="btn btn-primary "
+								processIds="*"
+								rendered="#{(empty selectedExpense.settlementId) and ((selectedExpense.createdBy == currentUser.name) or (selectedExpense.paidBy == currentUser.name))}">
+								<f:param name="toBeEditedExpenseId"
+									value="#{selectedExpense.id}" />
+							</h:commandButton>
+<!--  
+							<h:commandButton value="Delete" action="deleteExpense"
+								styleClass="btn btn-danger" processIds="*" />
+-->
+						</div>
+					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-sm-4 form-group">
-						<h:outputLabel styleClass="control-label" value="Expense Date"
-							for="expenseDate" />
-						<h:outputText value="#{selectedExpense.date}" id="expenseDate"
-							styleClass="form-control">
-							<f:convertDateTime  timeZone="EST"
-								pattern="MM/dd/yyyy" />
-						</h:outputText>
-
-					</div>
-					<div class="col-sm-4 form-group">
-						<h:outputLabel styleClass="control-label" value="Amount"
-							for="expenseAmount" />
-						<h:outputText value="#{selectedExpense.amount}" id="expenseAmount"
-							styleClass="form-control">
-							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
-								minIntegerDigits="1" />
-						</h:outputText>
-					</div>
-
-					<div class="col-sm-4 form-group">
-						<h:outputLabel styleClass="control-label" value="Paid By"
-							for="paidBy" />
-						<h:outputText value="#{selectedExpense.paidBy}" id="paidBy"
-							styleClass="form-control" />
-					</div>
-
-				</div>
-
-				<fieldset>
-					<legend class="accordion-heading">
-						<a data-toggle="collapse" href="#collapse-shares"><h:outputText
-								value="User Shares" /></a>
-					</legend>
-					<div id="collapse-shares" class="accordion-body collapse">
-						<h:panelGroup styleClass="form-group " layout="block">
-							<h:dataTable id="userShares" value="#{userShares}" var="us"
-								emptyMessage="No contributions."
-								styleClass="table table-striped table-bordered table-condensed">
-
-								<h:column>
-
-									<f:facet name="header">
-										<h:outputText value="Name" />
-									</f:facet>
-
-									<h:outputText value="#{us.name}" />
-								</h:column>
-
-								<h:column>
-
-									<f:facet name="header">
-										<h:outputText value="Share Amount" />
-									</f:facet>
-									<h:outputText value="#{us.shareAmount}">
-										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-									</h:outputText>
-								</h:column>
-							</h:dataTable>
-						</h:panelGroup>
-					</div>
-				</fieldset>
-
-				<div class="form-group form-actions">
-					<h:commandButton value="Ok" action="ok"
-						styleClass="btn btn-primary" processIds="*" />
-				</div>
 			</h:form>
 		</div>
 	</ui:define>
