@@ -58,7 +58,26 @@
 							<h:outputText id="status" value="#{expenseStatus}"
 								styleClass="form-control-static col-xs-4" />
 						</div>
+						<c:if test="${not empty selectedExpense.settlementId}">
+							<div class="row">
+								<h:outputLabel styleClass="control-label col-xs-4"
+									value="Settlment Rpt." />
 
+								<a class="form-control-static col-xs-4"
+									href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{selectedExpense.settlementId}"
+									target="blank"><i class="fa fa-file-text-o"></i>
+									#{selectedExpense.settlementId}</a>
+							</div>
+							<div class="row">
+								<h:outputLabel styleClass="control-label col-xs-4"
+									value="Expense Rpt." />
+								<a class="form-control-static col-xs-4"
+									href="${request.contextPath}/et/reports/expenseReport.pdf?sid=#{selectedExpense.settlementId}"
+									target="blank"> <i class="fa fa-file-text-o"></i>
+									Expense Report
+								</a>
+							</div>
+						</c:if>
 						<fieldset>
 							<legend class="accordion-heading">
 								<a data-toggle="collapse" href="#collapse-shares"><h:outputText
