@@ -93,6 +93,14 @@ public interface ExpenseService {
 	int deleteExpenseById(Long expenseId, RequestContext ctx);
 
 	/**
+	 * Delete selected expenses.
+	 * 
+	 * @param expenses
+	 * @param ctx
+	 */
+	void deleteSelectedExpenses(List<ExpenseDetail> expenses, RequestContext ctx);
+
+	/**
 	 * Returns the expense status.
 	 * 
 	 * @see com.exp.tracker.data.entities.ExpenseEntity#EXPENSE_STATUS_NEW

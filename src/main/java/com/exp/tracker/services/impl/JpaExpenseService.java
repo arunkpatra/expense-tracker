@@ -182,6 +182,31 @@ public class JpaExpenseService implements ExpenseService {
 		return result;
 	}
 
+	@Override
+	@Transactional
+	public void deleteSelectedExpenses(List<ExpenseDetail> expenses,
+			RequestContext ctx) {
+		int i = 0;
+		for (ExpenseDetail ed : expenses) {
+			if (ed.isDeleteExpenseFlag()) {
+				if (null != ed.getId()) {
+					ExpenseEntity ee = em.find(ExpenseEntity.class, ed.getId());
+					em.remove(ee);
+					i +=1;
+				}			
+			}
+		}
+		if (i ==0) {
+			ctx.getMessageContext().addMessage(
+                    new MessageBuilder().error()
+                            .defaultText("No expenses were selected to be deleted.").build());
+		} else {
+			ctx.getMessageContext().addMessage(
+                    new MessageBuilder().error()
+                            .defaultText("Selected expenses were deleted succesfuly.").build());
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public ExpenseDetail getExpenseDetailBeanById(Long id) {
 		ExpenseDetail ed;
@@ -298,5 +323,7 @@ public class JpaExpenseService implements ExpenseService {
 			}
 		}
 	}
+
+	
 
 }

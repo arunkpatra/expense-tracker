@@ -21,12 +21,11 @@
 	<view-state id="expenseSearchResult" model="expenses">
 		<on-render>
 			<evaluate expression="expenseService.getExpenses(expenseSearchCriteria)"
-				result="conversationScope.expenses" result-type="dataModel" />
+				result="conversationScope.expenses" />
 		</on-render>
 		
-		<transition on="deleteSelected" to="expenseSearchResult">
-			<evaluate expression="expenseService.deleteSelectedExpenses(expenses, flowRequestContext)"
-				result="viewScope.expenseDeletionResult" />
+		<transition on="deleteSelectedExpenses" to="expenseSearchResult">
+			<evaluate expression="expenseService.deleteSelectedExpenses(expenses, flowRequestContext)" />
 		</transition>
 		
 		<transition on="viewdetail" to="viewExpenseFlow">

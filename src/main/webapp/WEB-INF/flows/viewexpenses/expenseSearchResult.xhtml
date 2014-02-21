@@ -14,19 +14,29 @@
 		<div class="col-sm-8">
 			<h:form id="expenses">
 				<h:outputText id="noExpensesText" value="No Expenses Found"
-					rendered="#{expenses.rowCount == 0}" />
-				<c:if test="#{expenses.rowCount > 0}">
+					rendered="#{expenses.size() == 0}" />
+				<c:if test="#{expenses.size() > 0}">
+					<div class="form-group form-actions">
+					<h:commandLink id="deleteExpense" processIds="*"
+						action="deleteSelectedExpenses" styleClass="btn btn-danger btn-sm">
+						<i class="fa fa-trash-o fa-lg"></i> 
+										Delete Selected
+					</h:commandLink>
+					</div>
 					<div class="panel panel-default">
 						<h:dataTable id="expenses" value="#{expenses}" var="e"
-							rendered="#{expenses.rowCount > 0}"
+							rendered="#{expenses.size() > 0}"
 							styleClass="table table-striped  table-condensed">
 							<h:column>
 								<f:facet name="header">
 									<h:outputText value="" />
 								</f:facet>
 
-								<h:selectBooleanCheckbox id="delete" value="#{e.deleteExpenseFlag}"
-									disabled="false" />
+								<h:selectBooleanCheckbox value="#{e.deleteExpenseFlag}"
+									disabled="false"
+									rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}" />
+								<h:selectBooleanCheckbox value="#{e.deleteExpenseFlag}"
+									disabled="true" rendered="#{(not empty e.settlementId)}" />
 
 							</h:column>
 							<h:column>
@@ -38,7 +48,7 @@
 									<f:param name="expenseId" value="#{e.id}" />
 								</h:commandLink>
 							</h:column>
-<!--						
+							<!--						
 							<h:column>
 								<f:facet name="header">
 									<h:outputText value="Paid By" />
@@ -73,7 +83,7 @@
 									href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
 									target="blank">#{e.settlementId}</a>
 							</h:column>
-<!-- 						
+							<!-- 						
 							<h:column>
 								<f:facet name="header">
 									<h:outputText value="Actions" />
