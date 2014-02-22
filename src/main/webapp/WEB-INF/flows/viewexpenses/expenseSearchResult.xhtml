@@ -12,21 +12,22 @@
 			<h:outputText value="Click on an expense to see details." />
 		</div>
 		<div class="col-sm-8">
-			<h:form id="expenses">
+			<h:form id="expenses" prependId="false">
 				<h:outputText id="noExpensesText" value="No Expenses Found"
 					rendered="#{expenses.size() == 0}" />
 				<c:if test="#{expenses.size() > 0}">
 					<div class="form-group form-actions">
-					<h:commandLink id="deleteExpense" processIds="*"
-						action="deleteSelectedExpenses" styleClass="btn btn-danger btn-xs">
-						<i class="fa fa-trash-o fa-lg"></i> 
+						<h:commandLink id="deleteExpense" processIds="*"
+							action="deleteSelectedExpenses"
+							styleClass="btn btn-danger btn-xs">
+							<i class="fa fa-trash-o fa-lg"></i> 
 										Delete Selected
 					</h:commandLink>
 					</div>
 					<div class="panel panel-default">
-						<h:dataTable id="expenses" value="#{expenses}" var="e"
+						<h:dataTable id="expensesTable" value="#{expenses}" var="e"
 							rendered="#{expenses.size() > 0}"
-							styleClass="table table-striped  table-condensed">
+							styleClass="table table-striped  table-condensed ">
 							<h:column>
 								<f:facet name="header">
 									<h:outputText value="" />
@@ -41,7 +42,8 @@
 							</h:column>
 							<h:column>
 								<f:facet name="header">
-									<h:outputText value="Description" />
+									<a href="#" style="color: black; text-decoration: none">Description</a>
+									<!-- 									<h:outputText value="Description" /> -->
 								</f:facet>
 								<h:commandLink id="viewExpenseDetail" action="viewdetail"
 									value="#{e.description}" processIds="*">
@@ -75,6 +77,7 @@
 									<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
 								</h:outputText>
 							</h:column>
+							<!-- 
 							<h:column>
 								<f:facet name="header">
 									<h:outputText value="Settl. Id" />
@@ -83,6 +86,7 @@
 									href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
 									target="blank">#{e.settlementId}</a>
 							</h:column>
+							 -->
 							<!-- 						
 							<h:column>
 								<f:facet name="header">
@@ -108,9 +112,55 @@
 -->
 						</h:dataTable>
 					</div>
+					<!-- 					<h:outputScript name="/scripts/tablesorter.js"/> -->
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$.extend($.tablesorter.themes.bootstrap, {
+								table : 'table table-bordered',
+								caption : 'caption',
+								header : 'bootstrap-header',
+								footerRow : '',
+								footerCells : '',
+								icons : '',
+								sortNone : 'bootstrap-icon-unsorted',
+								sortAsc : 'icon-chevron-up glyphicon glyphicon-chevron-up', 
+								sortDesc : 'icon-chevron-down glyphicon glyphicon-chevron-down', 
+								active : '', 
+								hover : '',
+								filterRow : '', 
+								even : '',
+								odd : '' 
+							});
+							$("table").tablesorter({
+								theme : "bootstrap",
+								widthFixed : true,
+								headerTemplate : '{content} {icon}', 
+								widgets : [ "uitheme" ],
+								// pass the headers argument and assing a object 
+								headers : {
+									// assign the secound column (we start counting zero) 
+									0 : {
+										// disable it by setting the property sorter to false 
+										sorter : false
+									},
+									// assign the third column (we start counting zero) 
+									3 : {
+										// disable it by setting the property sorter to false 
+										sorter : false
+									}
+								}
+							});
+						});
+					</script>
 				</c:if>
 			</h:form>
 		</div>
 	</ui:define>
+	<!-- 	<script type="text/javascript" -->
+	<!-- 		src="#{request.contextPath}/scripts/tablesorter.js" /> -->
+	<!-- 	<h:outputScript name="/scripts/tablesorter.js"/> -->
+	<!-- 	<ui:define name="scripts"> -->
+	<!-- 		<ui:include src="/scripts/tablesorter.js" /> -->
+	<!-- 	</ui:define> -->
 </ui:composition>
 </html>
