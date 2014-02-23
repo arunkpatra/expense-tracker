@@ -44,7 +44,8 @@
 		<commons.collections.version>3.2</commons.collections.version>
 		<copyright.year>2014</copyright.year>
 		<derby.client.version>10.10.1.1</derby.client.version>
-		<hibernate.version>3.6.10.Final</hibernate.version>
+<!-- 		<hibernate.version>3.6.10.Final</hibernate.version> -->
+		<hibernate.version>4.2.5.Final</hibernate.version>
 		<java.version>1.7</java.version>
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<jasperreports.version>5.5.0</jasperreports.version>
@@ -53,12 +54,14 @@
 		<junit.version>4.11</junit.version>
 		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
 		<!-- <mojarra-version>2.1.7</mojarra-version> -->
-		<mojarra-version>2.2.4</mojarra-version>
+		<mojarra-version>2.2.5</mojarra-version>
 		<omnifaces.version>1.6.3</omnifaces.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<primefaces-version>4.0</primefaces-version>
-		<springframework-version>4.0.0.RELEASE</springframework-version>
-		<springsecurity-version>3.2.0.RELEASE</springsecurity-version>
+		<springframework-version>4.0.2.RELEASE</springframework-version>
+<!-- 		<springframework-version>4.0.0.RELEASE</springframework-version> -->
+<!-- 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version> -->
+		<springsecurity-version>3.2.1.RELEASE</springsecurity-version>
 		<slf4j-version>1.5.10</slf4j-version>
 		<velocity.version>1.7</velocity.version>
 		<webflow-version>2.4.0.BUILD-SNAPSHOT</webflow-version>
