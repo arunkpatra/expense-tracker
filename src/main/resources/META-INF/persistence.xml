@@ -11,7 +11,9 @@
 		<class>com.exp.tracker.data.entities.RoleEntity</class>
 		<class>com.exp.tracker.data.entities.AuthEntity</class>
 		<properties>
+			<!-- 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
+			 -->
 			<!--
 				<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			-->
