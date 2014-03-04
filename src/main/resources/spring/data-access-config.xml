@@ -28,7 +28,7 @@
 	<!-- Create a database on the fly in demo mode. This is the default behavior -->
 	<beans profile="demo">
 		<jdbc:embedded-database id="dataSource" type="DERBY" >
-			<jdbc:script location="classpath:scripts/expense-tracker-create-objects.sql" />
+			<jdbc:script location="classpath:scripts/derby-expense-tracker-create-objects.sql" />
 			<jdbc:script location="classpath:scripts/expense-tracker-insert-data.sql"/>
 		</jdbc:embedded-database>
 	</beans>
