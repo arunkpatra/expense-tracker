@@ -219,6 +219,7 @@ public class JpaUserService implements UserService
         return result;
     }
 
+    @Transactional(readOnly = true)
     public UserBean getUser(String userName)
     {
         Query queryGetUser = em.createNamedQuery("getUser");
@@ -228,6 +229,7 @@ public class JpaUserService implements UserService
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
     public List<UserEntity> getUsers()
     {
         Query queryGetAllUsers = em.createNamedQuery("getAllUsers");
@@ -285,6 +287,7 @@ public class JpaUserService implements UserService
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
     public List<String> getUserNames()
     {
         Query queryGetAllUserNames = em.createNamedQuery("getAllUserNames");
@@ -311,6 +314,7 @@ public class JpaUserService implements UserService
         return ul;
     }
 
+    @Transactional(readOnly = true)
     public Collection<UserBean> getUserBeans()
     {
         List<UserBean> ubs = new ArrayList<UserBean>();
@@ -384,6 +388,7 @@ public class JpaUserService implements UserService
         return result;
     }
 
+    @Transactional(readOnly = true)
     public boolean isPasswordChangeNeeded(String userName)
     {
         Query queryGetUser = em.createNamedQuery("getUser");

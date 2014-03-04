@@ -44,7 +44,7 @@
 		<commons.collections.version>3.2</commons.collections.version>
 		<copyright.year>2014</copyright.year>
 		<derby.client.version>10.10.1.1</derby.client.version>
-<!-- 		<hibernate.version>3.6.10.Final</hibernate.version> -->
+		<!-- <hibernate.version>3.6.10.Final</hibernate.version> -->
 		<hibernate.version>4.2.5.Final</hibernate.version>
 		<java.version>1.7</java.version>
 		<javax.mail.version>1.4.3</javax.mail.version>
@@ -59,8 +59,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<primefaces-version>4.0</primefaces-version>
 		<springframework-version>4.0.2.RELEASE</springframework-version>
-<!-- 		<springframework-version>4.0.0.RELEASE</springframework-version> -->
-<!-- 		<springsecurity-version>3.2.0.RELEASE</springsecurity-version> -->
+		<!-- <springframework-version>4.0.0.RELEASE</springframework-version> -->
+		<!-- <springsecurity-version>3.2.0.RELEASE</springsecurity-version> -->
 		<springsecurity-version>3.2.1.RELEASE</springsecurity-version>
 		<slf4j-version>1.5.10</slf4j-version>
 		<velocity.version>1.7</velocity.version>
@@ -104,6 +104,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

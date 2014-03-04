@@ -7,8 +7,10 @@
 	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN"
 		match="any" />
 	<!-- Attach a persistence context to this flow -->
-	<persistence-context />
 	
+	<!-- 
+	<persistence-context />
+	 -->
 	<input name="toBeEditedExpenseId" required="false" />
 	
 	<on-start>

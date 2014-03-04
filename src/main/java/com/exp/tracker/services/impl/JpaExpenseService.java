@@ -123,6 +123,7 @@ public class JpaExpenseService implements ExpenseService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<ExpenseDetail> getExpenses(ExpenseSearchCriteria esc) {
 
 		Query queryGetExpenses = null;
@@ -138,6 +139,7 @@ public class JpaExpenseService implements ExpenseService {
 
 	}
 
+	@Transactional(readOnly = true)
 	public ExpenseDetail getExpenseById(Long id) {
 		ExpenseEntity returnExpenseEntity = null;
 		Query queryGetExpenseById = em.createNamedQuery("getExpenseById");
@@ -208,6 +210,7 @@ public class JpaExpenseService implements ExpenseService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public ExpenseDetail getExpenseDetailBeanById(Long id) {
 		ExpenseDetail ed;
 		boolean newExpense = false;
@@ -281,6 +284,7 @@ public class JpaExpenseService implements ExpenseService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<ExpenseDetail> getUnsettledExpenses(SettlementBean sb) {
 		Query queryGetUnsettledExpenses = null;
 		queryGetUnsettledExpenses = em.createNamedQuery("getUnsettledExpenses");
@@ -300,6 +304,7 @@ public class JpaExpenseService implements ExpenseService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public String getExpenseStatus(Long expenseId) {
 		ExpenseDetail ed = getExpenseById(expenseId);
 		if (null == ed.getSettlementId()) {

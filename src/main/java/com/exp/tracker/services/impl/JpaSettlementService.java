@@ -176,6 +176,7 @@ public class JpaSettlementService implements SettlementService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<SettlementBean> getSettlements() {
 		Query queryGetAllSettlements = null;
 		queryGetAllSettlements = em.createNamedQuery("getAllSettlements");
@@ -227,6 +228,7 @@ public class JpaSettlementService implements SettlementService {
 		return result;
 	}
 
+	@Transactional(readOnly = true)
 	public SettlementBean getSettlementById(Long id) {
 		SettlementEntity se = em.find(SettlementEntity.class, id);
 		SettlementBean sb = new SettlementBean(se);
@@ -234,6 +236,7 @@ public class JpaSettlementService implements SettlementService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<ExpenseReportDataBean> getExpensesForSettlementId(Long id) {
 		Query queryGetExpensesForSettlementId = em
 				.createNamedQuery("getExpensesForSettlementId");
