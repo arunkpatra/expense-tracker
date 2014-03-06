@@ -8,9 +8,9 @@
 		match="any" />
 	<!-- Attach a persistence context to this flow -->
 	
-	<!-- 
+	
 	<persistence-context />
-	 -->
+
 	<input name="toBeEditedExpenseId" required="false" />
 	
 	<on-start>

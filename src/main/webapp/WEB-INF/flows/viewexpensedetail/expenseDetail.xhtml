@@ -111,8 +111,14 @@
 					</div>
 					<div class="panel-footer">
 						<div class="form-group form-actions">
-							<h:commandButton value="Back" action="back"
-								styleClass="btn btn-default" processIds="*" />
+							<h:commandLink id="deleteExpense" processIds="*"
+								action="deleteExpense" styleClass="btn btn-danger "
+								rendered="#{(empty selectedExpense.settlementId) and ((selectedExpense.createdBy == currentUser.name) or (selectedExpense.paidBy == currentUser.name))}">
+								<f:param name="expenseId" value="#{selectedExpense.id}" />
+								<i class="fa fa-trash-o fa-lg"></i> 
+										Delete
+							</h:commandLink>
+							
 
 							<h:commandButton id="editExpense" value="Edit"
 								action="editExpense" styleClass="btn btn-primary "
@@ -125,13 +131,8 @@
 							<h:commandButton value="Delete" action="deleteExpense"
 								styleClass="btn btn-danger" processIds="*" />
 -->
-							<h:commandLink id="deleteExpense" processIds="*"
-								action="deleteExpense" styleClass="btn btn-danger "
-								rendered="#{(empty selectedExpense.settlementId) and ((selectedExpense.createdBy == currentUser.name) or (selectedExpense.paidBy == currentUser.name))}">
-								<f:param name="expenseId" value="#{selectedExpense.id}" />
-								<i class="fa fa-trash-o fa-lg"></i> 
-										Delete
-							</h:commandLink>
+							<h:commandButton value="Back" action="back"
+								styleClass="btn btn-default" processIds="*" />
 						</div>
 					</div>
 				</div>

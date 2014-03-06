@@ -28,7 +28,7 @@
 	<!-- Create a database on the fly in demo mode. This is the default behavior -->
 	<beans profile="demo">
 		<jdbc:embedded-database id="dataSource" type="DERBY">
-			<jdbc:script
+			<jdbc:script 
 				location="classpath:scripts/derby-expense-tracker-create-objects.sql" />
 			<jdbc:script location="classpath:scripts/expense-tracker-insert-data.sql" />
 		</jdbc:embedded-database>
@@ -37,17 +37,28 @@
 	<!-- When you supply your own database, you must activate this profile. 
 		Simply pass a -Dspring.profiles.active="production" JVM startup property -->
 	<beans profile="production">
-		<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
-		<!-- destroy-method="close"> -->
-		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-			<!-- <property name="driverClassName" value="${jdbc.driverClassName}" 
-				/> -->
-			<!-- <property name="url" value="${jdbc.url}" /> -->
-			<!-- <property name="username" value="${jdbc.username}" /> -->
-			<property name="driverClass" value="${jdbc.driverClassName}" />
-			<property name="jdbcUrl" value="${jdbc.url}" />
-			<property name="user" value="${jdbc.username}" />
+		<bean id="dataSource" class="com.exp.tracker.utils.TrackingBasicDataSource"
+			destroy-method="close">
+			<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
+			<!-- destroy-method="close"> -->
+			<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"> -->
+			<property name="driverClassName" value="${jdbc.driverClassName}" />
+			<property name="url" value="${jdbc.url}" />
+			<property name="username" value="${jdbc.username}" />
+			<!-- <property name="driverClass" value="${jdbc.driverClassName}" /> -->
+			<!-- <property name="jdbcUrl" value="${jdbc.url}" /> -->
+			<!-- <property name="user" value="${jdbc.username}" /> -->
 			<property name="password" value="${jdbc.password}" />
+			<property name="maxActive" value="100" />
+			<property name="maxWait" value="1000" />
 		</bean>
+		<!-- <bean id="dataSourceMBean" -->
+		<!-- class="org.apache.commons.dbcp.management.BasicDataSourceMBean"> -->
+		<!-- <constructor-arg ref="dataSource" /> -->
+		<!-- </bean> -->
+		<!-- <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter"> 
+			<property name="beans"> <map> <entry key="DBCP:name=dataSource" value-ref="dataSource" 
+			/> </map> </property> </bean> -->
 	</beans>
+
 </beans>
