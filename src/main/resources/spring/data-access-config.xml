@@ -51,6 +51,8 @@
 			<property name="password" value="${jdbc.password}" />
 			<property name="maxActive" value="100" />
 			<property name="maxWait" value="1000" />
+			<property name="initialSize" value="10" />
+			<property name="minIdle" value="5" />
 		</bean>
 		<!-- <bean id="dataSourceMBean" -->
 		<!-- class="org.apache.commons.dbcp.management.BasicDataSourceMBean"> -->

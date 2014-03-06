@@ -56,7 +56,7 @@
 	</logger>
 	
 	<logger name="com.exp.tracker.utils">
-		<level value="DEBUG"/>
+		<level value="WARN"/>
 	</logger>
 	
 	<!-- Root Logger -->
