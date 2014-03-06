@@ -298,7 +298,7 @@ public class JpaExpenseService implements ExpenseService {
 		}
 		return edList;
 	}
-
+	@Transactional(readOnly = true)
 	public List<ExpenseDetail> getRecentExpenses(int lastDays) {
 		return null;
 	}
