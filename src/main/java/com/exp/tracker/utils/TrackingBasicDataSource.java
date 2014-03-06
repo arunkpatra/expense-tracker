@@ -15,6 +15,7 @@ public class TrackingBasicDataSource extends BasicDataSource
     public Connection getConnection() throws SQLException {
         if (logger.isDebugEnabled()) {
             logger.debug("Active database connections count = " + getNumActive());
+            logger.debug("Idle database connections count = " + getNumIdle());
         }
         return super.getConnection();
     }
