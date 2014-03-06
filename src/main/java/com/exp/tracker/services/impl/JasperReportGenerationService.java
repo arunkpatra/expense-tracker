@@ -202,7 +202,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         return pdfBytes;
     }
 
-    @Transactional
+    
     public void generateExpenseReport(Long sid, RequestContext ctx)
     {
     	// Get hold of the servlet context
@@ -213,6 +213,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         genExpenseReportInternal(sid, expenseReportTemplatePath);
     }
 
+    @Transactional
     private void saveSettlementPdfToDataBase(Long sid, byte[] pdfBytes)
     {
         ReportEntity re = new ReportEntity();
@@ -227,6 +228,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         logger.info("Settlement Report PDF saved to database");      
     }
 
+    @Transactional
     private void saveExpensePdfToDataBase(Long sid, byte[] pdfBytes)
     {
         ReportEntity re = new ReportEntity();
@@ -240,6 +242,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         logger.info("Expense Report PDF saved to database"); 
     }
 
+    @Transactional(readOnly = true)
     private Map<String, Object> getSettlementReportParamMap(Long sid)
     {
         Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -255,6 +258,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         return paramMap;
     }
 
+    @Transactional(readOnly = true)
     private Map<String, Object> getExpenseReportParamMap(Long sid)
     {
         Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -288,6 +292,7 @@ public class JasperReportGenerationService implements ReportGenerationService
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
     private JRDataSource getExpenseDataSource(Long sid)
     {
         // get data from back end
@@ -314,6 +319,7 @@ public class JasperReportGenerationService implements ReportGenerationService
         return erds;
     }
 
+    @Transactional(readOnly = true)
     public byte[] getReportForSettlement(Long sid, String reportName)
     {
         Query queryGetReport = em.createNamedQuery("getReport");

@@ -44,6 +44,7 @@ public class JpaPaymentService implements PaymentService {
 		this.em = em;
 	}
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<PaymentBean> getPaymnentsForUser(String userName) {
 		List<PaymentBean> paymentList = new ArrayList<PaymentBean>();
 		Query queryGetPaymentsForUser = null;
@@ -66,6 +67,7 @@ public class JpaPaymentService implements PaymentService {
 
 	}
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<PaymentBean> getAllPayments() {
 		List<PaymentBean> paymentList = new ArrayList<PaymentBean>();
 		Query queryGetAllPayments = null;

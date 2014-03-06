@@ -5,17 +5,25 @@
 	version="1.0">
 	<persistence-unit name="expenseDatabase">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>com.exp.tracker.data.entities.ExpenseEntity</class>
-		<class>com.exp.tracker.data.entities.UserExpenseEntity</class>
-		<class>com.exp.tracker.data.entities.UserEntity</class>
-		<class>com.exp.tracker.data.entities.RoleEntity</class>
 		<class>com.exp.tracker.data.entities.AuthEntity</class>
+		<class>com.exp.tracker.data.entities.ExpenseEntity</class>		
+		<class>com.exp.tracker.data.entities.ReportEntity</class>
+		<class>com.exp.tracker.data.entities.RoleEntity</class>
+		<class>com.exp.tracker.data.entities.SettlementEntity</class>
+		<class>com.exp.tracker.data.entities.UserEntity</class>
+		<class>com.exp.tracker.data.entities.UserExpenseEntity</class>
+		<class>com.exp.tracker.data.entities.UserSettlementEntity</class>
 		<properties>
+			<!-- 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
+			
+			 <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+			  -->
 			<!--
 				<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			-->
 			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.connection.release_mode" value="after_transaction"/>
 			<!-- 
 			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
 			 -->

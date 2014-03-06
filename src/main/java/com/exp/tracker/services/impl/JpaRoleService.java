@@ -26,6 +26,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.exp.tracker.data.entities.RoleEntity;
 import com.exp.tracker.services.api.RoleService;
@@ -42,13 +43,13 @@ public class JpaRoleService implements RoleService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<RoleEntity> getRoles() {
 		Query queryGetRoles = em.createNamedQuery("getRoles");		
 		return queryGetRoles.getResultList();
 	}
 
 	public List<SelectItem> getRolesSelectItems() {
-
 		List<SelectItem> rl = new ArrayList<SelectItem>();
 		for (RoleEntity re : getRoles()) {
 			rl.add(new SelectItem(re.getRole(),re.getRole()));			 
