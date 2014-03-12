@@ -9,6 +9,7 @@
 	</context-param>
 
 	<!-- The master configuration file for this Spring web application -->
+	<!--
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value> 
@@ -16,7 +17,13 @@
 			classpath:spring/root-applicationContext.xml 
 		</param-value>
 	</context-param>
-
+	-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value> 
+			classpath:spring/root-applicationContext.xml 
+		</param-value>
+	</context-param>
 	<!-- Use JSF view templates saved as *.xhtml, for use with Facelets -->
 	<context-param>
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
