@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="parentflow" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN"
+		match="any" />
+	<!-- Attach a persistence context to this flow -->
+	<persistence-context />
+	<input name="toBeViewedExpenseId" required="false" />
+
+	<view-state id="expenseDetail" view="expenseDetail.xhtml"
+		popup="true">
+		<on-render>
+			<evaluate expression="expenseService.getExpenseById(toBeViewedExpenseId)"
+				result="viewScope.selectedExpense" />
+
+			<evaluate expression="expenseService.getExpenseStatus(toBeViewedExpenseId)"
+				result="viewScope.expenseStatus" />
+
+			<evaluate expression="selectedExpense.getUserShares()"
+				result="viewScope.userShares" result-type="dataModel" />
+
+			<render fragments="expenseDetail" />
+		</on-render>
+		<transition on="back" to="finish" />
+
+		<transition on="editExpense" to="editExpenseFlow">
+			<set name="flowScope.toBeEditedExpenseId" value="toBeViewedExpenseId" />
+		</transition>
+
+		<transition on="deleteExpense" to="finish">
+			<set name="flowScope.selectedExpenseId" value="(requestParameters.expenseId)" />
+			<evaluate
+				expression="expenseService.deleteExpenseById(selectedExpenseId, flowRequestContext)" />
+		</transition>
+	</view-state>
+
+	<subflow-state id="editExpenseFlow" subflow="addexpense">
+		<input name="toBeEditedExpenseId" value="toBeEditedExpenseId" />
+		<transition on="saveCancelled" to="finish" />
+		<transition on="finish" to="finish" />
+	</subflow-state>
+
+	<end-state id="finish" />
+</flow>

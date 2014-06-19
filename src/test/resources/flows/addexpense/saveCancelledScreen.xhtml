@@ -1,0 +1,30 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Expenses</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>Expenses</h2>
+		</div>
+		<div class="col-sm-8">
+			<h:form id="mainForm">
+				<div>
+					<h:outputLabel>The operation was canceled.</h:outputLabel>
+				</div>
+				<br/>
+				<div class="form-group form-actions">
+					<h:commandButton action="ok" value="Ok" id="ok"
+						styleClass="btn btn-primary">
+					</h:commandButton>
+
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

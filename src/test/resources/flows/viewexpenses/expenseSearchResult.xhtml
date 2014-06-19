@@ -1,0 +1,166 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Expenses</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>Expenses</h2>
+			<h:outputText value="Click on an expense to see details." />
+		</div>
+		<div class="col-sm-8">
+			<h:form id="expenses" prependId="false">
+				<h:outputText id="noExpensesText" value="No Expenses Found"
+					rendered="#{expenses.size() == 0}" />
+				<c:if test="#{expenses.size() > 0}">
+					<div class="form-group form-actions">
+						<h:commandLink id="deleteExpense" processIds="*"
+							action="deleteSelectedExpenses"
+							styleClass="btn btn-danger btn-xs">
+							<i class="fa fa-trash-o fa-lg"></i> 
+										Delete Selected
+					</h:commandLink>
+					</div>
+					<div class="panel panel-default">
+						<h:dataTable id="expensesTable" value="#{expenses}" var="e"
+							rendered="#{expenses.size() > 0}"
+							styleClass="table table-striped  table-condensed ">
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="" />
+								</f:facet>
+
+								<h:selectBooleanCheckbox value="#{e.deleteExpenseFlag}"
+									disabled="false"
+									rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}" />
+								<h:selectBooleanCheckbox value="#{e.deleteExpenseFlag}"
+									disabled="true" rendered="#{(not empty e.settlementId)}" />
+
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<a href="#" style="color: black; text-decoration: none">Description</a>
+									<!-- 									<h:outputText value="Description" /> -->
+								</f:facet>
+								<h:commandLink id="viewExpenseDetail" action="viewdetail"
+									value="#{e.description}" processIds="*">
+									<f:param name="expenseId" value="#{e.id}" />
+								</h:commandLink>
+							</h:column>
+							<!--						
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Paid By" />
+								</f:facet>
+								<h:outputText value="#{e.paidBy}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Amount" />
+								</f:facet>
+								<div style="text-align: right">
+									<h:outputText value="#{e.amount}">
+										<f:convertNumber minIntegerDigits="1" maxFractionDigits="2"
+											minFractionDigits="2" />
+									</h:outputText>
+								</div>
+							</h:column>
+-->
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Date" />
+								</f:facet>
+								<h:outputText value="#{e.date}">
+									<f:convertDateTime pattern="MM/dd/yyyy" timeZone="EST" />
+								</h:outputText>
+							</h:column>
+							<!-- 
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Settl. Id" />
+								</f:facet>
+								<a
+									href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{e.settlementId}"
+									target="blank">#{e.settlementId}</a>
+							</h:column>
+							 -->
+							<!-- 						
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Actions" />
+								</f:facet>
+								<div class=" form-actions">
+									<h:commandButton id="editExpense" value="Edit"
+										action="editExpense" styleClass="btn btn-primary btn-xs"
+										processIds="*"
+										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+										<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+									</h:commandButton>
+
+									<h:commandLink id="deleteExpense" processIds="*"
+										action="deleteExpense" styleClass="btn btn-danger btn-xs"
+										rendered="#{(empty e.settlementId) and ((e.createdBy == currentUser.name) or (e.paidBy == currentUser.name))}">
+										<f:param name="expenseId" value="#{e.id}" />
+										<i class="fa fa-trash-o fa-lg"></i> 
+										Delete
+									</h:commandLink>
+								</div>
+							</h:column>
+-->
+						</h:dataTable>
+					</div>
+					<!-- 					<h:outputScript name="/scripts/tablesorter.js"/> -->
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$.extend($.tablesorter.themes.bootstrap, {
+								table : 'table table-bordered',
+								caption : 'caption',
+								header : 'bootstrap-header',
+								footerRow : '',
+								footerCells : '',
+								icons : '',
+								sortNone : 'bootstrap-icon-unsorted',
+								sortAsc : 'icon-chevron-up glyphicon glyphicon-chevron-up', 
+								sortDesc : 'icon-chevron-down glyphicon glyphicon-chevron-down', 
+								active : '', 
+								hover : '',
+								filterRow : '', 
+								even : '',
+								odd : '' 
+							});
+							$("table").tablesorter({
+								theme : "bootstrap",
+								widthFixed : true,
+								headerTemplate : '{content} {icon}', 
+								widgets : [ "uitheme" ],
+								// pass the headers argument and assing a object 
+								headers : {
+									// assign the secound column (we start counting zero) 
+									0 : {
+										// disable it by setting the property sorter to false 
+										sorter : false
+									},
+									// assign the third column (we start counting zero) 
+									3 : {
+										// disable it by setting the property sorter to false 
+										sorter : false
+									}
+								}
+							});
+						});
+					</script>
+				</c:if>
+			</h:form>
+		</div>
+	</ui:define>
+	<!-- 	<script type="text/javascript" -->
+	<!-- 		src="#{request.contextPath}/scripts/tablesorter.js" /> -->
+	<!-- 	<h:outputScript name="/scripts/tablesorter.js"/> -->
+	<!-- 	<ui:define name="scripts"> -->
+	<!-- 		<ui:include src="/scripts/tablesorter.js" /> -->
+	<!-- 	</ui:define> -->
+</ui:composition>
+</html>

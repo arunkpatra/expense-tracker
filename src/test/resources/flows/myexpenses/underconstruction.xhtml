@@ -1,0 +1,24 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">	
+	
+<ui:composition template="/layouts/standard.xhtml">
+
+<ui:define name="body">
+
+<h:form id="myExpensesUnderConstruction">
+	<div class="section">
+		<h2>Under Construction.</h2>
+		<ui:fragment id="myExpensesFragment">
+			<div id="myExpenseList">
+				<h:outputText id="noExpensesText" value="This page is under construction. Please check back later." />
+			</div>
+		</ui:fragment>
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>
+</html>

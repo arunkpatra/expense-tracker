@@ -1,0 +1,24 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">	
+<ui:composition template="/layouts/standard.xhtml">
+
+	<ui:define name="body">
+		<ui:fragment id="reportGenerationFragment">
+			<div id="reportGenerationEntry" class="section"><span
+				class="errors"> <h:messages globalOnly="true" /> </span>
+			<h2>Report Generation</h2>
+			<h:form id="mainForm">
+
+				<div class="label">
+				<h:outputLabel>Do you want to generate a report?</h:outputLabel>
+				</div>
+
+			</h:form></div>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

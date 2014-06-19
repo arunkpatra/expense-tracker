@@ -6,12 +6,12 @@ import org.springframework.webflow.config.FlowDefinitionResource;
 import org.springframework.webflow.config.FlowDefinitionResourceFactory;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockFlowBuilderContext;
-import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 
 import com.exp.tracker.data.model.UserBean;
+import com.exp.tracker.flows.ExpenseTrackerFlowExecutionTestsParent;
 import com.exp.tracker.services.api.UserService;
 
-public class WelcomeFlowExecutionTests extends AbstractXmlFlowExecutionTests
+public class WelcomeFlowExecutionTests extends ExpenseTrackerFlowExecutionTestsParent
 {
 
     private UserService userService;
@@ -26,7 +26,7 @@ public class WelcomeFlowExecutionTests extends AbstractXmlFlowExecutionTests
             FlowDefinitionResourceFactory resourceFactory)
     {
         return resourceFactory
-                .createFileResource("src/main/webapp/WEB-INF/flows/welcome/welcome-flow.xml");
+                .createResource("flows/welcome/welcome-flow.xml");
     }
 
     protected void configureFlowBuilderContext(

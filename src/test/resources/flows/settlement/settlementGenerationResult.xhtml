@@ -1,0 +1,26 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">	
+<ui:composition template="/layouts/standard.xhtml">
+
+	<ui:define name="body">
+	<h:form id="settlementResult">
+		<ui:fragment id="settlementGenerationResultFragment">
+			<div id="settlementResult" class="section">
+			<span class="errors">
+				<h:messages globalOnly="true" /> 
+			</span>
+			<h2>Settlement generation results</h2>
+			<h:outputText value="Settlement was created successfully. " rendered="#{settlementCreationResult ne 0}"/>
+			<h:outputText value="No expenses were found to settle for the period specified! " rendered="#{settlementCreationResult == 0}"/>
+			<br/><br/>
+
+			</div>
+		</ui:fragment>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

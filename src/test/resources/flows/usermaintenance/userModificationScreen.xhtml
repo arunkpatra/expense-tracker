@@ -1,0 +1,127 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Edit User</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>#{text['userProfile.heading']}</h2>
+
+			<h:outputText value="#{text['userProfile.message']}" />
+		</div>
+		<div class="col-sm-7">
+			<h:form id="modifyUser" styleClass="well" autocomplete="off">
+				<div class="form-group">
+					<h:outputLabel styleClass="control-label" for="username"
+						value="#{text['user.username']}" />
+					<h:outputText styleClass="form-control"
+						value="#{selectedUserToBeModified.username}" id="username"
+						required="true" />
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="firstName"
+							value="#{text['user.firstName']}" />
+						<h:inputText styleClass="form-control" id="firstName"
+							value="#{selectedUserToBeModified.firstName}" maxlength="50"
+							required="true" />
+					</div>
+
+					<div class="col-sm-4 form-group">
+						<h:outputLabel styleClass="control-label" for="lastName"
+							value="#{text['user.lastName']}" />
+						<h:inputText styleClass="form-control"
+							value="#{selectedUserToBeModified.lastName}" id="lastName"
+							maxlength="50" required="true" />
+					</div>
+
+					<div class="col-sm-2 form-group">
+						<h:outputLabel styleClass="control-label" for="mInit"
+							value="#{text['user.middle.int']}" />
+						<h:inputText id="mInit"
+							value="#{selectedUserToBeModified.middleInit}" required="false"
+							maxlength="1" styleClass="form-control" />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="email"
+							value="#{text['user.email']}" />
+						<h:inputText styleClass="form-control"
+							value="#{selectedUserToBeModified.emailId}" id="email"
+							required="true" validatorMessage="Invalid email Id.">
+							<f:validateRegex
+								pattern="^([a-zA-Z]+(([a-zA-Z0-9]*)|((([^@]{0,}?)[a-zA-Z0-9]+){0,}))([@]{1})[a-zA-Z0-9]+(([.]{1})([a-zA-Z0-9]+)){1,2})$" />
+						</h:inputText>
+					</div>
+
+					<div class="col-sm-6 form-group">
+						<h:outputLabel styleClass="control-label" for="phoneNumber"
+							value="#{text['user.phoneNumber']}" />
+						<h:inputText styleClass="form-control"
+							value="#{selectedUserToBeModified.phoneNumber}" id="phoneNumber"
+							validatorMessage="Enter a ten digit phone number"
+							required="false">
+							<f:validateRegex
+								pattern="^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$" />
+						</h:inputText>
+					</div>
+				</div>
+				<h:outputLabel styleClass="checkbox" for="enabled"
+					value="#{text['user.enabled']}"
+					rendered="#{selectedUserToBeModified.username ne currentUser.name}">
+					<h:selectBooleanCheckbox
+						value="#{selectedUserToBeModified.enabled}" id="enabled"
+						styleClass="checkbox"
+						rendered="#{selectedUserToBeModified.username ne currentUser.name}" />
+				</h:outputLabel>
+
+				<div class="form-group form-actions">
+					<h:commandButton value="#{text['button.cancel']}" action="cancel"
+						immediate="true" styleClass="btn btn-default" />
+					<h:commandButton value="#{text['button.save']}" action="updateUser"
+						styleClass="btn btn-primary" />
+				</div>
+
+			</h:form>
+			<h:form id="modifyAuths" styleClass="well" autocomplete="off">
+				<h:outputText id="noRolesText" value="No roles found for this user"
+					rendered="#{userAuths.rowCount == 0}" />
+				<div class="form-group form-actions">
+					<h:commandButton id="addAuth" value="Add New Role" process="@form"
+						action="addAuth" styleClass="btn btn-primary btn-xs">
+						<f:param name="selectedUserName" value="#{selectedUser.username}" />
+					</h:commandButton>
+				</div>
+				<h:dataTable id="auths" value="#{userAuths}" var="a"
+					rendered="#{userAuths.rowCount > 0}"
+					styleClass="table table-striped table-bordered table-condensed">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Authorization" />
+						</f:facet>
+						<h:outputText value="#{a.authority}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Action">
+							</h:outputText>
+						</f:facet>
+						<div align="center">
+							<h:commandButton id="deleteAuth" value="Delete"
+								action="deleteAuth" styleClass="btn btn-danger btn-xs">
+								<f:param name="authIdToDelete" value="#{a.id}" />
+							</h:commandButton>
+						</div>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

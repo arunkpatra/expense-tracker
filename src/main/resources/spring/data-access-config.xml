@@ -27,23 +27,24 @@
 
 	<!-- Create a database on the fly in demo mode. This is the default behavior -->
 	<beans profile="demo">
-		<jdbc:embedded-database id="_dataSource" type="DERBY">
+		<jdbc:embedded-database id="dataSource" type="DERBY">
+<!-- 		<jdbc:embedded-database id="_dataSource" type="DERBY"> -->
 			<jdbc:script 
 				location="classpath:scripts/derby-expense-tracker-create-objects.sql" />
 			<jdbc:script location="classpath:scripts/expense-tracker-insert-data.sql" />
 		</jdbc:embedded-database>
-		<bean id="dataSource" class="net.bull.javamelody.SpringDataSourceFactoryBean">
-			<property name="targetName" value="_dataSource" />
-		</bean>
+<!-- 		<bean id="dataSource" class="net.bull.javamelody.SpringDataSourceFactoryBean"> -->
+<!-- 			<property name="targetName" value="_dataSource" /> -->
+<!-- 		</bean> -->
 	</beans>
 
 	<!-- When you supply your own database, you must activate this profile. 
 		Simply pass a -Dspring.profiles.active="production" JVM startup property -->
 	<beans profile="production">
-		<bean id="_dataSource" class="com.exp.tracker.utils.TrackingBasicDataSource"
+<!-- 		<bean id="_dataSource" class="com.exp.tracker.utils.TrackingBasicDataSource" -->
+<!-- 			destroy-method="close"> -->
+			<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 			destroy-method="close">
-			<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
-			<!-- destroy-method="close"> -->
 			<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"> -->
 			<property name="driverClassName" value="${jdbc.driverClassName}" />
 			<property name="url" value="${jdbc.url}" />
@@ -60,9 +61,9 @@
 			<property name="poolPreparedStatements" value="true"/>
 			<property name="validationQuery" value="SELECT 0"/>
 		</bean>
-		<bean id="dataSource" class="net.bull.javamelody.SpringDataSourceFactoryBean">
-			<property name="targetName" value="_dataSource" />
-		</bean>
+<!-- 		<bean id="dataSource" class="net.bull.javamelody.SpringDataSourceFactoryBean"> -->
+<!-- 			<property name="targetName" value="_dataSource" /> -->
+<!-- 		</bean> -->
 		<!-- <bean id="dataSourceMBean" -->
 		<!-- class="org.apache.commons.dbcp.management.BasicDataSourceMBean"> -->
 		<!-- <constructor-arg ref="dataSource" /> -->

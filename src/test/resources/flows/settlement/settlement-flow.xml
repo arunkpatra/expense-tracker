@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="parentflow" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Secure the flow. -->
+	<secured attributes="ROLE_SUPERVISOR,ROLE_SITE_ADMIN" match="any" />
+	<!-- Attach a persistence context to this flow -->
+	<!-- 
+	<persistence-context />
+	  -->
+
+	<var name="settlement" class="com.exp.tracker.data.model.SettlementBean" />
+	<view-state id="settlementGenerationEntry" model="settlement">
+		<on-render>
+			<evaluate expression="settlement.clear()"/>
+			<evaluate expression="settlementService.getSettlements()"
+				result="conversationScope.existingSettelements" result-type="dataModel" />
+		</on-render>
+		<transition on="next" to="settlementConfirmationScreen" />
+		<transition on="delete" >
+			<set name="flowScope.toBeDeletedSettlementId" value="(requestParameters.settlementId)" />
+		</transition>
+		<transition on="settlementdeletionconfirmed" to="settlementGenerationEntry">
+			<evaluate
+				expression="settlementService.deleteSettlement(toBeDeletedSettlementId, flowRequestContext)"
+				result="flowScope.settlementDeletionResult" />
+		</transition>
+		<transition on="settlementdeletioncancelled" to="settlementGenerationEntry" bind="false" />
+		
+		<transition on="completeSettlement" >
+			<set name="flowScope.selectedSettlementId" value="(requestParameters.settlementId)" />
+			<evaluate
+				expression="settlementService.completeSettlement(selectedSettlementId, flowRequestContext)"
+				result="viewScope.settlementClosureResult" />			
+		</transition>
+		<transition on="closeSettlementOk" to="settlementGenerationEntry"/>
+	</view-state>
+
+	<view-state id="settlementDeletionConfirmation">
+		<transition on="yes" to="settlementGenerationEntry">
+			<evaluate
+				expression="settlementService.deleteSettlement(toBeDeletedSettlementId, flowRequestContext)"
+				result="flowScope.settlementDeletionResult" />
+		</transition>
+		<transition on="no" to="settlementGenerationEntry" bind="false" />
+	</view-state>
+
+	<view-state id="settlementDeletionResults">
+		<transition on="ok" to="settlementGenerationEntry" />
+	</view-state>
+	
+	<view-state id="settlementConfirmationScreen">
+		<on-render>
+			<evaluate expression="expenseService.getUnsettledExpenses(settlement)"
+				result="conversationScope.expenses" result-type="dataModel" />
+		</on-render>
+		<transition on="createSettlement" to="settlementGenerationEntry" bind="false">
+			<evaluate expression="settlementService.createSettlement(settlement, flowRequestContext)"
+				result="flowScope.settlementCreationId" />
+			<evaluate
+				expression="reportService.generateSettlementReport(settlementCreationId, flowRequestContext)" />
+		</transition>
+		<transition on="createSettlementOk" to="settlementGenerationEntry"/>
+		<!-- Go Back one screen -->
+		<transition on="cancel" to="settlementGenerationEntry"/>
+		<transition on="ok" to="settlementGenerationEntry"/>
+		<transition on="editExpense" to="editExpenseFlow">
+			<set name="flowScope.toBeEditedExpenseId" value="(requestParameters.toBeEditedExpenseId)" />
+		</transition>
+		<transition on="viewdetail" to="viewExpenseFlow">
+			<set name="flowScope.toBeViewedExpenseId" value="(requestParameters.expenseId)" />
+		</transition>
+	</view-state>
+
+	<subflow-state id="viewExpenseFlow" subflow="viewexpensedetail">
+		<input name="toBeViewedExpenseId" value="toBeViewedExpenseId" />
+		<transition on="finish" to="settlementConfirmationScreen">
+		</transition>
+	</subflow-state>
+	
+	<subflow-state id="editExpenseFlow" subflow="addexpense">
+		<input name="toBeEditedExpenseId" value="toBeEditedExpenseId" />
+		<transition on="saveCancelled" to="settlementConfirmationScreen" />
+		<transition on="finish" to="settlementConfirmationScreen">
+		</transition>
+	</subflow-state>
+
+	<end-state id="finish" />
+</flow>

@@ -57,7 +57,7 @@ dependencies {
       exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
     }
 	
-    compile group: 'net.bull.javamelody', name: 'javamelody-core', version:'1.49.0'
+//    compile group: 'net.bull.javamelody', name: 'javamelody-core', version:'1.49.0'
     compile group: 'c3p0', name: 'c3p0', version:'0.9.1.2'
     compile group: 'mysql', name: 'mysql-connector-java', version:'5.1.30'
     compile group: 'org.webjars', name: 'font-awesome', version:'4.0.3'
@@ -122,7 +122,5 @@ exclude(module: 'jmxri')
 }
 
 test {
-include '**/*TestSuite.*'
+include '**/*Test*.*'
 }
-
-tomcatRunWar.contextPath = ''

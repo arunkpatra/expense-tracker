@@ -1,0 +1,30 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">	
+<ui:composition template="/layouts/standard.xhtml">
+
+<ui:define name="body">
+
+<h:form id="paymentResults">
+	<div class="section">
+		<h2>Payment Results</h2>		
+		<ui:fragment id="addPaymentRecord">
+			<div id="addPaymentResultsScreen">	
+			<span class="errors">
+				<h:messages globalOnly="true" /> 
+			</span>		
+				<p>Transaction completed successfully.</p>			
+			</div>
+			<div class="buttonGroup">
+				<h:commandButton id="ok" value="Ok" processIds="*" action="ok" />
+			</div>
+		</ui:fragment>
+		
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>
+</html>

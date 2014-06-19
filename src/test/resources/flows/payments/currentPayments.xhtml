@@ -1,0 +1,200 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Payments</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>Payments</h2>
+			<h:outputText
+				value="Users can confirm receipt or disbursement of funds on this page." />
+		</div>
+		<div class="col-sm-8">
+			<h:form id="mainForm">
+				<!-- USER ONLY PAGE -->
+				<sec:authorize ifNotGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
+					<h:outputText id="noShareText"
+						value="No outstanding payments or receipts for you."
+						rendered="#{userPayments.rowCount == 0}" />
+					<c:if test="#{userPayments.rowCount > 0}">
+						<div class="panel panel-default">
+							<h:dataTable id="shares"
+								styleClass="table table-striped table-condensed"
+								value="#{userPayments}" var="up"
+								rendered="#{userPayments.rowCount > 0}">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Settl. Id" />
+									</f:facet>
+									<a
+										href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{up.settlementId}"
+										target="blank"> #{up.settlementId} </a>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Exp. Report" />
+									</f:facet>
+									<a
+										href="${request.contextPath}/et/reports/expenseReport.pdf?sid=#{up.settlementId}"
+										target="blank"> <img
+										src="${request.contextPath}/images/pdficon_small.gif"
+										alt="Exp. Report" />
+									</a>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Exp. Report" />
+									</f:facet>
+									<h:outputText value="#{up.amount}">
+										<f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Start Date" />
+									</f:facet>
+									<h:outputText value="#{up.startDate}">
+										<f:convertDateTime dateStyle="short" timeZone="EST"
+											pattern="MM/dd/yyyy" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="End Date" />
+									</f:facet>
+									<h:outputText value="#{up.endDate}">
+										<f:convertDateTime dateStyle="short" timeZone="EST"
+											pattern="MM/dd/yyyy" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Payment" />
+									</f:facet>
+									<!-- If user has debit -->
+									<h:outputText value="Not Paid"
+										rendered="#{(up.settledFlag == 0) and (up.amount lt 0)}"
+										style="font-weight: bold; color: red" />
+									<h:outputText value="Paid"
+										rendered="#{(up.settledFlag == 1) and (up.amount lt 0)}" />
+									<!-- If user has credit -->
+									<h:outputText value="Recieved"
+										rendered="#{(up.settledFlag == 1) and (up.amount >= 0)}" />
+									<h:outputText value="Pending"
+										rendered="#{(up.settledFlag == 0) and (up.amount >= 0)}"
+										style="font-weight: bold; color: red" />
+								</h:column>
+							</h:dataTable>
+						</div>
+					</c:if>
+				</sec:authorize>
+
+
+				<!-- ********************************************************************************************* -->
+				<!-- SUPERVISOR ONLY SCREEN -->
+				<sec:authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SITE_ADMIN">
+					<h:outputText id="noShareText1"
+						value="No outstanding payments or receipts for any user."
+						rendered="#{allPayments.rowCount == 0}" />
+					<c:if test="#{allPayments.rowCount > 0}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h:dataTable id="shares1" value="#{allPayments}" var="ap"
+									rendered="#{allPayments.rowCount > 0}"
+									styleClass="table table-striped table-condensed">
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Sttlmt. Id" />
+										</f:facet>
+										<a
+											href="${request.contextPath}/et/reports/settlementSubReport.pdf?sid=#{ap.settlementId}"
+											target="blank"> #{ap.settlementId} </a>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Exp. Rpt" />
+										</f:facet>
+										<a
+											href="${request.contextPath}/et/reports/expenseReport.pdf?sid=#{ap.settlementId}"
+											target="blank"> <img
+											src="${request.contextPath}/images/pdficon_small.gif"
+											alt="Exp. Report" />
+										</a>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="User" />
+										</f:facet>
+										<h:outputText value="#{ap.userName}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Amt." />
+										</f:facet>
+										<h:outputText value="#{ap.amount}">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Start Dt." />
+										</f:facet>
+										<h:outputText value="#{ap.startDate}">
+											<f:convertDateTime dateStyle="short" timeZone="EST"
+												pattern="MM/dd/yyyy" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="End Dt." />
+										</f:facet>
+										<h:outputText value="#{ap.endDate}">
+											<f:convertDateTime dateStyle="short" timeZone="EST"
+												pattern="MM/dd/yyyy" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Status" />
+										</f:facet>
+										<h:outputText value="Settled"
+											rendered="#{(ap.settledFlag == 1)}" />
+										<h:outputText value="Pending"
+											rendered="#{(ap.settledFlag == 0)}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Action" />
+										</f:facet>
+										<!-- This action will settle this record. Admin must recieve paper money from user first -->
+										<div class="form-actions">
+											<h:commandButton id="moneyPaidByUser" value="Recieve"
+												processIds="*" action="settleTransaction" 
+												rendered="#{(ap.settledFlag == 0) and (ap.amount lt 0)}"
+												styleClass="btn btn-primary btn-xs">
+												<f:param name="userSettlementId"
+													value="#{ap.userSettlementId}" />
+											</h:commandButton>
+
+											<h:commandButton id="paid" value="Disburse" processIds="*"
+												action="settleTransaction" 
+												rendered="#{(ap.settledFlag == 0) and (ap.amount gt 0)}"
+												styleClass="btn btn-default btn-xs">
+												<f:param name="userSettlementId"
+													value="#{ap.userSettlementId}" />
+											</h:commandButton>
+										</div>
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</c:if>
+				</sec:authorize>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

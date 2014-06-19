@@ -1,0 +1,82 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Settlements</ui:define>
+	<ui:define name="body">
+		<div class="col-sm-2">
+			<h2>Settlements</h2>
+			<h:outputText value="Review the expenses that will be settled." />
+		</div>
+		<div class="col-sm-8">
+			<h:form id="expenses">
+				<h:outputText id="noExpensesText"
+					value="No expenses were found to settle."
+					rendered="#{expenses.rowCount == 0}" />
+				<div class="panel panel-default">
+					<h:dataTable id="expenses" value="#{expenses}" var="e"
+						rendered="#{expenses.rowCount > 0}"
+						styleClass="table table-striped  table-condensed">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<h:commandLink id="viewExpenseDetail" action="viewdetail"
+								value="#{e.description}" processIds="*">
+								<f:param name="expenseId" value="#{e.id}" />
+							</h:commandLink>
+						</h:column>
+						<!-- 				<h:column > -->
+						<!-- 					<f:facet name="header"> -->
+						<!-- 						<h:outputText value="Paid By" /> -->
+						<!-- 					</f:facet> -->
+						<!-- 					<h:outputText value="#{e.paidBy}" /> -->
+						<!-- 				</h:column> -->
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Amount" />
+							</f:facet>
+							<h:outputText value="#{e.amount}" />
+
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Date" />
+							</f:facet>
+							<h:outputText value="#{e.date}">
+								<f:convertDateTime timeZone="EST" pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Edit" />
+							</f:facet>
+							<div class="form-actions">
+								<h:commandButton id="editExpense" value="Edit" processIds="*"
+									action="editExpense" styleClass="btn btn-primary btn-xs">
+									<f:param name="toBeEditedExpenseId" value="#{e.id}" />
+								</h:commandButton>
+							</div>
+						</h:column>
+					</h:dataTable>
+				</div>
+				<div class="form-actions">
+					<h:commandButton id="ok" value="Ok" processIds="*" action="ok"
+						styleClass="btn btn-primary" rendered="#{expenses.rowCount == 0}" />
+					<h:commandButton id="cancel" value="Cancel" processIds="*"
+						action="cancel" styleClass="btn btn-default"
+						rendered="#{expenses.rowCount > 0}" />
+					<h:commandButton id="createSettlement" value="Create Settlement"
+						process="@form" update="@form" action="createSettlement"
+						rendered="#{expenses.rowCount > 0}" styleClass="btn btn-primary" />
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

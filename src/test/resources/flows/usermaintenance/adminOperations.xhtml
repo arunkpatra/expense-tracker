@@ -1,0 +1,199 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">#{text['userList.title']}</ui:define>
+	<ui:define name="body">
+
+		<div class="col-sm-2">
+			<h2>Users</h2>
+			<h:outputText value="Add, modify or delete users." />
+		</div>
+
+		<div class="col-sm-8">
+			<h:form id="mainForm" prependId="false">
+				<div id="actions" class="btn-group">
+					<!-- <script> shows up here and causes square corners on the Add button below -->
+					<h:commandButton action="adduser" value="Add User" id="adduser"
+						styleClass="btn btn-primary">
+					</h:commandButton>
+				</div>
+				<div class="panel panel-default">
+					<h:dataTable value="#{users}" var="u"
+						styleClass="table table-striped table-condensed">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="-" />
+							</f:facet>
+
+							<h:selectBooleanCheckbox id="enabled" value="#{u.enabled}"
+								disabled="true" />
+
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">UserId</f:facet>
+							<!-- Switched to a primefaces call to support modal -->
+							<p:commandLink
+								oncomplete="$('#user-detail-modal').modal('show');"
+								update=":user-detail-form" value="#{u.username}"
+								action="viewuserdetail">
+								<f:param name="username" value="#{u.username}" />
+							</p:commandLink>
+
+							<!--  
+							<h:commandLink id="viewUserDetail" action="viewuserdetail"
+								value="#{u.username}" update="@form" >
+								<f:param name="username" value="#{u.username}" />
+							</h:commandLink>
+							-->
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Actions</f:facet>
+							<div class="btn-group">
+
+								<button type="button"
+									class="btn btn-primary btn-xs dropdown-toggle"
+									data-toggle="dropdown">
+									<i class="fa fa-user fa-fw"></i> Manage <span class="caret"></span>
+								</button>
+
+								<ul class="dropdown-menu" role="menu">
+									<li><h:commandLink id="modifyUser" action="modifyuser">
+											<f:param name="usernameTobeModified" value="#{u.username}" />
+											<i class="fa fa-pencil fa-fw"></i>
+										Edit
+									</h:commandLink></li>
+									<li><p:commandLink id="deleteUser"
+											oncomplete="$('#user-deletion-modal').modal('show');"
+											update=":user-deletion-confirmation-form" action="deleteuser">
+											<f:param name="userIdToBeDeleted" value="#{u.id}" />
+											<i class="fa fa-trash-o fa-fw"></i>
+											Delete
+										</p:commandLink> <!--
+										<h:commandLink id="deleteUser" action="deleteuser">
+												<f:param name="userIdToBeDeleted" value="#{u.id}" />
+												<i class="fa fa-trash-o fa-fw"></i>
+											Delete
+										</h:commandLink>	
+									--></li>
+									<!-- 									<li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li> -->
+									<li class="divider"></li>
+									<li><h:commandLink id="resetpassword"
+											action="resetpassword" value="Reset Password">
+											<f:param name="passwordResetUserName" value="#{u.username}" />
+										</h:commandLink></li>
+								</ul>
+							</div>
+						</h:column>
+					</h:dataTable>
+				</div>
+			</h:form>
+		</div>
+		<h:form id="user-deletion-confirmation-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="user-deletion-modal" tabindex="-1"
+				aria-labelledby="myModalLabel1" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h4 class="modal-title">Confirmation</h4>
+						</div>
+						<div class="modal-body">
+							<p align="justify">User deletion is a critical process. It is not advisable
+								from an audit trail standpoint. We recommend disabling the user
+								instead.</p>
+							<br />
+							<p>Do you still want to delete this user?</p>
+						</div>
+						<div class="modal-footer">
+							<div class="form-group form-actions">
+								<h:commandButton value="Cancel" action="userdeletioncancelled"
+									id="userdeletioncancelled" styleClass="btn btn-primary btn-sm"
+									processIds="*" />
+								<h:commandButton value="Delete" action="userdeletionconfirmed"
+									id="userdeletionconfirmed" styleClass="btn btn-danger btn-sm" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<h:form id="user-detail-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="user-detail-modal" tabindex="-1"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h4 class="modal-title">User Details</h4>
+							<!-- 							<h:outputLabel value="User Details" /> -->
+						</div>
+						<div class="modal-body">
+							<div class="panel panel-default">
+								<div class="row">
+									<label class="col-xs-4 control-label">User Name:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.username}</p>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-xs-4 control-label">Name:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.firstName}
+											#{selectedUserToBeViewed.middleInit}
+											#{selectedUserToBeViewed.lastName}</p>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-xs-4 control-label">#{text['user.email']}:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.emailId}</p>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-xs-4 control-label">#{text['user.phoneNumber']}:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.phoneNumber}</p>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-xs-4 control-label">#{text['user.enabled']}:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">#{selectedUserToBeViewed.enabled}</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<h:outputText id="noRolesText"
+									value="No roles found for this user"
+									rendered="#{userAuths.rowCount == 0}" />
+								<h:dataTable id="auths" value="#{userAuths}" var="a"
+									rendered="#{userAuths.rowCount > 0}"
+									styleClass="table table-striped table-condensed">
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Authorization(s)" />
+										</f:facet>
+										<h:outputText value="#{a.authority}" />
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

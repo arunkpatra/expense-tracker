@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow parent="parentflow" xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" >
+
+	<!-- Secure the flow. -->
+	<secured attributes="ROLE_USER,ROLE_SUPERVISOR,ROLE_SITE_ADMIN"
+		match="any" />
+	<!-- Attach a persistence context to this flow -->
+	<persistence-context />
+
+	<view-state id="currentPayments">
+		<on-entry>
+			<evaluate expression="paymentService.getPaymnentsForUser(currentUser.name)"
+				result="conversationScope.userPayments" result-type="dataModel" />
+			<evaluate expression="paymentService.getAllPayments()"
+				result="conversationScope.allPayments" result-type="dataModel" />
+		</on-entry>
+		<transition on="settleTransaction" to="currentPayments">			
+			<set name="flowScope.selectedUserSettlementId" value="(requestParameters.userSettlementId)" />
+			<evaluate expression="paymentService.applyUserPayment(selectedUserSettlementId, flowRequestContext)" />
+		</transition>
+		<transition on="ok" to="currentPayments">
+		</transition>
+	</view-state>
+
+	<view-state id="paymentResult" popup="true">
+		<on-render>
+			<evaluate expression="paymentService.applyUserPayment(selectedUserSettlementId)" />
+			<render fragments="paymentResults" />
+		</on-render>
+		<transition on="ok" to="currentPayments">
+		</transition>
+	</view-state>
+	<end-state id="finish" />
+
+</flow>

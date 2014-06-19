@@ -1,0 +1,25 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">	
+<ui:composition template="/layouts/standard.xhtml">
+
+<ui:define name="body">
+
+<h:form id="addAuthResults">
+	<div class="section">
+		<h2>Role Addition Results</h2>		
+
+			<div id="addAuthResultsScreen">	
+				<p>The new role was added successfully.</p>			
+			</div>
+			<div class="form-group form-actions">
+				<h:commandButton id="ok" value="Ok" processIds="@form" action="ok" />
+			</div>	
+	</div>
+</h:form>
+</ui:define>
+</ui:composition>
+</html>
