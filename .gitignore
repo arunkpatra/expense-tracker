@@ -11,3 +11,5 @@
 /.springBeans
 /derby.log
 /.DS_Store
+/build
+/.gradle
