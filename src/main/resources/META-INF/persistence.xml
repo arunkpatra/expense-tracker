@@ -11,6 +11,7 @@
 		<class>com.exp.tracker.data.entities.RoleEntity</class>
 		<class>com.exp.tracker.data.entities.SettlementEntity</class>
 		<class>com.exp.tracker.data.entities.UserEntity</class>
+		<class>com.exp.tracker.data.entities.GroupEntity</class>
 		<class>com.exp.tracker.data.entities.UserExpenseEntity</class>
 		<class>com.exp.tracker.data.entities.UserSettlementEntity</class>
 		<properties>

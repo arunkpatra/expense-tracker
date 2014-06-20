@@ -18,6 +18,7 @@ package com.exp.tracker.data.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,176 +38,156 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-        @NamedQuery(name = "getAllUsers", query = "SELECT u FROM UserEntity u"),
-        @NamedQuery(name = "deleteUser", query = "DELETE FROM UserEntity u WHERE u.id = :id"),
-        @NamedQuery(name = "getAllUserNames", query = "SELECT u.username FROM UserEntity u"),
-        @NamedQuery(name = "getUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
-        @NamedQuery(name = "findUserMatch", query = "SELECT u FROM UserEntity u WHERE (u.username = :username)") })
-public class UserEntity extends EncryptionHelper implements Serializable
-{
+		@NamedQuery(name = "getAllUsers", query = "SELECT u FROM UserEntity u"),
+		@NamedQuery(name = "deleteUser", query = "DELETE FROM UserEntity u WHERE u.id = :id"),
+		@NamedQuery(name = "getAllUserNames", query = "SELECT u.username FROM UserEntity u"),
+		@NamedQuery(name = "getUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+		@NamedQuery(name = "findUserMatch", query = "SELECT u FROM UserEntity u WHERE (u.username = :username)") })
+public class UserEntity extends EncryptionHelper implements Serializable {
 
-    private static final long serialVersionUID = -6352029652777390448L;
-    public static final int USER_ENABLED = 1;
-    public static final int USER_DISABLED = 0;
-    public static final String ALL_USERS = "All";
-    public static final int PASSWORD_CHANGE_NEEDED = 1;
-    public static final int PASSWORD_CHANGE_NOT_NEEDED = 0;
+	private static final long serialVersionUID = -6352029652777390448L;
+	public static final int USER_ENABLED = 1;
+	public static final int USER_DISABLED = 0;
+	public static final String ALL_USERS = "All";
+	public static final int PASSWORD_CHANGE_NEEDED = 1;
+	public static final int PASSWORD_CHANGE_NOT_NEEDED = 0;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "username")
-    private String username;
+	@Column(name = "username")
+	private String username;
 
-    @Column(name = "password")
-    private String password;
+	@Column(name = "password")
+	private String password;
 
-    @Column(name = "enabled")
-    private int enabled;
+	@Column(name = "enabled")
+	private int enabled;
 
-    @Column(name = "pwdchangeneeded")
-    private int passwordChangeNeeded;
+	@Column(name = "pwdchangeneeded")
+	private int passwordChangeNeeded;
 
-    @Column(name = "emailid")
-    private String emailId;
+	@Column(name = "emailid")
+	private String emailId;
 
-    @Column(name = "firstname")
-    private String firstName;
+	@Column(name = "firstname")
+	private String firstName;
 
-    @Column(name = "lastname")
-    private String lastName;
+	@Column(name = "lastname")
+	private String lastName;
 
-    @Column(name = "middleinit")
-    private String middleInit;
+	@Column(name = "middleinit")
+	private String middleInit;
 
-    @Column(name = "createddate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+	@Column(name = "createddate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdDate;
 
-    @Column(name = "lastupdateddate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdatedDate;
+	@Column(name = "lastupdateddate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdatedDate;
 
-    @Column(name = "phonenumber")
-    private String phoneNumber;
-    
-    private String creditCardNumber;
+	@Column(name = "phonenumber")
+	private String phoneNumber;
 
-    @OneToMany(targetEntity = AuthEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private List<AuthEntity> authSet;
+	private String creditCardNumber;
 
-    public String getUsername()
-    {
-        return username;
-    }
+	@OneToMany(targetEntity = AuthEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	private List<AuthEntity> authSet;
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
+	@ManyToMany(targetEntity = GroupEntity.class, mappedBy = "users", fetch = FetchType.EAGER)
+	private Set<GroupEntity> groups;
 
-    public String getPassword()
-    {
-        return password;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public int getEnabled()
-    {
-        return enabled;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setEnabled(int enabled)
-    {
-        this.enabled = enabled;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public List<AuthEntity> getAuthSet()
-    {
-        return authSet;
-    }
+	public int getEnabled() {
+		return enabled;
+	}
 
-    public void setAuthSet(List<AuthEntity> authSet)
-    {
-        this.authSet = authSet;
-    }
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
 
-    public Long getId()
-    {
-        return id;
-    }
+	public List<AuthEntity> getAuthSet() {
+		return authSet;
+	}
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
+	public void setAuthSet(List<AuthEntity> authSet) {
+		this.authSet = authSet;
+	}
 
-    public String getEmailId()
-    {
-        return emailId;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setEmailId(String emailId)
-    {
-        this.emailId = emailId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getFirstName()
-    {
-        return firstName;
-    }
+	public String getEmailId() {
+		return emailId;
+	}
 
-    public void setFirstName(String firstName)
-    {
-        this.firstName = firstName;
-    }
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
 
-    public String getLastName()
-    {
-        return lastName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setLastName(String lastName)
-    {
-        this.lastName = lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getMiddleInit()
-    {
-        return middleInit;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setMiddleInit(String middleInit)
-    {
-        this.middleInit = middleInit;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public Date getCreatedDate()
-    {
-        return createdDate;
-    }
+	public String getMiddleInit() {
+		return middleInit;
+	}
 
-    public void setCreatedDate(Date createdDate)
-    {
-        this.createdDate = createdDate;
-    }
+	public void setMiddleInit(String middleInit) {
+		this.middleInit = middleInit;
+	}
 
-    public Date getLastUpdatedDate()
-    {
-        return lastUpdatedDate;
-    }
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setLastUpdatedDate(Date lastUpdatedDate)
-    {
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public String getPhoneNumber() {
+	public Date getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -213,24 +195,28 @@ public class UserEntity extends EncryptionHelper implements Serializable
 		this.phoneNumber = phoneNumber;
 	}
 
-	public int getPasswordChangeNeeded()
-    {
-        return passwordChangeNeeded;
-    }
+	public int getPasswordChangeNeeded() {
+		return passwordChangeNeeded;
+	}
 
-    public void setPasswordChangeNeeded(int passwordChangeNeeded)
-    {
-        this.passwordChangeNeeded = passwordChangeNeeded;
-    }
+	public void setPasswordChangeNeeded(int passwordChangeNeeded) {
+		this.passwordChangeNeeded = passwordChangeNeeded;
+	}
 
-    public String getCreditCardNumber()
-    {
-        return decryptString(creditCardNumber);
-    }
+	public String getCreditCardNumber() {
+		return decryptString(creditCardNumber);
+	}
 
-    @Column(name = "creditcardnumber")
-    public void setCreditCardNumber(String creditCardNumber)
-    {
-        this.creditCardNumber = encryptString(creditCardNumber);
-    }
+	@Column(name = "creditcardnumber")
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = encryptString(creditCardNumber);
+	}
+
+	public Set<GroupEntity> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Set<GroupEntity> groups) {
+		this.groups = groups;
+	}
 }

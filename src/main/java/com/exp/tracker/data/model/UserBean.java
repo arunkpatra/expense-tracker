@@ -27,6 +27,7 @@ import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.validation.ValidationContext;
 
 import com.exp.tracker.data.entities.AuthEntity;
+import com.exp.tracker.data.entities.GroupEntity;
 import com.exp.tracker.data.entities.UserEntity;
 
 /**
@@ -98,6 +99,8 @@ public class UserBean implements Serializable
      * A list of authorities for this user.
      */
     private List<AuthBean> authSet;
+    
+    private List<String> groups;
 
     /**
      * Clears user entered data.
@@ -117,6 +120,7 @@ public class UserBean implements Serializable
         lastUpdatedDate = null;
         authSet = new ArrayList<AuthBean>();
         authToBeAdded = null;
+        groups = null;
     }
 
     public String getUsername()
@@ -186,6 +190,13 @@ public class UserBean implements Serializable
             abl.add(ab);
         }
         this.setAuthSet(abl);
+        List<String> groupList = new ArrayList<String>();
+        if (null != ue.getGroups()) {
+        	 for (GroupEntity ge : ue.getGroups()) {
+             	groupList.add(ge.getGroupName());
+             }
+        }      
+        this.setGroups(groupList);
     }
 
     public UserEntity getUserEntity()
@@ -365,4 +376,12 @@ public class UserBean implements Serializable
             }
         }
     }
+
+	public List<String> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<String> groups) {
+		this.groups = groups;
+	}
 }
