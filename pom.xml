@@ -52,7 +52,7 @@
 		<jquery.version>2.1.0</jquery.version>
 		<!-- <jquery.version>1.8.3</jquery.version> -->
 		<junit.version>4.11</junit.version>
-		<maven.jacoco.version>0.6.4.201312101107</maven.jacoco.version>
+		<maven.jacoco.version>0.7.1.201405082137</maven.jacoco.version>
 		<!-- <mojarra-version>2.1.7</mojarra-version> -->
 		<mojarra-version>2.2.5</mojarra-version>
 		<omnifaces.version>1.6.3</omnifaces.version>
