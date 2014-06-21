@@ -4,7 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
+	<secured attributes="ROLE_SITE_ADMIN" match="any" />
+	
 	<view-state id="groupOperations">
+		<on-render>
+			<evaluate expression="groupService.getGroups()" result="conversationScope.groups"
+				result-type="dataModel" />
+		</on-render>
 	</view-state>
 
 </flow>

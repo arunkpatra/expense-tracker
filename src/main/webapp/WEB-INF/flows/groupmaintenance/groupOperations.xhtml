@@ -22,11 +22,127 @@
 						styleClass="btn btn-primary">
 					</h:commandButton>
 				</div>
-				<div class="panel panel-default">
-				
+				<div class="panel panel-default">			
 				<!-- Group Content goes here -->
+					<h:dataTable value="#{groups}" var="g"
+						styleClass="table table-striped table-condensed">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Status" />
+							</f:facet>
+							<h:selectBooleanCheckbox id="active" value="#{g.active}"
+								disabled="true" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Group Name</f:facet>
+							<!-- Switched to a primefaces call to support modal -->
+							<p:commandLink
+								oncomplete="$('#group-detail-modal').modal('show');"
+								update=":group-detail-form" value="#{g.groupName}"
+								action="viewgroupdetail">
+								<f:param name="groupId" value="#{g.id}" />
+							</p:commandLink>
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Actions</f:facet>
+							<div class="btn-group">
+
+								<button type="button"
+									class="btn btn-primary btn-xs dropdown-toggle"
+									data-toggle="dropdown">
+									<i class="fa fa-user fa-fw"></i> Manage <span class="caret"></span>
+								</button>
+
+								<ul class="dropdown-menu" role="menu">
+									<li><h:commandLink id="modifyGroup" action="modifygroup">
+											<f:param name="groupTobeModified" value="#{g.id}" />
+											<i class="fa fa-pencil fa-fw"></i>
+										Edit
+									</h:commandLink></li>
+									<li><p:commandLink id="deleteUser"
+											oncomplete="$('#group-deletion-modal').modal('show');"
+											update=":group-deletion-confirmation-form" action="deletegroup">
+											<f:param name="groupIdToBeDeleted" value="#{g.id}" />
+											<i class="fa fa-trash-o fa-fw"></i>
+											Delete
+										</p:commandLink> 
+									</li>
+									<li class="divider"></li>
+									<li><h:commandLink id="deactivate"
+											action="deactivate" value="Deactivate">
+											<f:param name="groupIdToBeDeactivated" value="#{g.id}" />
+										</h:commandLink></li>
+								</ul>
+							</div>
+						</h:column>
+					</h:dataTable>
 				</div>
 			</h:form>
+			<h:form id="group-deletion-confirmation-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="group-deletion-modal" tabindex="-1"
+				aria-labelledby="myModalLabel1" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h4 class="modal-title">Confirmation</h4>
+						</div>
+						<div class="modal-body">
+							<p align="justify">Group deletion is a critical process. It is not advisable
+								from an audit trail standpoint. We recommend disabling the group
+								instead.</p>
+							<br />
+							<p>Do you still want to delete this group?</p>
+						</div>
+						<div class="modal-footer">
+							<div class="form-group form-actions">
+								<h:commandButton value="Cancel" action="groupdeletioncancelled"
+									id="groupdeletioncancelled" styleClass="btn btn-primary btn-sm"
+									processIds="*" />
+								<h:commandButton value="Delete" action="groupdeletionconfirmed"
+									id="groupdeletionconfirmed" styleClass="btn btn-danger btn-sm" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+			<h:form id="group-detail-form" prependId="false"
+			class="form-horizontal" role="form">
+			<div class="modal fade" id="group-detail-modal" tabindex="-1"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&#215;</button>
+							<h4 class="modal-title">Group Details</h4>
+						</div>
+						<div class="modal-body">
+							<div class="panel panel-default">
+								<div class="row">
+									<label class="col-xs-4 control-label">Group Name:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">Test</p>
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-xs-4 control-label">Description:</label>
+									<div class="col-xs-8">
+										<p class="form-control-static">Test</p>
+									</div>
+								</div>
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
 		</div>
 	</ui:define>
 </ui:composition>
