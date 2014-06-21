@@ -1,0 +1,33 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/layouts/standard.xhtml">
+	<ui:define name="title">Manage Groups</ui:define>
+	<ui:define name="body">
+
+		<div class="col-sm-2">
+			<h2>Groups</h2>
+			<h:outputText value="Manage Groups" />
+		</div>
+
+		<div class="col-sm-8">
+			<h:form id="mainForm" prependId="false">
+				<div id="actions" class="btn-group">
+					<!-- <script> shows up here and causes square corners on the Add button below -->
+					<h:commandButton action="addgroup" value="Add Group" id="addgroup"
+						styleClass="btn btn-primary">
+					</h:commandButton>
+				</div>
+				<div class="panel panel-default">
+				
+				<!-- Group Content goes here -->
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

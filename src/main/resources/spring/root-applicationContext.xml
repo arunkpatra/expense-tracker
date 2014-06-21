@@ -21,5 +21,4 @@
 	<import resource="classpath:spring/security-config.xml" />
 	<import resource="classpath:spring/application-beans-config.xml" />
 	<import resource="classpath:spring/reports-config.xml" />
-<!-- 	<import resource="classpath:spring/jasper-views.xml" /> -->
 </beans>

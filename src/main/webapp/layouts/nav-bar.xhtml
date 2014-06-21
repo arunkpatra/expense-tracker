@@ -5,18 +5,18 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 <ui:composition>
 	<!-- This is the main navigation bar -->
-	<div class="navbar navbar-default navbar-fixed-top" role="banner" id="top">
+	<div class="navbar navbar-default navbar-fixed-top" role="banner"
+		id="top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#navbar-main">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span> 
-					<span class="icon-bar"></span> 
-					<span class="icon-bar"></span>
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="#{request.contextPath}/et/welcome"><i
-								class="fa fa-home fa-fw"></i>#{text['webapp.name']}</a>
+					class="fa fa-home fa-fw"></i>#{text['webapp.name']}</a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
@@ -26,28 +26,24 @@
 						</a></li>
 					</c:if>
 					<c:if test="${not empty currentUser.name}">
-
-<!-- 						<li><a href="${request.contextPath}/et/welcome"><i -->
-<!-- 								class="fa fa-home fa-fw"></i> Home</a></li> -->
-
 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN">
-<!-- 							<li><a href="${request.contextPath}/et/usermaintenance"><i -->
-<!-- 									class="fa fa-cog fa-fw" />Admin</a></li> -->
-									
 							<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#" id="adm"><i
-									class="fa fa-cog fa-fw" />Admin<span
-								class="caret"></span></a>
+								data-toggle="dropdown" href="#" id="adm"><i
+									class="fa fa-cog fa-fw" />Admin<span class="caret"></span> </a>
 								<ul class="dropdown-menu" aria-labelledby="adm">
+									<sec:authorize ifAnyGranted="ROLE_SITE_ADMIN">
+										<li><a href="${request.contextPath}/et/groupmaintenance">
+												<i class="fa fa-users fa-fw" /> Manage Groups
+										</a></li>
+									</sec:authorize>
 									<li><a href="${request.contextPath}/et/usermaintenance">
-									<i class="fa fa-users fa-fw" /> Manage Users</a>
-									</li>
-									<li><a href="${request.contextPath}/et/settlement">
-									<i class="fa fa-th-list fa-fw" />Settlements</a>
-									</li>
-								</ul>
-							</li>		
-							
+											<i class="fa fa-user fa-fw" /> Manage Users
+									</a></li>
+									<li><a href="${request.contextPath}/et/settlement"> <i
+											class="fa fa-th-list fa-fw" />Settlements
+									</a></li>
+								</ul></li>
+
 						</sec:authorize>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#" id="themes">Expenses <span
@@ -60,11 +56,6 @@
 								<li><a href="${request.contextPath}/et/viewexpenses"><i
 										class="fa fa-search fa-fw" />View Expenses</a></li>
 							</ul></li>
-
-<!-- 						<sec:authorize ifAnyGranted="ROLE_SUPERVISOR, ROLE_SITE_ADMIN"> -->
-<!-- 							<li><a href="${request.contextPath}/et/settlement">Settlements</a> -->
-<!-- 							</li> -->
-<!-- 						</sec:authorize> -->
 						<li><a href="${request.contextPath}/et/payments"><i
 								class="fa fa-money fa-fw" />Payments</a></li>
 					</c:if>
@@ -88,7 +79,5 @@
 			</div>
 		</div>
 	</div>
-
-
 </ui:composition>
 </html>

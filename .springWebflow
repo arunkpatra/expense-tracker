@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webflow-project-description>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.5.1.201404300732-RELEASE]]></pluginVersion>
+	<configs>
+		<config>
+			<file>src/main/webapp/WEB-INF/flows/groupmaintenance/groupmaintenance-flow.xml</file>
+			<name><![CDATA[groupmaintenance]]></name>
+			<beans-config><![CDATA[1:BeansModel|2:expense-tracker|3:src/main/resources/spring/root-applicationContext.xml]]></beans-config>
+		</config>
+	</configs>
+</webflow-project-description>
