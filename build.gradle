@@ -131,6 +131,12 @@ jacocoTestReport {
     }
 }
 
+eclipse {
+    classpath {
+       downloadSources=true
+    }
+}
+
 test {
 include '**/*Test*.*'
 }

@@ -13,12 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "et_groups")
+@NamedQueries({
+	@NamedQuery(name = "getAllGroups", query = "SELECT g FROM GroupEntity g")})
 public class GroupEntity implements Serializable {
 
 	private static final long serialVersionUID = 4431970009023604556L;
