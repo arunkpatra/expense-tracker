@@ -5,12 +5,24 @@
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<secured attributes="ROLE_SITE_ADMIN" match="any" />
-	
+	<var name="group" class="com.exp.tracker.data.model.GroupBean" />
 	<view-state id="groupOperations">
 		<on-render>
 			<evaluate expression="groupService.getGroups()" result="conversationScope.groups"
 				result-type="dataModel" />
 		</on-render>
+		<transition on="addgroup" to="addGroupScreen">
+		</transition>
 	</view-state>
-
+	<view-state id="addGroupScreen" model="group">
+		<on-render>
+			<evaluate expression="group.clearUserData()" />
+		</on-render>
+		<transition on="createGroup" to="groupOperations">
+			<evaluate expression="groupService.addGroup(group)"
+				result="viewScope.createdGroup" />
+			<evaluate expression="validationService.checkGroupCreationResult(createdGroup, flowRequestContext)"/>
+		</transition>
+		<transition on="cancel" to="groupOperations" bind="false" />
+	</view-state>
 </flow>

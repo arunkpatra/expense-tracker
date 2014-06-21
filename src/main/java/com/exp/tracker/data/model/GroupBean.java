@@ -62,7 +62,8 @@ public class GroupBean implements Serializable {
 	}
 	
 	public GroupBean() {
-		
+		// by default we make the group active
+		setActive(true);
 	}
 	public GroupEntity getGroupEntity() {
 		GroupEntity ge = new GroupEntity();
@@ -73,5 +74,10 @@ public class GroupBean implements Serializable {
 		ge.setLastUpdatedDate(null);
 		ge.setUsers(null);
 		return ge;
+	}
+	
+	public void clearUserData() {
+		setGroupDescription(null);
+		setGroupName(null);
 	}
 }
