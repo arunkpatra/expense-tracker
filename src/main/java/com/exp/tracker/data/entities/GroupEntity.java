@@ -22,7 +22,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "et_groups")
 @NamedQueries({
-	@NamedQuery(name = "getAllGroups", query = "SELECT g FROM GroupEntity g")})
+	@NamedQuery(name = "getAllGroups", query = "SELECT g FROM GroupEntity g"),
+	@NamedQuery(name = "findGroupMatch", query = "SELECT g FROM GroupEntity g WHERE (g.groupName = :groupName)")})
 public class GroupEntity implements Serializable {
 
 	private static final long serialVersionUID = 4431970009023604556L;

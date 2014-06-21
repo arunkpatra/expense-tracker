@@ -55,5 +55,16 @@ public class GroupServiceImplTests extends AbstractExpenseTrackerBaseTest {
 		Assert.assertNotNull("Expected a non null group list", groups);
 		Assert.assertTrue("Expected exactly two groups", groups.size() == 2);
 		
+		// Add a group
+		GroupBean gb = new GroupBean();
+		gb.setActive(true);
+		gb.setGroupDescription("Test Description");
+		gb.setGroupName("Test group name");
+		gb.setUsers(null);
+		GroupBean retGb = groupService.addGroup(gb);
+		Assert.assertNotNull("Failed to create group", retGb);
+		groups = groupService.getGroups();
+		Assert.assertTrue("Expected exactly three groups", groups.size() == 3);
+		
 	}
 }

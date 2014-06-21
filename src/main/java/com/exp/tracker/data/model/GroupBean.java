@@ -61,4 +61,17 @@ public class GroupBean implements Serializable {
 		}
 	}
 	
+	public GroupBean() {
+		
+	}
+	public GroupEntity getGroupEntity() {
+		GroupEntity ge = new GroupEntity();
+		ge.setActive(getActive() ? 1: 0);
+		ge.setGroupName(getGroupName());
+		ge.setGroupDescription(getGroupDescription());
+		ge.setCreationDate(null);
+		ge.setLastUpdatedDate(null);
+		ge.setUsers(null);
+		return ge;
+	}
 }
