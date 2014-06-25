@@ -32,6 +32,8 @@
 			<jdbc:script 
 				location="classpath:scripts/derby-expense-tracker-create-objects.sql" />
 			<jdbc:script location="classpath:scripts/expense-tracker-insert-data.sql" />
+			<jdbc:script location="classpath:scripts/oauth2_schema.sql" />
+			<jdbc:script location="classpath:scripts/oauth2_data.sql" />
 		</jdbc:embedded-database>
 <!-- 		<bean id="dataSource" class="net.bull.javamelody.SpringDataSourceFactoryBean"> -->
 <!-- 			<property name="targetName" value="_dataSource" /> -->

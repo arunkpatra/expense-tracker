@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<oauth2:authorization-server
+		client-details-service-ref="clientDetailsService" token-services-ref="tokenService"
+		authorization-request-manager-ref="oauth2RequestFactory">
+	</oauth2:authorization-server>
+
+	<bean id="clientDetailsService"
+		class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="tokenService"
+		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+		<property name="tokenStore">
+			<bean
+				class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
+				<constructor-arg ref="dataSource" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="granter"
+		class="org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter">
+		<constructor-arg ref="tokenService" />
+		<constructor-arg ref="authorizationCodeService"/>
+		<constructor-arg ref="clientDetailsService" />
+		<constructor-arg ref="oauth2RequestFactory" />
+	</bean>
+
+	<bean id="oauth2RequestFactory"
+		class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+		<constructor-arg ref="clientDetailsService" />
+	</bean>
+
+	<bean id="authorizationCodeService"
+		class="org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices">
+		<constructor-arg ref="dataSource" />
+	</bean>
+</beans>

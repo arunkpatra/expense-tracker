@@ -73,6 +73,7 @@ dependencies {
 		exclude(module: 'activation')
     }
     compile group: 'commons-dbcp', name: 'commons-dbcp', version:'1.4'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.0.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-context-support', version:'4.0.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-aop', version:'4.0.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version:'4.0.5.RELEASE'
