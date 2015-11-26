@@ -1,4 +1,6 @@
 # Expense Tracker Web App 
+
+[![Join the chat at https://gitter.im/arunkpatra/expense-tracker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/arunkpatra/expense-tracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![endorse](https://api.coderwall.com/arunkpatra/endorsecount.png)](https://coderwall.com/arunkpatra) [![Build Status](https://travis-ci.org/arunkpatra/expense-tracker.png?branch=master)](https://travis-ci.org/arunkpatra/expense-tracker) [![Coverage Status](https://coveralls.io/repos/arunkpatra/expense-tracker/badge.png)](https://coveralls.io/r/arunkpatra/expense-tracker)
 
  
