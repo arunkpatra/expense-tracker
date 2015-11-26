@@ -38,7 +38,7 @@ git clone https://github.com/arunkpatra/expense-tracker.git
 ```
 2) Inside Eclipse
 ```
-File -> Import -> Maven -> Existing Maven project
+File -> Import -> Maven -> Existing Maven project .
 ```
 
 
