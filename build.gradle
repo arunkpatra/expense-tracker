@@ -14,17 +14,16 @@ buildscript {
 	}
 	
 	dependencies {
-    classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.9'
-    classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
-  }
+    		classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.9'
+    		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
+  	}
 }
 
 
 
 plugins {
-	
-    	id 'jacoco'
-    	id 'com.github.kt3k.coveralls' version '2.8.3'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.8.3'
 }
 
 apply plugin: 'java'
