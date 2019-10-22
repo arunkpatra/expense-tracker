@@ -1,20 +1,3 @@
-
-//apply plugin: 'jacoco'
-//apply plugin: 'coveralls'
-plugins {
-	id 'java'
-	id 'maven'
-	id 'war'
-	id 'tomcat'
-	id 'propdeps'
-	id 'propdeps-maven'
-	id 'propdeps-idea'
-	id 'propdeps-eclipse'
-	id 'eclipse-wtp'
-	id 'idea'
-    	id 'jacoco'
-    	id 'com.github.kt3k.coveralls' version '2.8.3'
-}
 group = 'com.expense.tracker'
 version = '0.0.1-SNAPSHOT'
 
@@ -22,17 +5,6 @@ description = 'Expense Tracker Web Application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-
- 
-
-configurations { providedCompile }
-sourceSets.main.compileClasspath += configurations.providedCompile
-sourceSets.test.compileClasspath += configurations.providedCompile
-sourceSets.test.runtimeClasspath += configurations.providedCompile
-
-configurations.all {
-}
 
 buildscript {
 	repositories {
@@ -50,9 +22,39 @@ buildscript {
 	dependencies {
     classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.9'
     classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
-    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.3'
   }
 }
+
+//apply plugin: 'jacoco'
+//apply plugin: 'coveralls'
+plugins {
+	id 'java'
+	id 'maven'
+	id 'war'
+	id 'tomcat'
+	id 'propdeps'
+	id 'propdeps-maven'
+	id 'propdeps-idea'
+	id 'propdeps-eclipse'
+	id 'eclipse-wtp'
+	id 'idea'
+    	id 'jacoco'
+    	id 'com.github.kt3k.coveralls' version '2.8.3'
+}
+
+
+
+ 
+
+configurations { providedCompile }
+sourceSets.main.compileClasspath += configurations.providedCompile
+sourceSets.test.compileClasspath += configurations.providedCompile
+sourceSets.test.runtimeClasspath += configurations.providedCompile
+
+configurations.all {
+}
+
+
 
 repositories { mavenCentral() }
 
