@@ -9,7 +9,7 @@ apply plugin: 'propdeps-eclipse'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
-apply plugin: 'coveralls'
+//apply plugin: 'coveralls'
 
 group = 'com.expense.tracker'
 version = '0.0.1-SNAPSHOT'
