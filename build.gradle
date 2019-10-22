@@ -19,22 +19,26 @@ buildscript {
   }
 }
 
-//apply plugin: 'jacoco'
-//apply plugin: 'coveralls'
+
+
 plugins {
-	id 'java'
-	id 'maven'
-	id 'war'
-	id 'tomcat'
-	id 'propdeps'
-	id 'propdeps-maven'
-	id 'propdeps-idea'
-	id 'propdeps-eclipse'
-	id 'eclipse-wtp'
-	id 'idea'
+	
     	id 'jacoco'
     	id 'com.github.kt3k.coveralls' version '2.8.3'
 }
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'war'
+apply plugin: 'tomcat'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven'
 
 group = 'com.expense.tracker'
 version = '0.0.1-SNAPSHOT'
