@@ -42,7 +42,7 @@
 		<bootstrap.version>3.1.1</bootstrap.version>
 		<!-- <bootstrap.version>3.0.2</bootstrap.version> -->
 		<commons.collections.version>3.2</commons.collections.version>
-		<copyright.year>2014</copyright.year>
+		<copyright.year>2019</copyright.year>
 		<derby.client.version>10.10.1.1</derby.client.version>
 		<!-- <hibernate.version>3.6.10.Final</hibernate.version> -->
 		<hibernate.version>4.2.5.Final</hibernate.version>
@@ -116,7 +116,7 @@
 		<dependency>
                 <groupId>net.bull.javamelody</groupId>
                 <artifactId>javamelody-core</artifactId>
-                <version>1.49.0</version>
+                <version>1.79.0</version>
         </dependency>
         
 		<dependency>
