@@ -1,10 +1,4 @@
-group = 'com.expense.tracker'
-version = '0.0.1-SNAPSHOT'
 
-description = 'Expense Tracker Web Application'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 buildscript {
 	repositories {
@@ -42,7 +36,13 @@ plugins {
     	id 'com.github.kt3k.coveralls' version '2.8.3'
 }
 
+group = 'com.expense.tracker'
+version = '0.0.1-SNAPSHOT'
 
+description = 'Expense Tracker Web Application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
  
 
