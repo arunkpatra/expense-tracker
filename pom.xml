@@ -55,7 +55,7 @@
 		<maven.jacoco.version>0.8.5</maven.jacoco.version>
 		<!-- <mojarra-version>2.1.7</mojarra-version> -->
 		<mojarra-version>2.2.5</mojarra-version>
-		<omnifaces.version>1.6.3</omnifaces.version>
+		<omnifaces.version>1.14.2</omnifaces.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<primefaces-version>4.0</primefaces-version>
 <!-- 		<springframework-version>4.0.2.RELEASE</springframework-version> -->
